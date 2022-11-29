@@ -8,7 +8,6 @@ function App() {
 
   function submitFormToNotion() {
     console.log("we in " + name )
-    console.log("이" + content);
     fetch("http://localhost:4000/submitFormNotion", {
       method: "post",
       headers:{
