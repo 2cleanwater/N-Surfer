@@ -13,7 +13,7 @@ const PORT = 4000;
 const HOST = "localhost";
 
 const client = new Client({
-  auth: process.env.NOTION_TOKEN;
+  auth: process.env.NOTION_TOKEN
 });
 
 const databaseId = process.env.NOTION_DATABASE_ID;
