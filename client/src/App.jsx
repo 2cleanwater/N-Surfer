@@ -8,11 +8,12 @@ function App() {
 
   function submitFormToNotion() {
     console.log("we in " + name )
-    fetch("http://localhost:3000/submitFormNotion". {
+    console.log("이" + content);
+    fetch("http://localhost:4000/submitFormNotion", {
       method: "post",
-      header:{
+      headers:{
         "Accept": "appclication/json",
-        "Concept-Type": "application/json"
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         name: name,
@@ -20,7 +21,7 @@ function App() {
       })
     }).then(response => response.json())
     .then(data => {
-      console.log("Succes! ", data);
+      console.log("Success! ", data);
     }).catch(error => {
       console.log("Error ", error)
     });
