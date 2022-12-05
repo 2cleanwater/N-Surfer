@@ -14,7 +14,6 @@ function Header({onLogout}) {
     <header className={styles.header}>
       {onLogout&&(<button className={styles.logout} onClick={onLogout}>Logout</button>)}
       <img className={styles.logo} src='images/logo.jpg' alt="logo"/>
-      <img src='test.png' alt='why'/>
       <h1 className={styles.title}>N-Surfer</h1>
     </header>
   )
