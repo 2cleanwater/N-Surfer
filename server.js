@@ -3,6 +3,7 @@ const dotenv = require('dotenv').config()
 const {Client} = require('@notionhq/client')
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const fs = require('fs');
 
 const app = express();
 app.use(cors());
@@ -18,6 +19,10 @@ const client = new Client({
 
 const databaseId = process.env.NOTION_DATABASE_ID;
 
+// Node.js 파일 위치 지정
+app.use(express.static('client/public'));
+
+// 포스트
 app.post('/submitFormNotion', async (req, res)=>{
   const name = req.body.name;
   const content = req.body.content;
