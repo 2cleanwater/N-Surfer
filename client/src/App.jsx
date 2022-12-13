@@ -9,6 +9,7 @@ function App({authService}) {
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Home/>}/>
+          <Route exact path="/login" element={<Login/>}/>
           <Route path="/login" element={<Login authService={authService}/>}/>
           <Route path="/profile" element={{/* 프로필관련 */}}/>
           <Route paht="/maker"/>
