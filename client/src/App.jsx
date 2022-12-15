@@ -1,21 +1,21 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from "./pages/home/Home";
-import Login from "./components/login/login";
-
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
+import Navbar from './components/navbar/Navbar'
 
 function App({authService}) {
   return (
     <div>
-      <BrowserRouter>
+      <Navbar />
+      <Outlet />
+      {/* <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Home/>}/>
           <Route exact path="/login" element={<Login/>}/>
           <Route path="/login" element={<Login authService={authService}/>}/>
-          <Route path="/profile" element={{/* 프로필관련 */}}/>
+          <Route path="/profile" element={{}}/>
           <Route paht="/maker"/>
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> */}
     </div>
   )
 }

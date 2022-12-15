@@ -7,6 +7,7 @@ import Home from './pages/home/Home'
 import Profile from './pages/profile/Profile'
 import CardList from './pages/cardList/CardList'
 import Card from './pages/card/Card'
+import NotFound from './pages/notFound/NotFound'
 
 
 const router = createBrowserRouter([
@@ -19,7 +20,6 @@ const router = createBrowserRouter([
       {path: '/user/profile', element: <Profile/>},
       {path: '/card/list', element: <CardList/>},
       {path: '/card/:id', element: <Card/>}
-
     ]
 }]);
 
