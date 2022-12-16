@@ -5,6 +5,7 @@ import { useAuthContext } from '../../context/AuthContext';
 import { login, logout, onUserStateChange } from '../../api/firebase';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import User from '../user/User';
 
 export default function Navbar() {
   // const {user, login, logout} = useAuthContext();
@@ -34,7 +35,8 @@ export default function Navbar() {
           (<button className={styles.logout} onClick={handelLogout}>Logout</button>) : 
           (<button className={styles.logout} onClick={handelLogin}>Login</button>)
         }
-        <Link to='/user/profile'><img className={styles.profile} src='/images/profile_logo.jpg' alt="profile" /></Link>
+        {user&&<User user={user}/>}
+        {/* <Link to='/user/profile'><img className={styles.profile} src='/images/profile_logo.jpg' alt="profile" /></Link> */}
       </div>
     </header>
   );
