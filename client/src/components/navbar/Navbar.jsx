@@ -2,26 +2,22 @@ import React, {memo} from 'react'
 import { Link } from 'react-router-dom';
 import styles from './Navbar.module.css';
 import { useAuthContext } from '../../context/AuthContext';
-import { login, logout, onUserStateChange } from '../../api/firebase';
+import { logout, onUserStateChange } from '../../api/firebase';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import User from '../user/User';
+import ModalLogin from '../modalLogin/ModalLogin';
 
 export default function Navbar() {
-  // const {user, login, logout} = useAuthContext();
-  const [user,setUser] = useState();
+  const {user, googleLogin, githubLogin, logout} = useAuthContext();
 
-  useEffect(()=>{
-    onUserStateChange((user)=>{
-      setUser(user);
-    });
-  },[])
-  const handelLogin = ()=>{
-    login().then(setUser);
+  //모달창
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const showModal = () => {
+    setModalOpen(true);
   }
-  const handelLogout = ()=>{
-    logout().then(setUser);
-  }
+
   return (
     <header className={styles.header}>
       <Link to='/' className={styles.mainLogo}>
@@ -32,12 +28,13 @@ export default function Navbar() {
         <Link to='/card/list' className={styles.menuItem}>카드목록</Link>
         {user&&(<Link to='/card' className={styles.menuItem}>카드추가</Link>)}
         {user? 
-          (<button className={styles.logout} onClick={handelLogout}>Logout</button>) : 
-          (<button className={styles.logout} onClick={handelLogin}>Login</button>)
+          (<button className={styles.logout} onClick={logout}>Logout</button>) : 
+          (<button className={styles.logout} onClick={showModal}>Login</button>)
         }
         {user&&<User user={user}/>}
         {/* <Link to='/user/profile'><img className={styles.profile} src='/images/profile_logo.jpg' alt="profile" /></Link> */}
       </div>
+      {modalOpen&&<ModalLogin setModalOpen={setModalOpen}/>}
     </header>
   );
 }
