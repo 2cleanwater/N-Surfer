@@ -1,0 +1,61 @@
+.modal{
+  /* 모달창 크기 */
+  width: 200px;
+  height: 200px;
+
+  /* 최상단 위치 */
+  z-index: 999;
+  
+  /* 중앙 배치 */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* 모달창 디자인 */
+  /* background-color: lightblue; */
+  background: rgba(255, 255, 255, .6);
+  backdrop-filter: blur(5px);
+  border: 1px solid black;
+  border-radius: 8px;
+
+  display: flex;
+  align-items:center;
+  justify-content: center;
+
+  /* backdrop-filter: blur(5px); */
+}
+
+/* 모달창 내부 X버튼 */
+.close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+/* 버튼들 */
+.loginSection{
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.loginButtons{
+  padding: 10px;
+  margin: 10px;
+}
+
+.google {
+  background-color: blue;
+  color: white;
+}
+
+.github{
+  background-color: gray;
+  color: white;
+}
+
+.naver{
+  background-color: green;
+  color: white;
+}
