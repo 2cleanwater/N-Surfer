@@ -9,12 +9,11 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-console.log("헤이"+firebaseConfig.authDomain)
 const auth = getAuth();
 const googleProvider = new GoogleAuthProvider();
 const githubProvider = new GithubAuthProvider();
 
-export async function login() {
+export async function googleLogin() {
   return signInWithPopup(auth, googleProvider)
   .then((result)=>{
     const user = result.user;
@@ -22,6 +21,21 @@ export async function login() {
     return user;
   })
   .catch(console.error);
+}
+
+export async function githubLogin() {
+  return signInWithPopup(auth, githubProvider)
+  .then((result)=>{
+    const user = result.user;
+    console.log(user);
+    return user;
+  })
+  .catch(console.error);
+}
+
+export function naverLogin() {
+  alert("아직 구현 안 된 기능입니다.");
+  return 
 }
 
 export function logout() {

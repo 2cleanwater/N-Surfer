@@ -1,23 +1,18 @@
 import React from 'react'
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import Navbar from './components/navbar/Navbar'
+import {AuthContextProvider} from './context/AuthContext'
+import { ModalContextProvider } from './context/ModalContext';
+// import { createStore } from 'redux';
+// import {Porvider, useSelector, useDispatch} from 'react-redux';
 
-function App({authService}) {
+export default function App({authService}) {
   return (
-    <div>
-      <Navbar />
-      <Outlet />
-      {/* <BrowserRouter>
-        <Routes>
-          <Route exact path="/" element={<Home/>}/>
-          <Route exact path="/login" element={<Login/>}/>
-          <Route path="/login" element={<Login authService={authService}/>}/>
-          <Route path="/profile" element={{}}/>
-          <Route paht="/maker"/>
-        </Routes>
-      </BrowserRouter> */}
-    </div>
+    <AuthContextProvider>
+      <ModalContextProvider>
+        <Navbar />
+        <Outlet />
+      </ModalContextProvider>
+    </AuthContextProvider>
   )
-}
-
-export default App
+};
