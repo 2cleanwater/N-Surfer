@@ -2,20 +2,16 @@ import React from 'react'
 import styles from './ModalLogin.module.css';
 import { googleLogin, githubLogin,naverLogin } from '../../api/firebase';
 
-function ModalLogin({setModalOpen}) {
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+function ModalLogin({isOpen, onCancel, onSubmit}) {
+  console.log("모달창 연다")
   return (
-    <div>
-      <section className={styles.modal}>
-        <button className={styles.close} onClick={closeModal}>X</button>
-        <div className={styles.loginSection}>
-          <button className={`${styles.google} ${styles.loginButtons}`} onClick={()=>{closeModal(); googleLogin(); }}>Google</button>
-          <button className={`${styles.github} ${styles.loginButtons}`} onClick={()=>{closeModal(); githubLogin(); }}>Github</button>
-          <button className={`${styles.naver} ${styles.loginButtons}`} onClick={()=>{closeModal(); naverLogin(); }}>Naver</button>
-        </div>    
-      </section>
+    <div isOpen={isOpen} className={styles.modal}>
+      <button className={styles.close} onClick={onCancel}>X</button>
+      <div className={styles.loginSection}>
+        <button className={`${styles.google} ${styles.loginButtons}`} onClick={()=>{onSubmit(); googleLogin(); }}>Google</button>
+        <button className={`${styles.github} ${styles.loginButtons}`} onClick={()=>{onSubmit(); githubLogin(); }}>Github</button>
+        <button className={`${styles.naver} ${styles.loginButtons}`} onClick={()=>{onSubmit(); naverLogin(); }}>Naver</button>
+      </div>    
     </div>
     
   );

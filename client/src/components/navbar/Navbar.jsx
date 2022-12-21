@@ -1,22 +1,22 @@
-import React, {memo} from 'react'
 import { Link } from 'react-router-dom';
 import styles from './Navbar.module.css';
 import { useAuthContext } from '../../context/AuthContext';
-import { logout, onUserStateChange } from '../../api/firebase';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import User from '../user/User';
 import ModalLogin from '../modalLogin/ModalLogin';
+import { useModals } from '../../context/ModalContext';
 
 export default function Navbar() {
   const {user, googleLogin, githubLogin, logout} = useAuthContext();
 
   //모달창
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const showModal = () => {
-    setModalOpen(true);
-  }
+  const {openModal} = useModals();
+  const handleClick = () => {
+    openModal(ModalLogin, {
+      onSubmit: () => {
+        console.log("로직 처리...");
+      }
+    });
+  };
 
   return (
     <header className={styles.header}>
@@ -29,12 +29,12 @@ export default function Navbar() {
         {user&&(<Link to='/card' className={styles.menuItem}>카드추가</Link>)}
         {user? 
           (<button className={styles.logout} onClick={logout}>Logout</button>) : 
-          (<button className={styles.logout} onClick={showModal}>Login</button>)
+          (<button className={styles.logout} onClick={handleClick}>Login</button>)
         }
         {user&&<User user={user}/>}
         {/* <Link to='/user/profile'><img className={styles.profile} src='/images/profile_logo.jpg' alt="profile" /></Link> */}
       </div>
-      {modalOpen&&<ModalLogin setModalOpen={setModalOpen}/>}
+      {/* {modalOpen&&<ModalLogin setModalOpen={setModalOpen}/>} */}
     </header>
   );
 }
