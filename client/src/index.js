@@ -10,7 +10,7 @@ import Card from './pages/card/Card'
 import NotFound from './pages/notFound/NotFound'
 import Test from './pages/test/Test'
 import ProtectedRoute from './pages/ProtectedRoute';
-
+import ModalLogin from './components/modalLogin/ModalLogin';
 
 const router = createBrowserRouter([
   {
@@ -22,7 +22,8 @@ const router = createBrowserRouter([
       {path: '/user/profile', element: <ProtectedRoute><Profile/></ProtectedRoute>},
       {path: '/card/list', element: <CardList/>},
       {path: '/card/:id', element: <ProtectedRoute><Card/></ProtectedRoute>},
-      {path: '/test', element: <Test/>}
+      {path: '/test', element: <Test/>},
+      {path: '/modal', element: <ModalLogin/>}
     ]
 }]);
 
