@@ -1,23 +1,20 @@
 import React from 'react'
-import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import Navbar from './components/navbar/Navbar'
 import {AuthContextProvider} from './context/AuthContext'
-import { Provider } from 'mobx-react';
-import RootStore from './store/RootStore'; 
-import ModalStore from './store/ModalStore';
+import { observer } from 'mobx-react';
+import ModalLogin from './components/modalLogin/ModalLogin';
+import useStore from './store/useStore';
 
-export const rootStore = new RootStore();
-
-// export const rootStore = new ModalStore();
-
-export default function App({authService}) {
+const App = ({authService})=>{
+  const {value} = useStore();
   return (
-    <Provider value={rootStore}>
-      <AuthContextProvider>
-        <Navbar />
-        <Outlet />
-      </AuthContextProvider>
-    </Provider>
-      
+    <AuthContextProvider>
+      <Navbar />
+      <Outlet />
+      {value.modalStore._IsModalOpen&&<ModalLogin/>}
+    </AuthContextProvider>
   )
-};
+}
+
+export default observer(App);
