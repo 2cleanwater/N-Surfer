@@ -2,7 +2,7 @@ import { makeObservable, observable, action, makeAutoObservable } from "mobx"
 
 export default class ModalStore {
   rootStore;
-  _IsModalOpen = 6;
+  _IsModalOpen = false;
 
   constructor() {
     makeObservable(this, {
