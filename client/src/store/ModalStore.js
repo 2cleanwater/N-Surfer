@@ -14,11 +14,9 @@ export default class ModalStore {
   }
 
   openModal(){
-    console.log("모달이 열립니다.")
     this._IsModalOpen = true;
   }
   closeModal(){
-    console.log("모달이 닫힙니다.")
     this._IsModalOpen = false;
   }
 }
