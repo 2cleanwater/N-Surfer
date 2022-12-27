@@ -1,11 +1,14 @@
 import React from 'react'
-import Header from '../../components/navbar/Navbar'
-function Home() {
+import styles from './Home.module.css';
+import useStore from '../../store/useStore';
+import { observer } from 'mobx-react';
+
+const Home = () => {
+  const {value} = useStore();
   return (
     <div>
-      <div>Home</div>
+      Home
     </div>
   )
 }
-
-export default Home
+export default observer(Home);

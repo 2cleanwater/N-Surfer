@@ -11,9 +11,15 @@ const ModalLogin = ()=>{
       <div className={styles.modal}>
         <button className={styles.close} onClick={()=>{value.modalStore.closeModal()}}>X</button>
         <div className={styles.loginSection}>
-          <button className={`${styles.google} ${styles.loginButtons}`} onClick={()=>{value.modalStore.closeModal(); googleLogin(); }}>Google</button>
-          <button className={`${styles.github} ${styles.loginButtons}`} onClick={()=>{value.modalStore.closeModal(); githubLogin(); }}>Github</button>
-          <button className={`${styles.naver} ${styles.loginButtons}`} onClick={()=>{value.modalStore.closeModal(); naverLogin(); }}>Naver</button>
+          <button 
+            className={`${styles.google} ${styles.loginButtons}`} 
+            onClick={()=>{value.modalStore.closeModal(); value.authStore.googleLogin(); }}>Google</button>
+          <button 
+            className={`${styles.github} ${styles.loginButtons}`}
+            onClick={()=>{value.modalStore.closeModal(); githubLogin(); }}>Github</button>
+          <button 
+            className={`${styles.naver} ${styles.loginButtons}`}
+            onClick={()=>{value.modalStore.closeModal(); naverLogin(); }}>Naver</button>
         </div>    
       </div>
     </section>

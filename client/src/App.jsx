@@ -9,11 +9,13 @@ import useStore from './store/useStore';
 const App = ({authService})=>{
   const {value} = useStore();
   return (
-    <AuthContextProvider>
+    <>
+    {/*<AuthContextProvider>*/}
       <Navbar />
       <Outlet />
       {value.modalStore._IsModalOpen&&<ModalLogin/>}
-    </AuthContextProvider>
+    {/*</AuthContextProvider>*/}
+    </>
   )
 }
 

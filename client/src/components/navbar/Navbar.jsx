@@ -7,7 +7,8 @@ import useStore from '../../store/useStore';
 
 const Navbar = ()=>{
   const {value} = useStore();
-  const {user, googleLogin, githubLogin, logout} = useAuthContext();
+  //const {user, googleLogin, githubLogin, logout} = useAuthContext();
+  const user = value.authStore.user;
   return (
     <header className={styles.header}>
       <Link to='/' className={styles.mainLogo}>
@@ -19,7 +20,7 @@ const Navbar = ()=>{
         <Link to='/card/list' className={styles.menuItem}>카드목록</Link>
         {user&&(<Link to='/card' className={styles.menuItem}>카드추가</Link>)}
         {user? 
-          (<button className={styles.logout} onClick={logout}>Logout</button>) : 
+          (<button className={styles.logout} onClick={()=>{value.authStore.logout()}}>Logout</button>) : 
           (<button className={styles.logout} onClick={()=>{value.modalStore.openModal()}}>Login</button>)
         }
         {user&&(<User user={user}/>)}
