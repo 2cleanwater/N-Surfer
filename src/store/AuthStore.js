@@ -3,7 +3,6 @@ import { makeObservable, observable, action, makeAutoObservable } from "mobx"
 import { initializeApp } from "firebase/app";
 import {getAuth, GoogleAuthProvider, GithubAuthProvider,signInWithPopup,signOut, onAuthStateChanged} from 'firebase/auth';
 
-
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -21,9 +20,9 @@ export default class AuthStore {
   user=null;
 
   constructor() {
-    firebase.auth().onAuthStateChanged(user=>{
-      if(user) {
-        this.user = user;
+    auth.onAuthStateChanged((user)=>{
+      if (user) {
+        this.setAuth(user);
       }
     });
     makeObservable(this, {
@@ -36,8 +35,8 @@ export default class AuthStore {
     // makeAutoObservable(this);
   }
 
-  setAuth(){
-    this.user = [...this.user];
+  setAuth(user){
+    this.user = user
   }
 
   async googleLogin(){
@@ -54,7 +53,7 @@ export default class AuthStore {
     return signInWithPopup(auth, githubProvider)
     .then((result)=>{
       const user = result.user;
-      console.log(user);
+      console.log("깃허브 로그인" + user);
       return user;
     })
     .catch(console.error);
@@ -66,6 +65,13 @@ export default class AuthStore {
   }
 
   logout() {
+    console.log("로그아웃합니다");
     return signOut(auth).then(()=>null);
   }
+
+  // onUserStateChange(callback){
+  //   onAuthStateChanged(auth, (user)=>{
+  //     callback(user);
+  //   });
+  // }
 }
