@@ -1,13 +1,11 @@
 import { Link } from 'react-router-dom';
 import styles from './Navbar.module.css';
-import { useAuthContext } from '../../context/AuthContext';
 import User from '../user/User';
 import { observer } from 'mobx-react';
 import useStore from '../../store/useStore';
 
 const Navbar = ()=>{
   const {value} = useStore();
-  //const {user, googleLogin, githubLogin, logout} = useAuthContext();
   const user = value.authStore.user;
   return (
     <header className={styles.header}>

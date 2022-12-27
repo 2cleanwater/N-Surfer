@@ -1,6 +1,5 @@
 import React from 'react'
 import styles from './ModalLogin.module.css';
-import { googleLogin, githubLogin,naverLogin } from '../../api/firebase';
 import { observer } from 'mobx-react';
 import useStore from '../../store/useStore';
 
@@ -16,10 +15,10 @@ const ModalLogin = ()=>{
             onClick={()=>{value.modalStore.closeModal(); value.authStore.googleLogin(); }}>Google</button>
           <button 
             className={`${styles.github} ${styles.loginButtons}`}
-            onClick={()=>{value.modalStore.closeModal(); githubLogin(); }}>Github</button>
+            onClick={()=>{value.modalStore.closeModal(); value.authStore.githubLogin(); }}>Github</button>
           <button 
             className={`${styles.naver} ${styles.loginButtons}`}
-            onClick={()=>{value.modalStore.closeModal(); naverLogin(); }}>Naver</button>
+            onClick={()=>{value.modalStore.closeModal(); value.authStore.naverLogin(); }}>Naver</button>
         </div>    
       </div>
     </section>

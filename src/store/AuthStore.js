@@ -1,7 +1,7 @@
 import { makeObservable, observable, action, makeAutoObservable } from "mobx"
 // import { googleLogin, githubLogin, logout, onUserStateChange, } from '../api/firebase'
 import { initializeApp } from "firebase/app";
-import {getAuth, GoogleAuthProvider, GithubAuthProvider,signInWithPopup,signOut, onAuthStateChanged} from 'firebase/auth';
+import {getAuth, GoogleAuthProvider, GithubAuthProvider,signInWithPopup,signOut} from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -20,6 +20,7 @@ export default class AuthStore {
   user=null;
 
   constructor() {
+    // 새로고침을 해도 캐시에 남아있는 로그인 정보를 기억해줌
     auth.onAuthStateChanged((user)=>{
       if (user) {
         this.setAuth(user);
@@ -66,12 +67,6 @@ export default class AuthStore {
 
   logout() {
     console.log("로그아웃합니다");
-    return signOut(auth).then(()=>null);
+    return signOut(auth).then(this.setAuth(null));
   }
-
-  // onUserStateChange(callback){
-  //   onAuthStateChanged(auth, (user)=>{
-  //     callback(user);
-  //   });
-  // }
 }
