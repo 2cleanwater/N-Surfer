@@ -11,8 +11,11 @@ import Card from './pages/card/Card'
 import NotFound from './pages/notFound/NotFound'
 import Test from './pages/test/Test'
 import ProtectedRoute from './pages/ProtectedRoute';
-import ModalLogin from './components/modalLogin/ModalLogin';
+import CardAdd from './components/card/CardAdd';
 import RootStore from './store/RootStore'; 
+
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from './common/theme';
 
 export const rootStore = new RootStore();
 
@@ -25,15 +28,17 @@ const router = createBrowserRouter([
       {index: true, path: '/', element: <Home/>},
       {path: '/user/profile', element: <ProtectedRoute><Profile/></ProtectedRoute>},
       {path: '/card/list', element: <CardList/>},
-      {path: '/card/:id', element: <ProtectedRoute><Card/></ProtectedRoute>},
-      {path: '/test', element: <Test/>},
-      {path: '/modal', element: <ModalLogin/>}
+      {path: '/card', element: <ProtectedRoute><CardAdd/></ProtectedRoute>},
+      {path: '/card/:id', element: <Card/>},
+      {path: '/test', element: <Test/>}
     ]
 }]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Provider value={rootStore}>
-    <RouterProvider router={router}/>
-  </Provider>
+  <ThemeProvider theme={theme}>
+    <Provider value={rootStore}>
+      <RouterProvider router={router}/>
+    </Provider>
+  </ThemeProvider>
 );
