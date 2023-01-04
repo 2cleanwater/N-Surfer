@@ -16,6 +16,7 @@ import RootStore from './store/RootStore';
 
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './common/theme';
+import KakaoAuth from './store/KakaoAuth';
 
 export const rootStore = new RootStore();
 
@@ -30,7 +31,8 @@ const router = createBrowserRouter([
       {path: '/card/list', element: <CardList/>},
       {path: '/card', element: <ProtectedRoute><CardAdd/></ProtectedRoute>},
       {path: '/card/:id', element: <Card/>},
-      {path: '/test', element: <Test/>}
+      {path: '/test', element: <Test/>},
+      {path: '/auth/kakao/callback', element: <KakaoAuth/>}
     ]
 }]);
 
