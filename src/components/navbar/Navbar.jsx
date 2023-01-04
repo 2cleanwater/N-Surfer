@@ -21,9 +21,17 @@ const Navbar = ()=>{
           (<button className={styles.logout} onClick={()=>{value.authStore.logout()}}>Logout</button>) : 
           (<button className={styles.logout} onClick={()=>{value.modalStore.openModal()}}>Login</button>)
         }
-        {user&&(<User user={user}/>)}
-        {/* <Link to='/user/profile'><img className={styles.profile} src='/images/profile_logo.jpg' alt="profile" /></Link> */}
+        {user&&(<Link to='/user/profile'><img className={styles.profile} src='/images/profile_logo.jpg' alt="profile" /></Link>)}
+
       </div>
+      {/* <div>
+        <a href="https://github.com/2cleanwater/N-Surfer#readme" target="_blank" rel="noopener noreferrer">
+          <img src="/images/Github.png" style={{width:"20px", height:"20px"}}/>
+        </a>
+        <a href="https://2cleanwater.notion.site/N-Surfer-0d2ae67e463b46dc96126f0044208100" target="_blank" rel="noopener noreferrer">
+          <img src="/images/Notion.png" style={{width:"20px", height:"20px"}}/>
+        </a>
+      </div> */}
     </header>
   );
 }
