@@ -12,7 +12,8 @@ const Home = () => {
   return (
     <div>
       <div>
-        <div>image of wave</div>
+        <Box component="img" src='../../../images/MainImg.jpg' alt='HomeIMG'
+        sx={{height:500, my: 2, p: 2}}/>
         <div>당신의 기록 어쩌구 저쩌구</div>
       </div>
       {value.authStore.user&&
