@@ -1,5 +1,4 @@
 import { makeObservable, observable, action, makeAutoObservable } from "mobx"
-// import { googleLogin, githubLogin, logout, onUserStateChange, } from '../api/firebase'
 import { initializeApp } from "firebase/app";
 import {getAuth, GoogleAuthProvider, GithubAuthProvider,signInWithPopup,signOut} from 'firebase/auth';
 
