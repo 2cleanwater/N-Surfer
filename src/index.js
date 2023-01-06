@@ -16,7 +16,7 @@ import RootStore from './store/RootStore';
 
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './common/theme';
-import KakaoAuth from './store/KakaoAuth';
+import KakaoAuth from './service/KakaoAuth';
 
 export const rootStore = new RootStore();
 
