@@ -5,6 +5,7 @@ export const theme = createTheme({
     google: '#4285F4',
     github: '#171515',
     naver: '#2DB400',
+    kakao: '#f9e000'
   },
 });
 
