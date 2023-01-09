@@ -6,7 +6,9 @@ import useStore from '../../store/useStore';
 
 const Navbar = ()=>{
   const {value} = useStore();
-  const user = value.authStore.user;
+  // const user = value.authStore.user;
+  let isLogin = false;
+  localStorage.getItem('token')===true?(isLogin = false):(isLogin=true);
   return (
     <header className={styles.header}>
       <Link to='/' className={styles.mainLogo}>
@@ -14,7 +16,20 @@ const Navbar = ()=>{
         <h1 className={styles.title}>N-Surfer</h1>
       </Link>
 
+
       <div className={styles.menu}>
+        <Link to='/card/list' className={styles.menuItem}>카드목록</Link>
+        {isLogin&&(<Link to='/card' className={styles.menuItem}>카드추가</Link>)}
+        {isLogin? 
+          (<button className={styles.logout} onClick={()=>{value.authStore.kakaoLogout()}}>Logout</button>) : 
+          (<button className={styles.logout} onClick={()=>{value.modalStore.openModal()}}>Login</button>)
+        }
+        {isLogin&&(<Link to='/user/profile'><img className={styles.profile} src='/images/profile_logo.jpg' alt="profile" /></Link>)}
+
+      </div>
+
+
+      {/* <div className={styles.menu}>
         <Link to='/card/list' className={styles.menuItem}>카드목록</Link>
         {user&&(<Link to='/card' className={styles.menuItem}>카드추가</Link>)}
         {user? 
@@ -23,7 +38,10 @@ const Navbar = ()=>{
         }
         {user&&(<Link to='/user/profile'><img className={styles.profile} src='/images/profile_logo.jpg' alt="profile" /></Link>)}
 
-      </div>
+      </div> */}
+
+
+
       {/* <div>
         <a href="https://github.com/2cleanwater/N-Surfer#readme" target="_blank" rel="noopener noreferrer">
           <img src="/images/Github.png" style={{width:"20px", height:"20px"}}/>
