@@ -24,3 +24,5 @@ yarn-error.log*
 
 # token
 .env
+
+test.jsx
