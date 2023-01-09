@@ -9,12 +9,9 @@ const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URL;
 export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const KakaoAuth = () => {
-
   const navigate = useNavigate();
 
   const code = new URL(window.location.href).searchParams.get("code");
-  
-  const [token, setToken] = useState(null);
 
   const getToken = async () =>{
     await axios({
@@ -24,10 +21,8 @@ const KakaoAuth = () => {
     })
     .then((res)=>{
       console.log(res);
-      const ACCESS_TOKEN = res.data.data.accessToken;
-      window.alert(ACCESS_TOKEN);
-      console.log(ACCESS_TOKEN);
-      setToken(ACCESS_TOKEN);
+      localStorage.setItem('token', res.data.data.accessToken);
+      alert('성공적으로 로그인 했습니다');
       navigate("/");
     }).catch((err)=>{
       console.log(err);
@@ -39,4 +34,4 @@ const KakaoAuth = () => {
     getToken()
   },[])
 }
-export default KakaoAuth
+export default KakaoAuth;

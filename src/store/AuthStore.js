@@ -14,6 +14,7 @@ const auth = getAuth();
 const googleProvider = new GoogleAuthProvider();
 const githubProvider = new GithubAuthProvider();
 
+
 export default class AuthStore {
   rootStore;
   user=null;
@@ -66,6 +67,11 @@ export default class AuthStore {
 
   logout() {
     console.log("로그아웃합니다");
-    return signOut(auth).then(this.setAuth(null));
+    signOut(auth).then(this.setAuth(null));
+    return 
+  }
+  kakaoLogout() {
+    alert("안전 로그아웃 했습니다.");
+    localStorage.clear();
   }
 }
