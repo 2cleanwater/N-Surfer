@@ -3,12 +3,12 @@ import styles from './Navbar.module.css';
 import User from '../user/User';
 import { observer } from 'mobx-react';
 import useStore from '../../store/useStore';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const Navbar = ()=>{
   const {value} = useStore();
-  // const user = value.authStore.user;
-  let isLogin = false;
-  localStorage.getItem('token')===true?(isLogin = false):(isLogin=true);
+  
   return (
     <header className={styles.header}>
       <Link to='/' className={styles.mainLogo}>
