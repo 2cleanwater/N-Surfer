@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 
 const Navbar = ()=>{
   const {value} = useStore();
-  
+  let isLogin = false;
   return (
     <header className={styles.header}>
       <Link to='/' className={styles.mainLogo}>
@@ -20,10 +20,12 @@ const Navbar = ()=>{
       <div className={styles.menu}>
         <Link to='/card/list' className={styles.menuItem}>카드목록</Link>
         {isLogin&&(<Link to='/card' className={styles.menuItem}>카드추가</Link>)}
-        {isLogin? 
+        {/* {isLogin? 
           (<button className={styles.logout} onClick={()=>{value.authStore.kakaoLogout()}}>Logout</button>) : 
           (<button className={styles.logout} onClick={()=>{value.modalStore.openModal()}}>Login</button>)
-        }
+        } */}
+        <button className={styles.logout} onClick={()=>{value.authStore.kakaoLogout()}}>Logout</button>
+        <button className={styles.logout} onClick={()=>{value.modalStore.openModal()}}>Login</button>
         {isLogin&&(<Link to='/user/profile'><img className={styles.profile} src='/images/profile_logo.jpg' alt="profile" /></Link>)}
 
       </div>
