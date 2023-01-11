@@ -1,21 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Provider } from 'mobx-react';
-import './index.module.css';
+
 import App from './App';
+
 import Home from './pages/home/Home'
 import Profile from './pages/profile/Profile'
 import CardList from './pages/cardList/CardList'
 import Card from './pages/card/Card'
 import NotFound from './pages/notFound/NotFound'
 import Test from './pages/test/Test'
-import ProtectedRoute from './pages/ProtectedRoute';
-import CardAdd from './components/card/CardAdd';
+import CardAdd from './pages/cardAdd/CardAdd';
+
+import ProtectedRoute from './components/ProtectedRoute';
+
+import { Provider } from 'mobx-react';
 import RootStore from './store/RootStore'; 
 
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './common/theme';
+import './index.module.css';
+
 import KakaoAuth from './service/KakaoAuth';
 
 export const rootStore = new RootStore();
