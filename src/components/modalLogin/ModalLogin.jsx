@@ -24,9 +24,10 @@ const ModalLogin = ()=>{
           <Button variant="contained" 
           sx={{ bgcolor: theme.socialLogin.github, my: 2, p: 2, fontSize: '20px'}} 
           onClick={()=>{value.modalStore.closeModal(); value.authStore.githubLogin(); }}>Github</Button>
-          <Button component='a' href={KAKAO_AUTH_URL} variant="contained" 
+          {/* <Button component='a' href={KAKAO_AUTH_URL} variant="contained"  */}
+          <Button variant="contained" 
           sx={{ bgcolor: theme.socialLogin.kakao, my: 2, p: 2, fontSize: '20px' }} 
-          onClick={()=>{value.modalStore.closeModal(); }}>Kakao</Button>
+          onClick={()=>{value.modalStore.closeModal(); value.authStore.kakaoLogin(); }}>Kakao</Button>
           <Button variant="contained" 
           sx={{ bgcolor: theme.socialLogin.naver, my: 2, p: 2, fontSize: '20px' }} 
           onClick={()=>{value.modalStore.closeModal(); value.authStore.naverLogin(); }}>Naver</Button>

@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { observer } from 'mobx-react';
+import useStore from '../store/useStore';
 
 const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
 const TOKEN_URL = process.env.REACT_APP_KAKAO_TOKEN_URL;
@@ -9,8 +11,8 @@ const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URL;
 export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const KakaoAuth = () => {
+  const {value} = useStore();
   const navigate = useNavigate();
-
   const code = new URL(window.location.href).searchParams.get("code");
 
   const getToken = async () =>{
@@ -22,6 +24,8 @@ const KakaoAuth = () => {
     .then((res)=>{
       console.log(res);
       localStorage.setItem('token', res.data.data.accessToken);
+      value.authStore.setIsLogin();
+      console.log("유저는"+value.authStore.user);
       alert('성공적으로 로그인 했습니다');
       navigate("/");
     }).catch((err)=>{
@@ -32,6 +36,8 @@ const KakaoAuth = () => {
   } 
   useEffect(()=>{
     getToken()
-  },[])
+  },[]);
+  // return localStorage.getItem('token')
 }
-export default KakaoAuth;
+export default observer(KakaoAuth);
+

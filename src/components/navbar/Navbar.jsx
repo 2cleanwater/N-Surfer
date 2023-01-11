@@ -3,12 +3,11 @@ import styles from './Navbar.module.css';
 import User from '../user/User';
 import { observer } from 'mobx-react';
 import useStore from '../../store/useStore';
-import { useState } from 'react';
-import { useEffect } from 'react';
+
 
 const Navbar = ()=>{
   const {value} = useStore();
-  let isLogin = false;
+  const isLogin = value.authStore.isLogin;
   return (
     <header className={styles.header}>
       <Link to='/' className={styles.mainLogo}>
@@ -16,33 +15,16 @@ const Navbar = ()=>{
         <h1 className={styles.title}>N-Surfer</h1>
       </Link>
 
-
       <div className={styles.menu}>
         <Link to='/card/list' className={styles.menuItem}>카드목록</Link>
         {isLogin&&(<Link to='/card' className={styles.menuItem}>카드추가</Link>)}
-        {/* {isLogin? 
-          (<button className={styles.logout} onClick={()=>{value.authStore.kakaoLogout()}}>Logout</button>) : 
-          (<button className={styles.logout} onClick={()=>{value.modalStore.openModal()}}>Login</button>)
-        } */}
-        <button className={styles.logout} onClick={()=>{value.authStore.kakaoLogout()}}>Logout</button>
-        <button className={styles.logout} onClick={()=>{value.modalStore.openModal()}}>Login</button>
-        {isLogin&&(<Link to='/user/profile'><img className={styles.profile} src='/images/profile_logo.jpg' alt="profile" /></Link>)}
-
-      </div>
-
-
-      {/* <div className={styles.menu}>
-        <Link to='/card/list' className={styles.menuItem}>카드목록</Link>
-        {user&&(<Link to='/card' className={styles.menuItem}>카드추가</Link>)}
-        {user? 
+        {isLogin? 
           (<button className={styles.logout} onClick={()=>{value.authStore.logout()}}>Logout</button>) : 
           (<button className={styles.logout} onClick={()=>{value.modalStore.openModal()}}>Login</button>)
         }
-        {user&&(<Link to='/user/profile'><img className={styles.profile} src='/images/profile_logo.jpg' alt="profile" /></Link>)}
+        {isLogin&&(<Link to='/user/profile'><img className={styles.profile} src='/images/profile_logo.jpg' alt="profile" /></Link>)}
 
-      </div> */}
-
-
+      </div>
 
       {/* <div>
         <a href="https://github.com/2cleanwater/N-Surfer#readme" target="_blank" rel="noopener noreferrer">
