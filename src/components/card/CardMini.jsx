@@ -1,10 +1,15 @@
 import { Box } from '@mui/material'
 import {sx} from '@mui/system'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const CardMini = () => {
+const CardMini = (cardId) => {
+  const navigate = useNavigate();
   return (
-    <Box sx={{border:"solid 1px", width: 300, height: 400, boxShadow: 3, m:2, p:1}}>
+    <Box
+      sx={{border:"solid 1px", width: 300, height: 400, boxShadow: 3, m:2, p:1}}
+      onClick={()=>{navigate(`/card/${cardId}`)}}
+    >
       <h2>제목입니다</h2>
       <Box component="img" src='../../../testImages/testCat.jpg' 
       sx={{width: 300, height: 200, objectFit: 'cover'}} alt='CardImg'></Box>
