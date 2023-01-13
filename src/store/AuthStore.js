@@ -4,12 +4,16 @@ import {KAKAO_AUTH_URL} from '../service/KakaoAuth'
 export default class AuthStore {
   rootStore;
   user= null;
+   //user = [userId, userImgs, userType, userBirth, userName, userWaves, userKakaoId, userGoogleId]
+
   isLogin= false;
   constructor() {
     makeObservable(this, {
       user: observable,
       isLogin: observable,
       setAuth: action,
+      setIsLogin: action,
+      setIsLogout: action,
       kakaoLogin: action,
       googleLogin: action,
       githubLogin: action,
