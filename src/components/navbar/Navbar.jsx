@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import styles from './Navbar.module.css';
 import User from '../user/User';
+import { Box } from '@mui/material';
+
 import { observer } from 'mobx-react';
 import useStore from '../../store/useStore';
 
@@ -15,7 +17,7 @@ const Navbar = ()=>{
         <h1 className={styles.title}>N-Surfer</h1>
       </Link>
 
-      <div className={styles.menu}>
+      <Box className={styles.menu} sx={{p:2,}}>
         <Link to='/card/list' className={styles.menuItem}>카드목록</Link>
         {isLogin&&(<Link to='/card' className={styles.menuItem}>카드추가</Link>)}
         {isLogin? 
@@ -23,8 +25,7 @@ const Navbar = ()=>{
           (<button className={styles.logout} onClick={()=>{value.modalStore.openModal()}}>Login</button>)
         }
         {isLogin&&(<Link to='/user/profile'><img className={styles.profile} src='/images/profile_logo.jpg' alt="profile" /></Link>)}
-
-      </div>
+      </Box>
 
       {/* <div>
         <a href="https://github.com/2cleanwater/N-Surfer#readme" target="_blank" rel="noopener noreferrer">

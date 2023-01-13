@@ -10,24 +10,24 @@ import { Box } from '@mui/material';
 const Home = () => {
   const {value} = useStore();
   return (
-    <div>
-      <div>
+    <Box sx={{textAlign: "center"}}>
+      <Box sx={{position: "relative"}}>
         <Box component="img" src='../../../images/MainImg.jpg' alt='HomeIMG'
-        sx={{height:500, my: 2, p: 2}}/>
-        <div>당신의 기록 어쩌구 저쩌구</div>
-      </div>
-      {value.authStore.user&&
+        sx={{height:500, maxWidth:"1500px",width:"100%", height: "auto", my: 2, p: 2, position: "relative"}}/>
+        <Box sx={{position: "absolute", top:"50%", left:"50%", transform: "translate( -50%, -50% )", fontSize: "50px", color:"white", fontWeight:400}}>당신의 기록이 파도가 되어</Box>
+      </Box>
+      {value.authStore.isLogin&&
         (<div>
           <Wave></Wave>
           <Link to='/card'><button>파도 추가하기</button></Link>
         </div>)
       }
-      <Box sx={{display:'flex'}}>
-        <CardMini/>
-        <CardMini/>
-        <CardMini/>
+      <Box sx={{display:'flex',justifyContent: "center", alignItems: "center"}}>
+        <CardMini cardId="1"/>
+        <CardMini cardId="2"/>
+        <CardMini cardId="3"/>
       </Box>
-    </div>
+    </Box>
   )
 }
 export default observer(Home);
