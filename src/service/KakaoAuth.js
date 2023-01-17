@@ -25,7 +25,6 @@ const KakaoAuth = () => {
       console.log(res);
       localStorage.setItem('token', res.data.data.accessToken);
       value.authStore.setIsLogin();
-      console.log("유저는"+value.authStore.user);
       alert('성공적으로 로그인 했습니다');
       navigate("/");
     }).catch((err)=>{
@@ -37,7 +36,6 @@ const KakaoAuth = () => {
   useEffect(()=>{
     getToken()
   },[]);
-  // return localStorage.getItem('token')
 }
 export default observer(KakaoAuth);
 
