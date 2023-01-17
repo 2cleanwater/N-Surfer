@@ -11,9 +11,9 @@ const Home = () => {
   const {value} = useStore();
   return (
     <Box sx={{textAlign: "center"}}>
-      <Box sx={{position: "relative"}}>
+      <Box sx={{position: "relative", m:2}}>
         <Box component="img" src='../../../images/MainImg.jpg' alt='HomeIMG'
-        sx={{height:500, maxWidth:"1500px",width:"100%", height: "auto", my: 2, p: 2, position: "relative"}}/>
+        sx={{height:500, maxWidth:"1500px",width:"100%", height: "auto", my: 2, position: "relative"}}/>
         <Box sx={{position: "absolute", top:"50%", left:"50%", transform: "translate( -50%, -50% )", fontSize: "50px", color:"white", fontWeight:400}}>당신의 기록이 파도가 되어</Box>
       </Box>
       {value.authStore.isLogin&&
