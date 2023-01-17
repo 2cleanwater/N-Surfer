@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import styles from './Navbar.module.css';
-import User from '../user/User';
 import { Box } from '@mui/material';
 
 import { observer } from 'mobx-react';
