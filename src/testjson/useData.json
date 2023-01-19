@@ -1,5 +1,5 @@
 [
-  {"usesId": 0, "userGoogleId": "", "userKakaoId": "2cleanwater@naver.com", "userGithubId": "","userName": "권혁욱", "userBirth": "20001113", "userType": "USER", "imgURL": "", "waveList": {"20230112" : 1 ,"20230101" : 3} },
+  {"usesId": 0, "userGoogleId": "", "userKakaoId": "2cleanwater@naver.com", "userGithubId": "","userName": "권혁욱", "userBirth": "20001113", "userType": "USER", "imgURL": "https://res.cloudinary.com/nsurfer/image/upload/v1673535490/samples/animals/cat.jpg", "waveList": {"20230112" : 1 ,"20230101" : 3} },
   {"usesId": 1, "userGoogleId": "", "userKakaoId": "", "userGithubId": "", "userName": "", "userBirth": "", "userType": "USER", "imgURL": "", "waveList": [] },
   {"usesId": 2, "userGoogleId": "", "userKakaoId": "", "userGithubId": "", "userName": "", "userBirth": "", "userType": "USER", "imgURL": "", "waveList": [] },
   {"usesId": 3, "userGoogleId": "", "userKakaoId": "", "userGithubId": "", "userName": "", "userBirth": "", "userType": "USER", "imgURL": "", "waveList": [] },

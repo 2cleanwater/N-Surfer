@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './ModalLogin.module.css';
 import { observer } from 'mobx-react';
 import useStore from '../../store/useStore';
+import { useRootStore } from '../../provider/rootContext';
 import { Box, useTheme } from '@mui/material';
 
 import { Button } from "@mui/material";
@@ -10,7 +11,8 @@ import { KAKAO_AUTH_URL } from '../../service/KakaoAuth';
 
 
 const ModalLogin = ()=>{
-  const {value} = useStore();
+  // const {value} = useStore();
+  const value = useRootStore();
   const theme = useTheme();
 
   return (

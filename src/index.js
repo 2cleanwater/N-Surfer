@@ -12,7 +12,7 @@ import NotFound from './pages/notFound/NotFound'
 import Test from './pages/test/Test'
 import CardAdd from './pages/cardAdd/CardAdd';
 
-import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedRoute from './provider/ProtectedRoute';
 
 import { Provider } from 'mobx-react';
 import RootStore from './store/RootStore'; 
@@ -23,7 +23,9 @@ import './index.module.css';
 
 import KakaoAuth from './service/KakaoAuth';
 
-export const rootStore = new RootStore();
+import { RootProvider } from './provider/rootContext';
+
+// export const rootStore = RootStore();
 
 const router = createBrowserRouter([
   {
@@ -44,8 +46,10 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ThemeProvider theme={theme}>
-    <Provider value={rootStore}>
-      <RouterProvider router={router}/>
-    </Provider>
+    {/* <Provider value={rootStore}> */}
+    <RootProvider>
+      <RouterProvider router={router}/> 
+    </RootProvider>
+    {/* </Provider> */}
   </ThemeProvider>
 );

@@ -5,9 +5,14 @@ import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 import useStore from '../../store/useStore';
 
+import { useRootStore } from '../../provider/rootContext';
+
 
 const Navbar = ()=>{
-  const {value} = useStore();
+  // const {value} = useStore();
+  const value = useRootStore();
+  console.log(value.modalStore.openModal);
+  // console.log(value.modalStore);
   const isLogin = value.authStore.isLogin;
   return (
     <header className={styles.header}>
@@ -21,7 +26,7 @@ const Navbar = ()=>{
         {isLogin&&(<Link to='/card' className={styles.menuItem}>카드추가</Link>)}
         {isLogin? 
           (<button className={styles.logout} onClick={()=>{value.authStore.logout()}}>Logout</button>) : 
-          (<button className={styles.logout} onClick={()=>{value.modalStore.openModal()}}>Login</button>)
+          (<button className={styles.logout} onClick={()=>{}}>Login</button>)
         }
         {isLogin&&(<Link to='/user/profile'><img className={styles.profile} src='/images/profile_logo.jpg' alt="profile" /></Link>)}
       </Box>

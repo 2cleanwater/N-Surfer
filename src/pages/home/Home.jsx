@@ -6,9 +6,11 @@ import { observer } from 'mobx-react';
 import CardMini from '../../components/card/CardMini';
 import Wave from '../../components/wave/Wave';
 import { Box } from '@mui/material';
+import { useRootStore } from '../../provider/rootContext';
 
 const Home = () => {
-  const {value} = useStore();
+  // const {value} = useStore();
+  const value = useRootStore();
   return (
     <Box sx={{textAlign: "center"}}>
       <Box sx={{position: "relative", m:2}}>
