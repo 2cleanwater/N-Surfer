@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import useStore from '../store/useStore';
 import { useRootStore } from '../provider/rootContext';
 
 const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
@@ -12,10 +11,8 @@ const REDIRECT_URI = process.env.REACT_APP_LOCALHOST_FRONTEND_SERVER + "/auth/ka
 
 export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
-
-const KakaoAuth = () => {
-  // const {value} = useStore();
-  const value = useRootStore();
+const KakaoAuth= function() {
+  const value = useRootStore()!;
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get("code");
 
@@ -42,6 +39,7 @@ const KakaoAuth = () => {
   useEffect(()=>{
     getToken()
   },[]);
+  return null
 }
 export default observer(KakaoAuth);
 

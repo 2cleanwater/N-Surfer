@@ -1,8 +1,11 @@
 import { Box } from '@mui/material'
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const CardMini = ({cardId}) => {
+interface cardMiniPropsType{
+  cardId: string;
+}
+
+const CardMini = ({cardId}:cardMiniPropsType) => {
   const navigate = useNavigate();
   return (
     <Box

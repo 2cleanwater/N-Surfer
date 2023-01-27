@@ -1,17 +1,14 @@
 import React from 'react'
 import { Box } from '@mui/material';
 
-import useStore from '../store/useStore';
 import { observer } from 'mobx-react';
 
 import { useRootStore } from '../provider/rootContext';
 
-
 const UserProfile = () => {
 
-  // const {value} = useStore();
-  const value = useRootStore();
-  let userData = value.authStore.user[0];
+  const value = useRootStore()!;
+  let userData = value.authStore.userData;
 
   return (
     <Box sx={{}}>

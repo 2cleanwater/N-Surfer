@@ -5,12 +5,8 @@ import UserProfile from '../../components/UserProfile';
 import { Link } from 'react-router-dom';
 import { Box } from '@mui/material';
 
-// import useStore from '../../store/useStore';
-// import { observer } from 'mobx-react';
 
 const Profile = () => {
-  // const {value} = useStore();
-  // let userData = value.authStore.user[0];
   return (
     <div>
       <UserProfile/>
@@ -23,5 +19,4 @@ const Profile = () => {
   )
 }
 
-// export default observer(Profile);
 export default Profile;

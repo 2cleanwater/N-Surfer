@@ -11,21 +11,17 @@ import Card from './pages/card/Card'
 import NotFound from './pages/notFound/NotFound'
 import Test from './pages/test/Test'
 import CardAdd from './pages/cardAdd/CardAdd';
+import KakaoAuth from './service/KakaoAuth';
 
 import ProtectedRoute from './provider/ProtectedRoute';
-
-import { Provider } from 'mobx-react';
-import RootStore from './store/RootStore'; 
 
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './common/theme';
 import './index.module.css';
 
-import KakaoAuth from './service/KakaoAuth';
+
 
 import { RootProvider } from './provider/rootContext';
-
-// export const rootStore = RootStore();
 
 const router = createBrowserRouter([
   {
@@ -43,7 +39,7 @@ const router = createBrowserRouter([
     ]
 }]);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <ThemeProvider theme={theme}>
     {/* <Provider value={rootStore}> */}
