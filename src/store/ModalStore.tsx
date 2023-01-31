@@ -9,7 +9,6 @@ const ModalStore = (): ModalData=>{
   return {
     _IsModalOpen: false,
     openModal: function(){
-      console.log("열어")
       this._IsModalOpen = true;
     },
     closeModal: function(){

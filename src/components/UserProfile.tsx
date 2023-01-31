@@ -9,16 +9,17 @@ const UserProfile = () => {
 
   const value = useRootStore()!;
   let userData = value.authStore.userData;
+  console.log(typeof(userData));
 
   return (
     <Box sx={{}}>
-        <Box sx={{width:400, height:400, objectFit: "cover", borderRadius:"100%" }} component="img" src={userData['imgURL']} alt='UserImage' />
+        <Box sx={{width:400, height:400, objectFit: "cover", borderRadius:"100%" }} component="img" src={userData.imgURL} alt='UserImage' />
         <div>
           <button>이미지 수정하기</button>
           <button>탈퇴하기</button>
         </div>
         <div>
-          HI~ this is {userData['userName']}
+          HI~ this is {userData.userName}
         </div>
     </Box>
   )

@@ -5,11 +5,20 @@ import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import { useRootStore } from '../../provider/rootContext';
+import { useEffect } from 'react';
 
 
 const Navbar = ()=>{
   const value = useRootStore()!;
   const isLogin = value.authStore.isLogin;
+  useEffect(()=>{
+    if(localStorage.getItem('token')){
+      value.authStore.getUserData();
+      value.authStore.setIsLogin();
+    }else{
+      value.authStore.setIsLogout();
+    }
+  },[value.authStore.isLogin]);
   return (
     <header className={styles.header}>
       <Link to='/' className={styles.mainLogo}>
