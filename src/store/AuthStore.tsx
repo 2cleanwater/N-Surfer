@@ -62,25 +62,25 @@ const AuthStore = (): AuthData => {
     getUserData: async function(){
       // 백엔드 완료시 적용
 
-      // await axios({
-      //   method: "GET",
-      //   // 백엔드 서버
-      //   // url: process.env.REACT_APP_BACKEND_SERVER+ "/user/profile",
-      //   // 로컬 서버
-      //   url: process.env.REACT_APP_LOCALHOST_BACKEND_SERVER+ "/my-page/profile",
-      //   headers: {
-      //     'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      //     'Content-Type': 'application/json'
-      //   }
-      //   })
-      //   .then((res)=>{
-      //     console.log("유저의 정보는" + res);
-      //   }).catch((err) => {
-      //     console.log(err);
-      //     window.alert("정보를 가져올 수 없습니다.");
-      // });
+      await axios({
+        method: "GET",
+        // 백엔드 서버
+        url: process.env.REACT_APP_BACKEND_SERVER+ "/my-page/profile",
+        // 로컬 서버
+        // url: process.env.REACT_APP_LOCALHOST_BACKEND_SERVER+ "/my-page/profile",
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+        })
+        .then((res)=>{
+          console.log(res);
+        }).catch((err) => {
+          console.log(err);
+          window.alert("정보를 가져올 수 없습니다.");
+      });
 
-      this.setAuth(userJsonData[0] as UserData);
+      // this.setAuth(userJsonData[0] as UserData);
     },
     logout: function(){
       alert("안전 로그아웃 했습니다.");
