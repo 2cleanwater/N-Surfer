@@ -9,10 +9,9 @@ const UserProfile = () => {
 
   const value = useRootStore()!;
   let userData = value.authStore.userData;
-  console.log(typeof(userData));
 
   return (
-    <Box sx={{}}>
+    <Box sx={{border:"solid 1px", width: 300, height: 400, boxShadow: 3, m:2, p:1, borderRadius:"0.5em",}}>
         <Box sx={{width:400, height:400, objectFit: "cover", borderRadius:"100%" }} component="img" src={userData.imgURL} alt='UserImage' />
         <div>
           <button>이미지 수정하기</button>

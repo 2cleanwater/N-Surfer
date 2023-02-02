@@ -6,19 +6,32 @@ import { observer } from 'mobx-react';
 
 import { useRootStore } from '../../provider/rootContext';
 import { useEffect } from 'react';
+import { autorun } from 'mobx';
 
 
 const Navbar = ()=>{
   const value = useRootStore()!;
   const isLogin = value.authStore.isLogin;
-  useEffect(()=>{
-    if(localStorage.getItem('token')){
-      value.authStore.getUserData();
-      value.authStore.setIsLogin();
-    }else{
-      value.authStore.setIsLogout();
-    }
-  },[value.authStore.isLogin]);
+  // useEffect(()=>{
+  //   if(localStorage.getItem('token')){
+  //     value.authStore.getUserData();
+  //     value.authStore.setIsLogin();
+  //   }else{
+  //     value.authStore.setIsLogout();
+  //   }
+  // },[value.authStore.userData]);
+
+  
+  useEffect(
+    autorun(() => {
+      if(localStorage.getItem('token')){
+        value.authStore.getUserData();
+        value.authStore.setIsLogin();
+      }else{
+        value.authStore.setIsLogout();
+      }
+  }),[value.authStore.userData])
+
   return (
     <header className={styles.header}>
       <Link to='/' className={styles.mainLogo}>
