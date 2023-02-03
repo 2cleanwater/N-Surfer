@@ -8,7 +8,6 @@ import { useRootStore } from '../../provider/rootContext';
 
 const Home = () => {
   const value = useRootStore()!;
-  console.log("로그인"+value.authStore.isLogin)
   return (
     <Box sx={{textAlign: "center"}}>
       <Box sx={{position: "relative", m:2}}>
