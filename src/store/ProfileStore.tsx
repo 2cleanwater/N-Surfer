@@ -1,9 +1,5 @@
 import axios from 'axios';
-
-
-//임시 JSON 데이터
-import userJsonData from "../testjson/useData.json"
-
+import { useNavigate } from 'react-router-dom';
 
 interface waveList{
   date:string;
@@ -25,7 +21,14 @@ export interface ProfileData{
   userData: UserData;
   setUserData: (userData:UserData)=>void;
   getUserData: ()=>void;
+  putUserData: (formData:FormData)=>void;
+  deleteUserData: ()=>void;
 }
+
+// 백엔드 서버
+// const BackendUrl:string = process.env.REACT_APP_BACKEND_SERVER+ "/my-page/profile",
+// 로컬 서버
+const BackendUrl:string = process.env.REACT_APP_LOCALHOST_BACKEND_SERVER+ "/my-page/profile"
 
 const ProfileStore = (): ProfileData => {
   return {
@@ -33,13 +36,9 @@ const ProfileStore = (): ProfileData => {
     setUserData: function(userData: UserData){
       this.userData = JSON.parse(JSON.stringify(userData));},
     getUserData: async function(){
-      // 백엔드 완료시 적용
       await axios({
         method: "GET",
-        // 백엔드 서버
-        // url: process.env.REACT_APP_BACKEND_SERVER+ "/my-page/profile",
-        // 로컬 서버
-        url: process.env.REACT_APP_LOCALHOST_BACKEND_SERVER+ "/my-page/profile",
+        url: BackendUrl,
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('token'),
           'Content-Type': 'application/json'
@@ -48,13 +47,51 @@ const ProfileStore = (): ProfileData => {
         .then((res)=>{
           const data = res.data.data;
           this.setUserData(data as UserData);
-          console.log(this.userData.imgUrl)
         }).catch((err) => {
           console.log(err);
           window.alert("정보를 가져올 수 없습니다.");
       });
-      // this.setAuth(userJsonData[0] as UserData);
     },
+    putUserData: async function(formData:FormData){
+      await axios({
+        method: "PUT",
+        // url: BackendUrl,
+        url: "https://5c843bdb-6dd4-4dcc-aa90-5ec03fbbb883.mock.pstmn.io/my-page/profile",
+        data: formData,
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          'Content-Type': 'multipart/form-data"'
+        }
+      })
+      .then(((res)=>{
+        console.log(res)
+        // const data = res.data.data;
+        // this.setUserData(data as UserData);
+        window.alert("성공적으로 변경되었습니다.")
+    }))
+    .catch((err)=>{
+      console.log(err);
+      window.alert("변경에 실패했습니다.")
+    })
+    },
+    deleteUserData: async function(){
+      await axios({
+        method: "DELETE",
+        url: BackendUrl,
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((()=>{
+        localStorage.clear();
+        window.alert("성공적으로 탈퇴되었습니다.")
+      }))
+      .catch((err)=>{
+        console.log(err);
+        window.alert("탈퇴에 실패했습니다.")
+      })
+    } 
   }
 }
 
