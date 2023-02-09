@@ -25,7 +25,6 @@ const KakaoAuth= function() {
       url: `${TOKEN_URL_TEST}?redirectUrl=${REDIRECT_URI}&code=${code}`,
     })
     .then((res)=>{
-      console.log(res);
       localStorage.setItem('token', res.data.data.accessToken);
       value.authStore.setIsLogin();
       alert('성공적으로 로그인 했습니다');
