@@ -13,7 +13,7 @@ const Navbar = ()=>{
   const navigate = useNavigate();
   
   useEffect(()=>{
-    if(localStorage.getItem('token')){
+    if(localStorage.getItem('accessToken')){
       console.log("로그인 "+value.authStore.isLogin);
       value.authStore.setIsLogin();
       value.profileStore.getUserData();
@@ -21,7 +21,7 @@ const Navbar = ()=>{
       console.log("로그인 "+value.authStore.isLogin);
       value.authStore.setIsLogout();
     }
-  },[localStorage.getItem('token')]);
+  },[localStorage.getItem('accessToken')]);
 
   let userImg: string;
   if(value.profileStore.userData.imgUrl){

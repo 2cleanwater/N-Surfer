@@ -6,7 +6,7 @@ interface MyChildren {
 };
 
 const ProtectedRoute = ({children}: MyChildren):JSX.Element=>{
-  if(!localStorage.getItem('token')){
+  if(!localStorage.getItem('accessToken')){
     return <Navigate to='/' replace />
   }
   return <>{children}</>;

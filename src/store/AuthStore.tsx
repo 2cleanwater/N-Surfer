@@ -2,22 +2,6 @@ import { runInAction } from "mobx"
 import {KAKAO_AUTH_URL} from '../service/KakaoAuth'
 import ProfileStore from "./ProfileStore";
 
-interface waveList{
-  date:string;
-  count:number;
-}
-
-export interface UserData{
-  useId?: number;
-  userEmail?: string;
-  provider?: string;
-  userName?: string;
-  userBirth?: string;
-  userType?: string;
-  imgUrl?: string;
-  waveList?: waveList[];
-}
-
 export interface AuthData{
   isLogin: boolean;
   setIsLogin: ()=>void;

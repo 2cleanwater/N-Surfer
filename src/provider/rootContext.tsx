@@ -3,6 +3,7 @@ import { createContext, ReactNode, useContext } from 'react'
 import AuthStore, {AuthData} from '../store/AuthStore';
 import ModalStore, {ModalData} from '../store/ModalStore';
 import ProfileStore, {ProfileData} from 'store/ProfileStore';
+import axiosInterceptor from '../service/axiosInterceptor';
 
 const RootContext = createContext<{modalStore: ModalData,authStore: AuthData, profileStore: ProfileData}|undefined>(undefined);
 

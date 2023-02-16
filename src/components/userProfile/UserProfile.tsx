@@ -22,9 +22,13 @@ const UserProfile = () => {
     inputImg: File[];
     inputName: string;
     inputBirth: string;
-  }>();
+  }>({
+    defaultValues:{
+      inputName: userData.userName
+    }
+  });
 
-  const { register, handleSubmit, formState: { errors  }, setValue, watch } = methods;
+  const { register, handleSubmit, formState: { errors }, setValue, watch } = methods;
 
   // submit 버튼 클릭 시 ===================================================
   const onSubmit = async(data:any)=>{
@@ -99,8 +103,10 @@ const UserProfile = () => {
             </Box>
             <Box component="ul">
               <li>
-                회원 이름 : <input placeholder={userData.userName} value={userData.userName} {...register("inputName", {
+                회원 이름 : <input
+                {...register("inputName", {
                   required: "이름을 입력해주세요.",
+                  onChange: (e) => setValue("inputName", e.target.value),
                   pattern: {
                     value: /^[가-힣a-zA-Z]+$/,
                     message: "올바른 이름을 입력해주세요."
