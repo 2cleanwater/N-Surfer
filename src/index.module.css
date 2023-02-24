@@ -1,12 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
 
 body {
-  margin: 0;
+  margin: auto;
   font-family: -apple-system, BlinkMacSystemFont,'Noto Sans KR', 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url('@static/images/background/main01.gif'), url('@static/images/background/main02.gif');
+  background-repeat: no-repeat, repeat-y;
+  /* background-size: auto, auto; */
+  background-position: top, top;
+  background-size: 1100px, 1100px;
+  width: 1100px;
 }
 
 code {
