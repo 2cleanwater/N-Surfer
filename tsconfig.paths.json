@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@pages/*": ["src/pages/*"],
+      "@provider/*": ["src/provider/*"],
+      "@service/*": ["src/service/*"],
+      "@store/*": ["src/store/*"],
+      "@styles/*": ["src/styles/*"],
+      "@public/*": ["public/*"],
+      "@static/*": ["static/*"],
+      "@test/*": ["testJson/*"]
+    }
+  }
+}

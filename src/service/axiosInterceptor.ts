@@ -48,9 +48,6 @@ instance.interceptors.request.use(
     }
     if(token !== null){
       config.headers = {Authorization : `Bearer ${token}`};
-      //test ======================
-      console.log("request start", config);
-      //===================
     }
     return config;
   },

@@ -3,14 +3,14 @@ import { Box } from '@mui/material';
 
 import { observer } from 'mobx-react';
 
-import { useRootStore } from '../../provider/rootContext';
+import { useRootStore } from '@provider/rootContext';
 
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
   const value = useRootStore()!;
-  let userData = value.profileStore.userData;
+  const userData = value.profileStore.userData;
   const navigate = useNavigate();
 
   const [isEditing, setIsEditing] = useState(false);

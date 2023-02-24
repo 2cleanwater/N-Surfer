@@ -1,5 +1,5 @@
 import { runInAction } from "mobx"
-import {KAKAO_AUTH_URL} from '../service/KakaoAuth'
+import {KAKAO_AUTH_URL} from '@service/KakaoAuth'
 import ProfileStore from "./ProfileStore";
 
 export interface AuthData{
@@ -40,6 +40,7 @@ const AuthStore = (): AuthData => {
         alert("안전 로그아웃 했습니다.");
         ProfileStore().setUserData({});
         localStorage.clear();
+        this.setIsLogout();
     }
   }
 }

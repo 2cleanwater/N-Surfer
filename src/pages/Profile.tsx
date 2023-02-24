@@ -1,6 +1,6 @@
-import CardDetail from '../../components/card/CardDetail';
-import Wave from '../../components/wave/Wave';
-import UserProfile from '../../components/userProfile/UserProfile';
+import CardDetail from '@/components/CardDetail';
+import Wave from '@/components/Wave';
+import UserProfile from '@/components/UserProfile';
 import { Link } from 'react-router-dom';
 import { Box } from '@mui/material';
 

@@ -4,10 +4,11 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
-    "@cloudinary/react": "^1.9.0",
-    "@cloudinary/url-gen": "^1.8.7",
+    "@craco/craco": "^7.0.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@mui/core": "^5.0.0-alpha.54",
+    "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.2",
     "@mui/system": "^5.11.2",
     "@testing-library/jest-dom": "^5.14.1",
@@ -23,11 +24,11 @@
     "concurrently": "^7.6.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "firebase": "^9.15.0",
     "global": "^4.4.0",
     "mobx": "^6.7.0",
     "mobx-react": "^7.6.0",
     "react": "^18.2.0",
+    "react-app-alias": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.1",
     "react-router-dom": "^6.6.1",
@@ -36,9 +37,9 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

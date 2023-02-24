@@ -1,4 +1,5 @@
 {
+  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
     "target": "es6",
     "lib": [
@@ -6,7 +7,6 @@
       "dom.iterable",
       "esnext"
     ],
-    "baseUrl": "./src", // 추가된 것 ./src를 절대 경로로 지정
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -26,5 +26,5 @@
   ],
   "exclude": [
     "node_modules"   
-  ],
+  ]
 }
