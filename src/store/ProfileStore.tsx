@@ -1,4 +1,5 @@
-import instance from 'service/axiosInterceptor';
+import instance from '@service/axiosInterceptor';
+import AuthStore from './AuthStore';
 
 interface waveList{
   date:string;
@@ -41,10 +42,12 @@ const ProfileStore = (): ProfileData => {
         })
         .then((res)=>{
           this.setUserData(res.data as UserData);
+          console.log(this.userData);
         }).catch((err) => {
           console.log(err);
           window.alert("정보를 가져올 수 없습니다.");
           this.setUserData({});
+          AuthStore().setIsLogout();
           localStorage.clear();
       });
     },
@@ -78,6 +81,7 @@ const ProfileStore = (): ProfileData => {
       .then((()=>{
         window.alert("성공적으로 탈퇴되었습니다.")
         this.setUserData({});
+        AuthStore().setIsLogout();
         localStorage.clear();
       }))
       .catch((err)=>{

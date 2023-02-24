@@ -1,4 +1,3 @@
-
 export interface ModalData{
   _IsModalOpen: boolean;
   openModal: ()=>void;
