@@ -1,7 +1,7 @@
 export interface ModalData{
   _IsModalOpen: boolean;
   openModal: ()=>void;
-  closeModal: ()=> void;
+  closeModal: ()=>void;
 }
 
 const ModalStore = (): ModalData=>{
