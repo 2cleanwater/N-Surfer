@@ -1,7 +1,8 @@
 [
-  {"cardId": 0, "userId": 1, "title": "HelloTitle", "label": "HelloLabel", "content": "HelloContent", "creatDate": "2022-1203T09:45:00.000Z", "lastEditDate": "2022-1203T09:45:00.000Z", "prevEditDate": "2022-1203T09:45:00.000Z", "imgUrl": []},
-  {"cardId": 1, "userId": 1, "title": "HelloTitle1", "label": "HelloLabel1", "content": "HelloContent1", "creatDate": "2022-1203T09:45:00.000Z", "lastEditDate": "2022-1203T09:45:00.000Z", "prevEditDate": "2022-1203T09:45:00.000Z", "imgUrl": []},
-  {"cardId": 2, "userId": 2, "title": "HelloTitle2", "label": "HelloLabel2", "content": "HelloContent2", "creatDate": "2022-1203T09:45:00.000Z", "lastEditDate": "2022-1203T09:45:00.000Z", "prevEditDate": "2022-1203T09:45:00.000Z", "imgUrl": []},
-  {"cardId": 3, "userId": 1, "title": "HelloTitle3", "label": "HelloLabel3", "content": "HelloContent3", "creatDate": "2022-1203T09:45:00.000Z", "lastEditDate": "2022-1203T09:45:00.000Z", "prevEditDate": "2022-1203T09:45:00.000Z", "imgUrl": []},
-  {"cardId": 4, "userId": 3, "title": "HelloTitle4", "label": "HelloLabel4", "content": "HelloContent4", "creatDate": "2022-1203T09:45:00.000Z", "lastEditDate": "2022-1203T09:45:00.000Z", "prevEditDate": "2022-1203T09:45:00.000Z", "imgUrl": []}
+  { "date" : "20230101", "count" : 15 },
+  { "date" : "20230105", "count" : 2 },
+  { "date" : "20230106", "count" : 1 },
+  { "date" : "20230108", "count" : 8 },
+  { "date" : "20230204", "count" : 6 },
+  { "date" : "20230227", "count" : 4 }
 ]
