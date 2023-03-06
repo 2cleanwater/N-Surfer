@@ -9,7 +9,13 @@ export const theme = responsiveFontSizes(createTheme({
     naver: '#2DB400',
     naverHover: '#1F7C00',
     kakao: '#f9e000',
-    kakaoHover: '#CCB200'
+    kakaoHover: '#CCB200',
+    waveLv0: '#f0f5f7',
+    waveLv1: '#D3ECF9',
+    waveLv2: '#9CCCE8',
+    waveLv3: '#2E88C7',
+    waveLV4: '#2158A8',
+    waveLv5: '#232A5C'
   },
 }));
 
