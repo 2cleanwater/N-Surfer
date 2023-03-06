@@ -14,7 +14,6 @@ export interface UserData{
   userBirth?: string;
   userType?: string;
   imgUrl?: string;
-  waveList?: waveList[];
 }
 
 export interface ProfileData{
@@ -53,7 +52,7 @@ const ProfileStore = (): ProfileData => {
     },
     putUserData: async function(formData:FormData){
       await instance({
-        method: "PUT",
+        method: "PATCH",
         url: profileUrl,
         data: formData,
         headers: {

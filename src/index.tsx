@@ -27,7 +27,7 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       {index: true, path: '/', element: <Home/>},
-      {path: '/user/profile', element: <ProtectedRoute><Profile/></ProtectedRoute>},
+      {path: '/user/profile', element: <Profile/>},
       {path: '/card/list', element: <CardList/>},
       {path: '/card', element: <ProtectedRoute><CardAdd/></ProtectedRoute>},
       {path: '/card/:id', element: <Card/>},

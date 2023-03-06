@@ -12,23 +12,47 @@ const WaveBox = ({date,count}:wave) => {
           <Box  sx={{
             width: "30px",
             height: "30px",
-            backgroundColor: "gray",
+            backgroundColor: "whtie",
             border: "1px solid black"
           }}></Box>
         ):null}
-      {count>0&&count<=5?(
+      {count>0&&count<=3?(
           <Box  sx={{
             width: "30px",
             height: "30px",
-            backgroundColor: "blue",
+            backgroundColor: "waveLv1",
             border: "1px solid black"
           }}></Box>
         ):null}
-      {count>5&&count<=10?(
+      {count>3&&count<=6?(
           <Box  sx={{
             width: "30px",
             height: "30px",
-            backgroundColor: "darkblue",
+            backgroundColor: "waveLv2",
+            border: "1px solid black"
+          }}></Box>
+        ):null}
+      {count>6&&count<=9?(
+          <Box  sx={{
+            width: "30px",
+            height: "30px",
+            backgroundColor: "waveLv3",
+            border: "1px solid black"
+          }}></Box>
+        ):null}
+      {count>9&&count<=12?(
+          <Box  sx={{
+            width: "30px",
+            height: "30px",
+            backgroundColor: "waveLV4",
+            border: "1px solid black"
+          }}></Box>
+        ):null}
+      {count>12?(
+          <Box  sx={{
+            width: "30px",
+            height: "30px",
+            backgroundColor: "waveLv5",
             border: "1px solid black"
           }}></Box>
         ):null}
