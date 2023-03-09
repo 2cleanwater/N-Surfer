@@ -38,7 +38,7 @@ const AuthStore = (): AuthData => {
       },
     logout: function(){
         alert("안전 로그아웃 했습니다.");
-        ProfileStore().setUserData({});
+        ProfileStore().setMyUserData({});
         localStorage.clear();
         this.setIsLogout();
     }

@@ -16,6 +16,8 @@ const KakaoAuth= function() {
   const getKakaoToken = async (): Promise<string | void> =>{
     try{
       const { data: { accessToken, refreshToken} } = await instance.get<{ accessToken: string; refreshToken: string }>(`${TOKEN_URL}?redirectUrl=${REDIRECT_URI}&code=${code}`);
+      console.log(accessToken);
+      console.log(refreshToken);
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
       alert('성공적으로 로그인 했습니다');

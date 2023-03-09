@@ -1,3 +1,5 @@
 [
-  {"usesId": 0, "userEmail": "2cleanwater@naver.com", "provider": "KAKAO","userName": "권혁욱", "userBirth": "20001113", "userType": "USER", "imgURL": "https://res.cloudinary.com/nsurfer/image/upload/v1673535490/samples/animals/cat.jpg" }
+  {"usesId": 0, "userEmail": "2cleanwater@naver.com", "provider": "KAKAO","userName": "권혁욱", "userBirth": "20001113", "userType": "USER", "imgURL": "https://res.cloudinary.com/nsurfer/image/upload/v1673535490/samples/animals/cat.jpg", "isOwned":true },
+  {"usesId": 1, "userEmail": "heyDoYouknowWhoIAm@naver.com", "provider": "KAKAO","userName": "이하늬", "userBirth": "19841213", "userType": "USER", "imgURL": "https://res.cloudinary.com/nsurfer/image/upload/v1678170482/dummy2_fp6wdp.png","isOwned":false },
+  {"usesId": 2, "userEmail": "IAmINFP@naver.com", "provider": "KAKAO","userName": "김채원", "userBirth": "20031011", "userType": "USER", "imgURL": "https://res.cloudinary.com/nsurfer/image/upload/v1678170477/dummy1_bejwqo.png", "isOwned":false }
 ]

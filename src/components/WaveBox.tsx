@@ -7,7 +7,7 @@ interface wave {
 }
 const WaveBox = ({date,count}:wave) => {
   return (
-    <>
+    <Box sx={{margin:"2px", paddingLeft:"5px", paddingRight:"5px"}}>
       {count===0?(
           <Box  sx={{
             width: "30px",
@@ -56,7 +56,7 @@ const WaveBox = ({date,count}:wave) => {
             border: "1px solid black"
           }}></Box>
         ):null}
-    </>
+    </Box>
   );
 }
 

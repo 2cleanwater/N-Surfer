@@ -1,11 +1,6 @@
 import instance from '@service/axiosInterceptor';
 import AuthStore from './AuthStore';
 
-interface waveList{
-  date:string;
-  count:number;
-}
-
 export interface UserData{
   useId?: number;
   userEmail?: string;
@@ -14,14 +9,15 @@ export interface UserData{
   userBirth?: string;
   userType?: string;
   imgUrl?: string;
+  isOwned?: boolean;
 }
 
 export interface ProfileData{
   userData: UserData;
-  setUserData: (userData:UserData)=>void;
-  getUserData: ()=>void;
-  putUserData: (formData:FormData)=>void;
-  deleteUserData: ()=>void;
+  setMyUserData: (userData:UserData)=>void;
+  getMyUserData: ()=>void;
+  patchMyUserData: (formData:FormData)=>void;
+  deleteMyUserData: ()=>void;
 }
 
 const profileUrl:string = "/my-page/profile";
@@ -29,9 +25,10 @@ const profileUrl:string = "/my-page/profile";
 const ProfileStore = (): ProfileData => {
   return {
     userData: {},
-    setUserData: function(userData: UserData){
-      this.userData = JSON.parse(JSON.stringify(userData));},
-    getUserData: async function(){
+    setMyUserData: function(userData: UserData){
+      this.userData = JSON.parse(JSON.stringify(userData));
+    },
+    getMyUserData: async function(){
       await instance({
         method: "GET",
         url: profileUrl,
@@ -40,17 +37,17 @@ const ProfileStore = (): ProfileData => {
         }
         })
         .then((res)=>{
-          this.setUserData(res.data as UserData);
+          this.setMyUserData(res.data as UserData);
           console.log(this.userData);
+          return res.data;
         }).catch((err) => {
           console.log(err);
           window.alert("정보를 가져올 수 없습니다.");
-          this.setUserData({});
+          this.setMyUserData({});
           AuthStore().setIsLogout();
-          localStorage.clear();
       });
     },
-    putUserData: async function(formData:FormData){
+    patchMyUserData: async function(formData:FormData){
       await instance({
         method: "PATCH",
         url: profileUrl,
@@ -61,7 +58,7 @@ const ProfileStore = (): ProfileData => {
       })
       .then(((res)=>{
         console.log(res)
-        this.setUserData(res.data as UserData);
+        this.setMyUserData(res.data as UserData);
         window.alert("성공적으로 변경되었습니다.")
       }))
       .catch((err)=>{
@@ -69,7 +66,7 @@ const ProfileStore = (): ProfileData => {
         window.alert("변경에 실패했습니다.")
       })
     },
-    deleteUserData: async function(){
+    deleteMyUserData: async function(){
       await instance({
         method: "DELETE",
         url: profileUrl,
@@ -79,7 +76,7 @@ const ProfileStore = (): ProfileData => {
       })
       .then((()=>{
         window.alert("성공적으로 탈퇴되었습니다.")
-        this.setUserData({});
+        this.setMyUserData({});
         AuthStore().setIsLogout();
         localStorage.clear();
       }))

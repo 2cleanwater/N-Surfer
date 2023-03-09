@@ -19,11 +19,11 @@ const Navbar = ()=>{
   useEffect(()=>{
     if(localStorage.getItem('accessToken')){
       // 토큰존재 => 프로필 받아옴 => authStore 로그인 변경
-      value.profileStore.getUserData();
+      value.profileStore.getMyUserData();
       value.authStore.setIsLogin();
     }else{
       // 유저 데이터 제거하지 않으면 이미지가 남은채로 리랜더링 됨
-      value.profileStore.setUserData({});
+      value.profileStore.setMyUserData({});
       value.authStore.setIsLogout();
     }
   },[localStorage.getItem('accessToken')]);
@@ -57,7 +57,6 @@ const Navbar = ()=>{
           color:"#097581", 
           textDecoration: "none",
           padding:"1em"
-          // display: 'flex', '@media screen and (max-width: 992px)': { display: 'none' } 
           }}>
           <Button component={Link} to='/card/list' 
           sx={{fontSize:"1.3em", fontWeight:"bolder", color:"#097581"}}>
@@ -76,38 +75,19 @@ const Navbar = ()=>{
               Login</Button>)
           }
         </Box>
-
-        <Box component={Link} to='/user/profile' 
-        sx={{w : "3em", h: "3em", borderRadius: "100%"}}>
-          <Box component="img" sx={{w : "3em", height: "3em", borderRadius: "100%"}} src={userImgSrc} alt="profile"/>
-        </Box>
-
+        
+        {isLogin?
+          (<Box component={Link} to={`/user/profile?userName=${value.profileStore.userData.userName}`}
+          sx={{w : "3em", h: "3em", borderRadius: "100%"}}>
+            <Box component="img" sx={{w : "3em", height: "3em", borderRadius: "100%"}} src={userImgSrc} alt="profile"/>
+          </Box>):
+          (<Box 
+          sx={{w : "3em", h: "3em", borderRadius: "100%"}}>
+            <Box component="img" sx={{w : "3em", height: "3em", borderRadius: "100%"}} src={userImgSrc} alt="profile"/>
+          </Box>)
+        }
       </Box>
-
     </Box>
   );
 }
 export default observer(Navbar);
-
-{/* 
-      <Box sx={{ flexGrow: 3, display: 'none', '@media screen and (max-width: 992px)': { display: 'flex' } }}>
-          <IconButton
-            size="small"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            // onClick={handleOpenNavMenu}
-            color="inherit"
-          >
-            <MenuIcon />
-          </IconButton>
-      </Box> */}
-
-      {/* <Box sx={{}}>
-        <a href="https://github.com/2cleanwater/N-Surfer#readme" target="_blank" rel="noopener noreferrer">
-          <img src="/images/Github.png" style={{width:"20px", height:"20px"}}/>
-        </a>
-        <a href="https://2cleanwater.notion.site/N-Surfer-0d2ae67e463b46dc96126f0044208100" target="_blank" rel="noopener noreferrer">
-          <img src="/images/Notion.png" style={{width:"20px", height:"20px"}}/>
-        </a>
-      </Box> */}
