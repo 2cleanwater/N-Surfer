@@ -18,9 +18,8 @@ const Profile = () => {
       (<UserProfile userName={userName}/>)}
       {/* <UserProfile userName={userName}/> */}
       <Box sx={{border:"1px solid", width:"500px"}}>
-        {/* <Wave userName={userName}/>
-        <CardDetail userName={userName}/> */}
-        <Wave/>
+        <Wave userName={userName}/>
+        {/* <CardDetail userName={userName}/> */}
         <CardDetail/>
         <Link to={`/card/list?userName=${userName}`}><button>더보기</button></Link>
       </Box>

@@ -1,37 +1,24 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import CardMini from '@/components/CardMini';
 import Wave from '@/components/Wave';
 import { Box } from '@mui/material';
 import { useRootStore } from '@provider/rootContext';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const value = useRootStore()!;
+  const isLogin = value.authStore.isLogin;
   return (
-    <Box sx={{position: "relative", m:2, border:"1px black solid", display:"flex", flexDirection:"column",justifyContent: "center", alignItems: "center"}}>
-      <Wave/>
-      <Box sx={{display:'flex',justifyContent: "center", alignItems: "center"}}>
+    <Box sx={{position: "relative", m:2, border:"1px black ", display:"flex", flexDirection:"column",justifyContent: "center", alignItems: "center"}}>
+      {isLogin?
+      (<Wave userName={value.profileStore.userData.userName!}/>):
+      (<Box component="img" src={require('@static/images/testHome.png')} alt='HomeIMG'
+      sx={{ height:"400px" }}/>)}
+      <Box sx={{display:'flex',justifyContent: "center", alignItems: "center", padding:"10px"}}>
         <CardMini cardId="1"/>
         <CardMini cardId="2"/>
         <CardMini cardId="3"/>
       </Box>
-      {/* <Box sx={{position: "relative", m:2, border:"1px black solid" }}>
-        <Box component="img" src={require('@static/images/MainImg.jpg')} alt='HomeIMG'
-        sx={{ width:"300px", }}/>
-        <Box sx={{position: "absolute", top:"50%", left:"50%", transform: "translate( -50%, -50% )", fontSize: "50px", color:"white", fontWeight:400}}>당신의 기록이 파도가 되어</Box>
-      </Box>
-      {value.authStore.isLogin&&
-        (<div>
-          <Wave></Wave>
-          <Link to='/card'><button>파도 추가하기</button></Link>
-        </div>)
-      }
-      <Box sx={{display:'flex',justifyContent: "center", alignItems: "center"}}>
-        <CardMini cardId="1"/>
-        <CardMini cardId="2"/>
-        <CardMini cardId="3"/>
-      </Box> */}
     </Box>
   )
 }

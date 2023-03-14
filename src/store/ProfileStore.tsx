@@ -43,6 +43,7 @@ const ProfileStore = (): ProfileData => {
         }).catch((err) => {
           console.log(err);
           window.alert("정보를 가져올 수 없습니다.");
+          localStorage.clear();
           this.setMyUserData({});
           AuthStore().setIsLogout();
       });

@@ -45,7 +45,7 @@ const Navbar = ()=>{
         sx={{width:"5em",height:"5em",marginLeft:"3em"}}
         src={require('@static/images/N-Surfer_Icon.png')} alt="logo"></Box>
         <Box component="h1"
-        sx={{margin: "20px", fontSize:"3em", color: "black"}}>
+        sx={{margin: "20px", fontSize:"3em", color: "DarkBlue", textShadow:"2px 2px 2px gray"}}>
           N-Surfer</Box>
       </Box>
 

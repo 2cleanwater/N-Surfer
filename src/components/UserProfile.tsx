@@ -13,22 +13,22 @@ const UserProfile = ({userName}:{userName:string}) => {
   const baseImg:string= process.env.REACT_APP_PROFILE_BASE_IMG!;
 
   // userData 받아오기 ==================================================
-  // const getUserData= async function(){
-  //   const profileUrl = `/user/profile?userName=${userName}`;
-  //   await instance({
-  //     method: "GET",
-  //     url: profileUrl,
-  //     headers:{
-  //       'Content-Type': 'application/json'
-  //     }})
-  //     .then((res)=>{
-  //       return res.data;
-  //     })
-  //     .catch((err)=>{
-  //       console.log(err);
-  //       window.alert(userName + "의 정보를 가져올 수 없습니다.");
-  //     })
-  // }
+  const getUserData= async function(){
+    const profileUrl = `/user/profile?userName=${userName}`;
+    await instance({
+      method: "GET",
+      url: profileUrl,
+      headers:{
+        'Content-Type': 'application/json'
+      }})
+      .then((res)=>{
+        return res.data;
+      })
+      .catch((err)=>{
+        console.log(err);
+        window.alert(userName + "의 정보를 가져올 수 없습니다.");
+      })
+  }
   // const userData = getUserData() as UserData;
 
   // Test data ================================================
