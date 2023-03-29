@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import InteractiveWave from '@/components/InteractiveWave';
-import { OceanData } from '@/store/OceanStore';
+import { labelColor, OceanData } from '@/store/OceanStore';
 import { useRootStore } from '@/provider/rootContext';
 
 const CardMini = ({OceanData}:{OceanData:OceanData}) => {
@@ -48,7 +48,7 @@ const CardMini = ({OceanData}:{OceanData:OceanData}) => {
         mask:"linear-gradient(black, black, transparent)"}}>{OceanData.content}</Box>
       {[...Array(10)].map((_, index) => (<div key={index}>
         {OceanData.labels[index]&&<Box sx={{width:"15px",height:"10px",position:"absolute",left:"0%",
-        backgroundColor: OceanData.labels[index]?.color||"",top:`${(index+1) * 6}%`}}/>}
+        backgroundColor: labelColor(OceanData.labels[index]?.color)?.backgroundColor||"",top:`${(index+1) * 6}%`}}/>}
       </div>))}
     </Box>
   )

@@ -1,5 +1,5 @@
 import { useRootStore } from '@/provider/rootContext';
-import { OceanData, imageForm } from '@/store/OceanStore';
+import { OceanData, imageForm, labelColor } from '@/store/OceanStore';
 import { Box, IconButton} from '@mui/material'
 import { observer } from 'mobx-react';
 
@@ -18,8 +18,8 @@ const CardDetail = ({oceanData}:{oceanData:OceanData}) => {
       <Box sx={{width:"800px", height:"80px", backgroundColor:"#2E88C7", borderRadius:"1em",display:"flex", margin: "0px auto", marginBottom:"40px", justifyContent: "space-between", alignItems:"center", boxShadow: "5"}}>
         {oceanData.labels&&<Box sx={{display:"flex"}}>
           {oceanData.labels.map((element, index)=>(
-            <Box component="label" key={index} htmlFor='' sx={{backgroundColor:element.color, display:"flex", marginLeft:"20px", borderRadius:"0.8em", paddingLeft:"10px", boxShadow: "5" }}>
-              <Box sx={{margin:"10px auto", marginRight:"10px", color: "white",}}>
+            <Box component="label" key={index} htmlFor='' sx={{backgroundColor:labelColor(element.color)?.backgroundColor, display:"flex", marginLeft:"20px", borderRadius:"0.8em", paddingLeft:"10px", boxShadow: "5" }}>
+              <Box sx={{margin:"10px auto", marginRight:"10px", color: labelColor(element.color)?.textColor,}}>
                 {element.name}
               </Box>
             </Box>

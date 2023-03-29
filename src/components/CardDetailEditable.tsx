@@ -1,5 +1,5 @@
 import { useRootStore } from '@/provider/rootContext';
-import { label, OceanData, wholeLabelList } from '@/store/OceanStore';
+import { label, labelColor, OceanData, wholeLabelList } from '@/store/OceanStore';
 import { Box, Button, Checkbox, Chip, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField} from '@mui/material'
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -15,13 +15,24 @@ import { useNavigate } from 'react-router-dom';
 const CardDetailEditable = ({oceanData}:{oceanData:OceanData}) => {
   const value = useRootStore();
   const navigate = useNavigate();
-  const transData = value!.oceanStore.transDate;
   const wholeLabels:Array<label> = wholeLabelList;
 
-  const oceanLabelList: Array<string> = oceanData.labels.map(item => item.name);
+  const oceanLabelList: Array<string> = oceanData.labels.map(item=>JSON.stringify(item));
   const oceanImgUrlList: Array<string> = oceanData.images.map(item => item.imageUrl);
 
-  const [labelList, setLabelList] = useState<Array<string>>(oceanLabelList);
+
+  //라벨 기본 클릭 설정
+  const labelResetData = ()=>{
+    let resetLabel = Array(5);
+    for(let i=0;i<resetLabel.length;i++){ 
+      if(oceanLabelList.includes(JSON.stringify(wholeLabelList[i]))){
+        resetLabel[i]= JSON.stringify(wholeLabelList[i]);
+      }
+    }
+    return resetLabel
+  }
+
+  const [labelList, setLabelList] = useState<Array<string>>(labelResetData());
   const [userImgSrc, setUserImgSrc] = useState<Array<string>>(oceanImgUrlList);
   const [deleteImgSrc, setDeleteImgSrc] = useState<Array<string>>(["","",""]);
 
@@ -35,7 +46,8 @@ const CardDetailEditable = ({oceanData}:{oceanData:OceanData}) => {
     defaultValues:{
       inputImg:[],
       inputTitle: oceanData.title,
-      inputContent: oceanData.content
+      inputContent: oceanData.content,
+      inputLabel: labelResetData()
     }
   });
   const { register, handleSubmit, formState: { errors }, setValue, watch, reset, clearErrors, getValues, unregister } = methods;
@@ -58,6 +70,8 @@ const CardDetailEditable = ({oceanData}:{oceanData:OceanData}) => {
     value?.oceanStore.postOcean(formData, navigate);
   };
 
+
+
   //이미지를 URL 처리해서 userImgSrc에 저장 이미지 입력받을 때마다 리렌더링 ===================================================
   const changeMultipleFiles = (e: React.ChangeEvent<HTMLInputElement>, index:number): void => {
     if (e.target.files) {
@@ -68,7 +82,7 @@ const CardDetailEditable = ({oceanData}:{oceanData:OceanData}) => {
   };
 
   //이미지 삭제 ===================================================
-  const handleClear = (index:number) => {
+  const handleImgClear = (index:number) => {
     // 저장 이미지 변경
     reset({
       inputImg: [
@@ -93,7 +107,7 @@ const CardDetailEditable = ({oceanData}:{oceanData:OceanData}) => {
   };
 
    //이미지 리셋  ===================================================
-  const handleReset = (index:number) => {
+  const handleImgReset = (index:number) => {
     // 저장 이미지 변경
     reset({
       inputImg: [
@@ -124,7 +138,7 @@ const CardDetailEditable = ({oceanData}:{oceanData:OceanData}) => {
   const checkDelete = ()=>{
     if (window.confirm('글 작성을 취소하시겠습니까? 글 내용이 사라집니다.')){
       if(window.confirm('확인을 누르면 취소됩니다.')){
-        navigate("/");} 
+        value?.oceanStore.deleteOcean(oceanData.cardId);} 
     }else return}
 
       
@@ -133,10 +147,6 @@ const CardDetailEditable = ({oceanData}:{oceanData:OceanData}) => {
     if (window.confirm('저장하시겠습니까?')){
       handleSubmit(onSubmit);
     }else return}
-  
-  console.log(userImgSrc)
-  console.log(deleteImgSrc)
-  console.log(watch("inputImg"))
   
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{backgroundColor:"waveBackground", width:"900px", alignItems:"center",borderRadius:"2em", padding:"10px", marginBottom:"50px",position:"relative", boxShadow: "5"}}>
@@ -162,9 +172,9 @@ const CardDetailEditable = ({oceanData}:{oceanData:OceanData}) => {
       <Box sx={{width:"800px", height:"80px", backgroundColor:"#2E88C7", borderRadius:"1em",display:"flex", margin: "0px auto", marginBottom:"40px", justifyContent: "space-between", alignItems:"center", boxShadow: "5" }}>
         <Box sx={{display:"flex"}}>
           {wholeLabels.map((element, index)=>(
-            <Box component="label" key={index} htmlFor='' sx={{backgroundColor:watch(`inputLabel.${index}`)?element.color:"white", display:"flex", marginLeft:"20px", borderRadius:"0.8em", paddingLeft:"10px", boxShadow:watch(`inputLabel.${index}`)?5:"inset 1px 1px 3px #444"}}>
-              <FormControlLabel control={<Checkbox value={JSON.stringify(element)} {...register(`inputLabel.${index}`,{onChange:(e) => { console.log(watch("inputLabel")); }})} sx={{display:"none"}}/>} 
-              sx={{margin:"10px auto", marginRight:"10px", color: watch(`inputLabel.${index}`)?"white":"gray" }}
+            <Box component="label" key={index} htmlFor='' sx={{backgroundColor:watch(`inputLabel.${index}`)?labelColor(element.color)?.backgroundColor:"white", display:"flex", marginLeft:"20px", borderRadius:"0.8em", paddingLeft:"10px", boxShadow:watch(`inputLabel.${index}`)?5:"inset 1px 1px 3px #444"}}>
+              <FormControlLabel control={<Checkbox value={JSON.stringify(element)} checked={labelList[index]===JSON.stringify(element)?true:false} {...register(`inputLabel.${index}`,{onChange:(e) => {setLabelList(watch("inputLabel"))}})} sx={{display:"none"}}/>} 
+              sx={{margin:"10px auto", marginRight:"10px", color: watch(`inputLabel.${index}`)?labelColor(element.color)?.textColor:"gray" }}
               label={element.name} />
             </Box>
             ))}
@@ -202,7 +212,7 @@ const CardDetailEditable = ({oceanData}:{oceanData:OceanData}) => {
                 backgroundColor:"white",color:"gray",
                 transform: "scale(1.1)",
                 cursor : "pointer"
-              }}} onClick={() => {handleClear(index);}}>
+              }}} onClick={() => {handleImgClear(index);}}>
                 <CloseIcon fontSize="small"/>
               </IconButton>
               <IconButton size="small" sx={{ position: "absolute", right: "50px", top: "10px", backgroundColor:"#0B6E99", color:"white", 
@@ -210,7 +220,7 @@ const CardDetailEditable = ({oceanData}:{oceanData:OceanData}) => {
                 backgroundColor:"white",color:"#0B6E99",
                 transform: "scale(1.1)",
                 cursor : "pointer"
-              }}} onClick={() => {handleReset(index);}}>
+              }}} onClick={() => {handleImgReset(index);}}>
                 <ReplayIcon fontSize="small"/>
               </IconButton>
           </Box>
