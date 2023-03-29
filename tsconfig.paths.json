@@ -11,6 +11,7 @@
       "@styles/*": ["src/styles/*"],
       "@public/*": ["public/*"],
       "@static/*": ["static/*"],
+      "@images/*": ["static/images/*"],
       "@test/*": ["testJson/*"]
     }
   }
