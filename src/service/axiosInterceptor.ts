@@ -49,14 +49,10 @@ instance.interceptors.request.use(
     // refresh token url 일 경우
     if(config.url === ACCESS_TOKEN_URL){
       token = localStorage.getItem("refreshToken");
-      console.log("리프레시토큰을 실어보냅니다")
     }
     // 기본적인 요청일 경우
     else {
-      console.log(localStorage.getItem("accessToken"))
-      console.log(localStorage.getItem("refreshToken"))
       token = localStorage.getItem("accessToken");
-      console.log("엑세스토큰을 실어보냅니다")
     }
     // 토큰이 있을 경우에만 토큰을 실어보냄
     if(token !== null){
@@ -70,7 +66,6 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   async(res) => {
-    console.log(res);
     return res.data
   },
   async (err) => {

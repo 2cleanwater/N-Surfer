@@ -1,10 +1,10 @@
-export interface ModalData{
+export interface ModalStoreForm{
   _IsModalOpen: boolean;
   openModal: ()=>void;
   closeModal: ()=>void;
 }
 
-const ModalStore = (): ModalData=>{
+const ModalStore = (): ModalStoreForm=>{
   return {
     _IsModalOpen: false,
     openModal: function(){

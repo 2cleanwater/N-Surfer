@@ -2,7 +2,7 @@ import { runInAction } from "mobx"
 import {KAKAO_AUTH_URL} from '@service/KakaoAuth'
 import ProfileStore from "./ProfileStore";
 
-export interface AuthData{
+export interface AuthStoreForm{
   isLogin: boolean;
   setIsLogin: ()=>void;
   setIsLogout: ()=>void;
@@ -13,7 +13,7 @@ export interface AuthData{
   logout: ()=>void;
 }
 
-const AuthStore = (): AuthData => {
+const AuthStore = (): AuthStoreForm => {
   return {
     isLogin: false,
     setIsLogin: function(){
