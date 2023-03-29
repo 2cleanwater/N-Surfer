@@ -1,9 +1,12 @@
+import CardDetailEditable from '@/components/CardDetailEditable'
+import EditProfile from '@/components/UserProfileEditable'
+import CardDetailAdd from '@/components/CardDetailAdd'
 import Wave from '@/components/Wave'
 import React from 'react'
 
 function Test() {
   return (
-    <Wave userName="이정수"/>
+    <CardDetailAdd/>
   )
 }
 
