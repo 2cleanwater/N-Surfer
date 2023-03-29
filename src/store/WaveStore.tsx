@@ -1,51 +1,53 @@
 import instance from "@/service/axiosInterceptor";
 
-export interface wave {
+export interface waveData {
   date:string,
   count:number
 }
 
-export interface WaveData{
-  myWaveForm: Map<string, number>;
-  myWaveList: Array<wave>;
-  getMyWaveList: ()=>void;
-  setMyWaveList: (res:Array<wave>)=>void;
+export interface WaveStoreForm{
+  // myWaveForm: Map<string, number>;
+  // myWaveList: Array<waveData>;
+  getWaveList: (userName:string,week:number,date:string, setValue:(waveData:Array<waveData>)=>void)=>void;
+  // setMyWaveList: (res:Array<waveData>)=>void;
   stringifyDate: (date:Date)=>string;
-  matchWaveForm: (userWaveList:Array<wave>)=>Map<string, number>;
+  calFirstDate: (todayDate:Date)=>Date;
+  matchWaveForm: (userWaveList:Array<waveData>)=>Map<string, number>;
 }
 
 const waveUrl:string= "/my-page/wave"
 
-const WaveStore = (): WaveData=>{
+const WaveStore = (): WaveStoreForm=>{
   return {
-    myWaveForm: new Map<string, number>(),
-    myWaveList: [],
-    getMyWaveList: async function(){
+    // myWaveForm: new Map<string, number>(),
+    // myWaveList: [],
+    getWaveList: async function(userName:string,week:number,date:string, setValue:(waveData:Array<waveData>)=>void){
       await instance({
         method: "GET",
-        url: waveUrl,
+        url: `/user/wave?userName=${userName}&month=${week}`,
+        data:{"date":date},
         headers: {
           'Content-Type': 'application/json'
         }
         })
         .then((res)=>{
-          this.setMyWaveList(res.data.data as Array<wave>);
-          console.log("내 wave 가져왔습니다."+ this.myWaveList);
+          setValue(res.data.waves as Array<waveData>);
+          console.log("웨이브~")
         })
         .catch((err)=>{
           console.log(err);
-          window.alert("정보를 가져올 수 없습니다.");
+          window.alert(userName + "의 Wave를 가져올 수 없습니다.");
         });
     },
 
-    setMyWaveList: function(res:Array<wave>){
+    // setMyWaveList: function(res:Array<waveData>){
 
-      //더미 데이터
-      this.myWaveList= require("@test/waveData.json");
+    //   //더미 데이터
+    //   this.myWaveList= require("@test/waveData.json");
 
-      // this.myWaveList= res;
-      this.myWaveForm= this.matchWaveForm(this.myWaveList);
-    },
+    //   // this.myWaveList= res;
+    //   this.myWaveForm= this.matchWaveForm(this.myWaveList);
+    // },
 
     stringifyDate: function(date:Date){
       const year = date.getFullYear().toString();
@@ -55,7 +57,15 @@ const WaveStore = (): WaveData=>{
       return dateString;
     },
 
-    matchWaveForm: function(userWaveList:Array<wave>){
+    calFirstDate: function(todayDate:Date){
+      const LastDay = new Date(todayDate);
+      let date = new Date(todayDate);
+      const emptyDate:number = 6-LastDay.getDay();
+      date.setDate(LastDay.getDate()+ emptyDate - 69);
+      return date;
+    },
+
+    matchWaveForm: function(userWaveList:Array<waveData>){
       const LastDay = new Date();
       let date = new Date(LastDay);
       const emptyDate:number = 6-LastDay.getDay();
@@ -65,7 +75,7 @@ const WaveStore = (): WaveData=>{
         date.setDate(date.getDate() + 1);
         waveForm.set(this.stringifyDate(date), 0);
       }
-      userWaveList.map((w:wave) => {
+      userWaveList.map((w:waveData) => {
         if(waveForm.has(w.date))waveForm.set(w.date, w.count);
       });
       return waveForm;
