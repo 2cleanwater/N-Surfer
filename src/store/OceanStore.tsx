@@ -13,8 +13,8 @@ export const wholeLabelList = [
   {name: "프론트엔드", color:"red"},
   {name: "백엔드", color:"blue"},
   {name: "상식", color:"orange"},
-  {name: "과학", color:"green"},
-  {name: "수학", color:"brown"}
+  {name: "자료구조", color:"green"},
+  {name: "알고리즘", color:"brown"}
 ]
 
 export const labelColor = (color:string) => {
@@ -45,7 +45,7 @@ export const labelColor = (color:string) => {
 
 export interface OceanData{
   cardId: string;
-  username?: number;
+  nickname?: number;
   title?: string;
   labels: Array<label>;
   content?: string;

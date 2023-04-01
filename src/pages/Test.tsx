@@ -1,12 +1,8 @@
-import CardDetailEditable from '@/components/CardDetailEditable'
-import EditProfile from '@/components/UserProfileEditable'
-import CardDetailAdd from '@/components/CardDetailAdd'
-import Wave from '@/components/Wave'
-import React from 'react'
+import Loading from '@/components/Loading'
 
 function Test() {
   return (
-    <CardDetailAdd/>
+    <Loading/>
   )
 }
 

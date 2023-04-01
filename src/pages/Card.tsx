@@ -19,14 +19,11 @@ function Card() {
     value?.oceanStore.getOcean(cardId, setOceanData);
   },[]);
 
-  // Test data ================================================
-  // const oceanData = require("@test/oceanData.json")[cardId] as OceanData
-
   return (
     <Box sx={{alignContent:"center", alignItems:"center", justifyContent:"center", justifyItems:"center", textAlign:"center", display:"flex", position:"relative"}}>
       {oceanData.title&& <div>
-        {oceanData.username==value?.profileStore.userData.userName&&
-        <IconButton type="submit" size="medium" sx={{position:"absolute", top:"10px", right:"9%", color: "white", backgroundColor:"#9B9A97", zIndex:"1000",
+        {oceanData.nickname==value?.profileStore.userData.nickname&&
+        <IconButton type="submit" size="medium" sx={{position:"absolute", top:"10px", right:"9%", color: "white", bgcolor:"#9B9A97", zIndex:"1000",
             "&:hover":{
               "@keyframes rotate": {
                 "100%": {

@@ -88,18 +88,17 @@ const CardDetailAdd = () => {
       if(window.confirm('확인을 누르면 취소됩니다.')){
         navigate("/");} 
     }else return}
-
       
   // 저장 체크 ===================================================
   const checkSave = ()=>{
     if (window.confirm('저장하시겠습니까?')){
       handleSubmit(onSubmit);
-    }else return}
-  
+    }else return
+  }
   
   return (
-    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{backgroundColor:"waveBackground", width:"900px", alignItems:"center",borderRadius:"2em", padding:"10px", marginBottom:"50px",position:"relative", boxShadow: "5"}}>
-      <Box sx={{backgroundColor:"#2158A8", borderRadius:"1em",width:"750px", padding:"25px",paddingTop:"55px", paddingBottom:"55px",wordBreak:"break-all",margin: "30px auto", marginBottom:"15px", position:"relative", fontWeight:"bolder", fontSize:"30px", color: "white", display:"flex", flexDirection:"column" ,justifyContent:"center", alignItems:"center", boxShadow: "5"}}>
+    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{bgcolor:"waveBackground", width:"900px", alignItems:"center",borderRadius:"2em", p:"10px", mb:"50px",position:"relative", boxShadow: "5"}}>
+      <Box sx={{bgcolor:"#2158A8", borderRadius:"1em",width:"750px", p:"25px",py:"55px",wordBreak:"break-all",m: "30px auto", mb:"15px", position:"relative", fontWeight:"bolder", fontSize:"30px", color: "white", display:"flex", flexDirection:"column" ,justifyContent:"center", alignItems:"center", boxShadow: "5"}}>
         <TextField
           type="text"
           id="outlined-basic"
@@ -116,27 +115,27 @@ const CardDetailAdd = () => {
             onChange: (e) => setValue("inputTitle", e.target.value),
             required:"제목을 입력해주세요"        
           })}/>
-        <Box sx={{paddingRight:"50px", color:"lightblue",fontWeight:"bold",fontSize:"20px" ,textAlign:"right", position:"absolute", bottom:"20px", right:"0px"}}>by. {value?.profileStore.userData.userName} </Box>
+        <Box sx={{pr:"50px", color:"lightblue",fontWeight:"bold",fontSize:"20px" ,textAlign:"right", position:"absolute", bottom:"20px", right:"0px"}}>by. {value?.profileStore.userData.nickname} </Box>
       </Box>
 
-      <Box sx={{width:"800px", height:"80px", backgroundColor:"#2E88C7", borderRadius:"1em",display:"flex", margin: "0px auto", marginBottom:"40px", justifyContent: "space-between", alignItems:"center", boxShadow: "5" }}>
+      <Box sx={{width:"800px", height:"80px", bgcolor:"#2E88C7", borderRadius:"1em",display:"flex", m: "0px auto", mb:"40px", justifyContent: "space-between", alignItems:"center", boxShadow: "5" }}>
         <Box sx={{display:"flex"}}>
           {wholeLabels.map((element, index)=>(
-            <Box component="label" key={index} htmlFor='' sx={{backgroundColor:watch(`inputLabel.${index}`)?element.color:"white", display:"flex", marginLeft:"20px", borderRadius:"0.8em", paddingLeft:"10px", boxShadow:watch(`inputLabel.${index}`)?5:"inset 1px 1px 3px #444"}}>
+            <Box component="label" key={index} htmlFor='' sx={{bgcolor:watch(`inputLabel.${index}`)?element.color:"white", display:"flex", ml:"20px", borderRadius:"0.8em", pl:"10px", boxShadow:watch(`inputLabel.${index}`)?5:"inset 1px 1px 3px #444"}}>
               <FormControlLabel control={<Checkbox value={JSON.stringify(element)} {...register(`inputLabel.${index}`,{onChange:(e) => { console.log(watch("inputLabel")); }})} sx={{display:"none"}}/>} 
-              sx={{margin:"10px auto", marginRight:"10px", color: watch(`inputLabel.${index}`)?"white":"gray" }}
+              sx={{m:"10px auto", mr:"10px", color: watch(`inputLabel.${index}`)?"white":"gray" }}
               label={element.name} />
             </Box>
             ))}
         </Box>
-        <Box sx={{width:"110px",fontSize:"20px", textAlign:"center", fontWeight:"400", marginRight:"30px"}}>
+        <Box sx={{width:"110px",fontSize:"20px", textAlign:"center", fontWeight:"400", mr:"30px"}}>
           {today}
         </Box>
       </Box>
 
-      <Box sx={{ width:"800px",wordWrap: "break-word", borderRadius:"1em", margin:"0px auto", paddingTop:"10px", fontSize:"30px", fontWeight:"bolder",color:"white",alignContent:"center", display:"flex", flexDirection:"row", justifyContent: "space-between"}}>
+      <Box sx={{ width:"800px",wordWrap: "break-word", borderRadius:"1em", m:"0px auto", pt:"10px", fontSize:"30px", fontWeight:"bolder",color:"white",alignContent:"center", display:"flex", flexDirection:"row", justifyContent: "space-between"}}>
         {[...Array(3)].map((_, index)=>(
-          <Box key={index} sx={{width:"220px",height:"270px", margin:"10px", borderRadius:"20px", border: userImgSrc[index]?"lightblue 5px solid":"lightblue 5px dashed", position: "relative", boxShadow: "5"}}>
+          <Box key={index} sx={{width:"220px",height:"270px", m:"10px", borderRadius:"20px", border: userImgSrc[index]?"lightblue 5px solid":"lightblue 5px dashed", position: "relative", boxShadow: "5"}}>
             {errors.inputImg&&<Box sx={{fontSize:"15px", position:"absolute", top:"105%",left:"8%"}}>{errors.inputImg[index]?.message}</Box>}
             <Box sx={{ display: userImgSrc[index]?'none':"", position:"absolute",top:"50%", left:"50%", transform:"translate(-50%,-50%)" }}>
               <IconButton component="label" size="large" sx={{color:"#0B6E99"}} >
@@ -156,9 +155,9 @@ const CardDetailAdd = () => {
             <Box sx={{}}>
               <Box component="img" key={index} src={userImgSrc[index]} alt='UserImage' 
                 sx={{width:"220px",height:"270px", borderRadius:"15px", objectFit: "cover", objectPosition:"center", overflow: "hidden"}} />
-              <IconButton size="small" sx={{ position: "absolute", right: "10px", top: "10px", backgroundColor:"gray", color:"white", 
+              <IconButton size="small" sx={{ position: "absolute", right: "10px", top: "10px", bgcolor:"gray", color:"white", 
               "&:hover":{
-                backgroundColor:"white",color:"gray",
+                bgcolor:"white",color:"gray",
                 transform: "scale(1.1)",
                 cursor : "pointer"
               }}} onClick={() => {handleClear(index);}}>
@@ -169,7 +168,7 @@ const CardDetailAdd = () => {
         ))}
       </Box>
 
-      <Box sx={{ width:"720px", padding:"40px", wordWrap: "break-word", backgroundColor:"#D3ECF9", borderRadius:"1em", margin:"40px auto", fontSize:"20px", alignContent:"center", boxShadow: "5"}}>
+      <Box sx={{ width:"720px", p:"40px", wordWrap: "break-word", bgcolor:"#D3ECF9", borderRadius:"1em", m:"40px auto", fontSize:"20px", alignContent:"center", boxShadow: "5"}}>
         <TextField
           type="text"
           id="outlined-basic"
@@ -188,9 +187,9 @@ const CardDetailAdd = () => {
           })}/>
       </Box>
 
-      {/* <IconButton type="submit" size="medium" sx={{position:"absolute", top:"1%", right:"10px", color: "white", backgroundColor:"#9B9A97", 
+      {/* <IconButton type="submit" size="medium" sx={{position:"absolute", top:"1%", right:"10px", color: "white", bgcolor:"#9B9A97", 
       "&:hover":{
-        color: "#9B9A97", backgroundColor:"white",
+        color: "#9B9A97", bgcolor:"white",
         transform: "scale(1.1)",
         cursor : "pointer"
       },
@@ -203,18 +202,18 @@ const CardDetailAdd = () => {
         <SettingsIcon fontSize="medium" />
       </IconButton> */}
 
-      <IconButton type="submit" size="medium" sx={{position:"absolute", top:"7%", right:"10px", color: "white", backgroundColor:"#0F7B6C", 
+      <IconButton type="submit" size="medium" sx={{position:"absolute", top:"7%", right:"10px", color: "white", bgcolor:"#0F7B6C", 
       "&:hover":{
-        color: "#0F7B6C", backgroundColor:"white",
+        color: "#0F7B6C", bgcolor:"white",
         transform: "scale(1.1)",
         cursor : "pointer"
       }}} onClick={(e)=>{checkSave();}}>
         <SaveIcon fontSize="medium" />
       </IconButton>
 
-      <IconButton size="medium" sx={{position:"absolute", top:"13%", right:"10px", color: "white", backgroundColor:"#E03E3E", 
+      <IconButton size="medium" sx={{position:"absolute", top:"13%", right:"10px", color: "white", bgcolor:"#E03E3E", 
       "&:hover":{
-        color: "#E03E3E", backgroundColor:"white",
+        color: "#E03E3E", bgcolor:"white",
         transform: "scale(1.1)",
         cursor : "pointer"
       }}} onClick={(e)=>{preventEvent(e); checkCancel(); }} >

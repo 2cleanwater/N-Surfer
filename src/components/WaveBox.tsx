@@ -26,17 +26,17 @@ function formatDate(dateString:string) {
 
 const WaveBox = ({date,count,toggle,isClicked}:waveBoxForm) => {
   const waveStyle = {
-    margin:"2px",
+    m:"2px",
     overflow: "hidden",
     border: isClicked?"2px solid #4B89DC":"2px solid transparent",
-    backgroundColor: isClicked?'lightblue':'',
+    bgcolor: isClicked?'lightblue':'',
     borderRadius: "8px",
     width: "50px",
     height: "50px",
     boxShadow: 3,
     "&:hover": {
       border: "2px solid green",
-      backgroundColor: 'lightblue'
+      bgcolor: 'lightblue'
     },
   }
   
@@ -52,7 +52,7 @@ const WaveBox = ({date,count,toggle,isClicked}:waveBoxForm) => {
   });
 
   return (
-    <Tooltip title={<div style={{ color: "lightblue", fontSize:"20px" }}>{formatDate(date)+ ": " + count +"번"} </div>} sx={{margin:"2px"}}>
+    <Tooltip title={<div style={{ color: "lightblue", fontSize:"20px" }}>{formatDate(date)+ ": " + count +"번"} </div>} sx={{m:"2px"}}>
       <div>
       {count===0?(
           <Box sx={waveStyle}>

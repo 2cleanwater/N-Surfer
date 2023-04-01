@@ -3,7 +3,6 @@ import CardMini from '@/components/CardMini';
 import Wave from '@/components/Wave';
 import { Box } from '@mui/material';
 import { useRootStore } from '@provider/rootContext';
-import { Link } from 'react-router-dom';
 import instance from '@/service/axiosInterceptor';
 import { OceanData } from '@/store/OceanStore';
 import { useEffect, useState } from 'react';
@@ -13,11 +12,9 @@ const Home = () => {
   const isLogin = value.authStore.isLogin;
   const [recentList, setRecentList] = useState<Array<OceanData>>([]);
 
-  // 추가 예정: 최근 작성된 카드 리스트를 받아오기
-
   // ocean list 받아오기
   const getOceanList= async function(){
-    const oceanListUrl = `/card`;
+    const oceanListUrl = `/card?nickname=${value.profileStore.userData.nickname}&numOfCards=3`;
     await instance({
       method: "GET",
       url: oceanListUrl,
@@ -37,26 +34,18 @@ const Home = () => {
   // sever data =============================================
   useEffect(()=>{
     getOceanList();
-  },[])
-  
-  // Test data ================================================
-  // useEffect(()=>{
-  //   setRecentList(require("@test/oceanData.json") as Array<OceanData>);
-  // },[]);
-
-  const index = recentList.length;
+  },[isLogin]);
 
   return (
-    <Box sx={{position: "relative", m:2, border:"1px black ", display:"flex", flexDirection:"column",justifyContent: "center", alignItems: "center"}}>
+    <Box sx={{position: "relative", border:"1px black ", display:"flex", flexDirection:"column",justifyContent: "center", alignItems: "center"}}>
       {isLogin?
-      (<Wave userName={value.profileStore.userData.userName!}/>):
-      (<Box component="img" src={require('@static/images/testHome.png')} alt='HomeIMG'
-      sx={{ width:"900px", borderRadius:"3em", boxShadow: 3 }}/>)}
-      <Box sx={{display:'flex',justifyContent: "center", alignItems: "center", padding:"30px"}}>
-        {index>1&&<CardMini OceanData={recentList[index-1]}/>}
-        {index>2&&<CardMini OceanData={recentList[index-2]}/>}
-        {index>3&&<CardMini OceanData={recentList[index-3]}/>}
-      </Box>
+      (value.profileStore.userData.nickname&&<Wave nickname={value.profileStore.userData.nickname!}/>):
+      (<Box component="img" src={require('@images/testHome.png')} alt='HomeIMG'
+      sx={{ width:"900px", borderRadius:"3em", boxShadow: 3, mb:"50px" }}/>)}
+      <Box sx={{width:"860px", borderRadius:"1em", boxShadow: 3, backgroundColor:"#0067a3", m:"10px", p:"20px", pl:"40px", fontSize:"25px", fontWeight:"bold", color:"white"}}>최근 작성된 파도</Box>
+      {recentList&&<Box sx={{display:'flex',justifyContent: "center", alignItems: "center", p:"90px"}}>
+        {/* {[...Array(3)].map((_, index) => {return (<CardMini key={index} OceanData={recentList[index]}/>)})} */}
+      </Box>}
     </Box>
   )
 }
