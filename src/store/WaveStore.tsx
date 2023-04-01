@@ -6,25 +6,20 @@ export interface waveData {
 }
 
 export interface WaveStoreForm{
-  // myWaveForm: Map<string, number>;
-  // myWaveList: Array<waveData>;
-  getWaveList: (userName:string,week:number,date:string, setValue:(waveData:Array<waveData>)=>void)=>void;
-  // setMyWaveList: (res:Array<waveData>)=>void;
+  getWaveList: (nickname:string,week:number,date:string, setValue:(waveData:Array<waveData>)=>void)=>void;
   stringifyDate: (date:Date)=>string;
   calFirstDate: (todayDate:Date)=>Date;
   matchWaveForm: (userWaveList:Array<waveData>)=>Map<string, number>;
 }
 
-const waveUrl:string= "/my-page/wave"
+const waveUrl:string= "/user/wave"
 
 const WaveStore = (): WaveStoreForm=>{
   return {
-    // myWaveForm: new Map<string, number>(),
-    // myWaveList: [],
-    getWaveList: async function(userName:string,week:number,date:string, setValue:(waveData:Array<waveData>)=>void){
+    getWaveList: async function(nickname:string,week:number,date:string, setValue:(waveData:Array<waveData>)=>void){
       await instance({
         method: "GET",
-        url: `/user/wave?userName=${userName}&month=${week}`,
+        url: `/user/wave?nickname=${nickname}&month=${week}`,
         data:{"date":date},
         headers: {
           'Content-Type': 'application/json'
@@ -36,18 +31,9 @@ const WaveStore = (): WaveStoreForm=>{
         })
         .catch((err)=>{
           console.log(err);
-          window.alert(userName + "의 Wave를 가져올 수 없습니다.");
+          window.alert(nickname + "의 Wave를 가져올 수 없습니다.");
         });
     },
-
-    // setMyWaveList: function(res:Array<waveData>){
-
-    //   //더미 데이터
-    //   this.myWaveList= require("@test/waveData.json");
-
-    //   // this.myWaveList= res;
-    //   this.myWaveForm= this.matchWaveForm(this.myWaveList);
-    // },
 
     stringifyDate: function(date:Date){
       const year = date.getFullYear().toString();

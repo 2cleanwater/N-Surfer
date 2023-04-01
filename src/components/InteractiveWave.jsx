@@ -160,7 +160,7 @@ const InteractiveWave = ({width,height,color}) => {
     let wave;
 
     _p5.setup = function() {
-      _p5.createCanvas(width, height);
+      _p5.createCanvas(width, height, _p5.P2D, true);
       _p5.background(color);
       _p5.canvas.style.borderRadius = '1em';
 

@@ -18,22 +18,22 @@ const ModalLogin = ()=>{
           <Button variant="contained"
           sx={{ bgcolor: 'google', ":hover": {bgcolor: 'googleHover', boxShadow: 6,}, my: 2, p: 2, fontSize: '30px',fontWeight:"bold", }} 
           onClick={()=>{value.modalStore.closeModal(); value.authStore.googleLogin();}}>
-          <Box component="img" sx={{width:"40px", height:"40px", marginRight:"20px"}} src={require("@images/googleIcon.png")}></Box> 
+          <Box component="img" sx={{width:"40px", height:"40px", mr:"20px"}} src={require("@images/googleIcon.png")}></Box> 
             Google</Button>
           <Button variant="contained" 
           sx={{ bgcolor: 'github', ":hover": {bgcolor: 'githubHover', boxShadow: 6,}, my: 2, p: 2, fontSize: '30px',fontWeight:"bold",}} 
           onClick={()=>{value.modalStore.closeModal(); value.authStore.githubLogin(); }}>
-          <Box component="img" sx={{width:"40px", height:"40px", marginRight:"20px"}} src={require("@images/githubIcon.png")}></Box>   
+          <Box component="img" sx={{width:"40px", height:"40px", mr:"20px"}} src={require("@images/githubIcon.png")}></Box>   
             Github</Button>
           <Button variant="contained" 
           sx={{ bgcolor: 'kakao', ":hover": {bgcolor: 'kakaoHover', boxShadow: 6,}, my: 2, p: 2, fontSize: '30px', fontWeight:"bold", color:"Black" }} 
           onClick={()=>{value.modalStore.closeModal(); value.authStore.kakaoLogin(); }}>
-          <Box component="img" sx={{width:"40px", height:"40px", marginRight:"20px"}} src={require("@images/kakaoIcon.png")}></Box>   
+          <Box component="img" sx={{width:"40px", height:"40px", mr:"20px"}} src={require("@images/kakaoIcon.png")}></Box>   
             Kakao</Button>
           <Button variant="contained" 
           sx={{ bgcolor: 'naver', ":hover": {bgcolor: 'naverHover', boxShadow: 6,}, my: 2, p: 2, fontSize: '30px',fontWeight:"bold", }} 
           onClick={()=>{value.modalStore.closeModal(); value.authStore.naverLogin(); }}>
-          <Box component="img" sx={{width:"40px", height:"40px", marginRight:"20px", backgroundColor:"white", borderRadius:"6px", border:"1px solid #2DB400"}} src={require("@images/naverIcon.png")}></Box>   
+          <Box component="img" sx={{width:"40px", height:"40px", mr:"20px", backgroundColor:"white", borderRadius:"6px", border:"1px solid #2DB400"}} src={require("@images/naverIcon.png")}></Box>   
             Naver</Button>
         </Box>    
       </Box>

@@ -29,10 +29,10 @@ const router = createBrowserRouter([
     children: [
       {index: true, path: '/', element: <Home/>},
       {path: '/user/profile', element: <Profile/>},
-      {path: '/card/list', element: <CardList/>},
+      {path: '/card', element: <CardList/>},
       {path: '/cardForm', element: <ProtectedRoute><CardForm/></ProtectedRoute>},
       {path: '/card/:id', element: <Card/>},
-      {path: '/test', element: <CardForm/>},
+      {path: '/test', element: <Test/>},
       {path: '/auth/kakao/callback', element: <KakaoAuth/>}
     ]
 }]);

@@ -5,7 +5,7 @@ export interface UserDataForm{
   useId?: number;
   userEmail?: string;
   provider?: string;
-  userName?: string;
+  nickname?: string;
   userBirth?: string;
   imgUrl?: string;
   totalWave?: number;

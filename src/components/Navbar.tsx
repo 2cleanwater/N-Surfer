@@ -32,7 +32,7 @@ const Navbar = ()=>{
     const imgUrl = value.profileStore.userData.imgUrl;
     const defaultImg = "https://res.cloudinary.com/nsurfer/image/upload/v1677038493/profile_logo_mapxvu.jpg";
     setUserImgSrc(imgUrl || defaultImg);
-  },[value.profileStore.userData.userEmail])
+  },[value.profileStore.userData.imgUrl])
   
   // Github 클릭 시 두 링크
   const handleLinksOpen = (event: React.MouseEvent) => {
@@ -41,32 +41,39 @@ const Navbar = ()=>{
     window.open("https://github.com/2cleanwater/N-Surfer", '_blank');
   }
 
+  // 로그아웃 체크 ===================================================
+  const logout = ()=>{
+    if (window.confirm('로그아웃 하시겠습니까?')){
+        value.authStore.logout(); 
+        navigate("/");
+    }else return}
+
   return (
     <Box 
-    sx={{width: "100%", height: "250px", textAlign: "center", position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+    sx={{width: "100%", height: "230px", textAlign: "center", position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
       
       <Box component={Link} to='/'
       sx={{ display: "flex", flexDirection: "row", alignItems: "center", textDecoration: "none" }}>
         <Box component="img"
-        sx={{width:"5em",height:"5em",marginLeft:"3em"}}
+        sx={{width:"5em",height:"5em",ml:"3em"}}
         src={require('@static/images/N-Surfer_Icon.png')} alt="logo"></Box>
         <Box component="h1"
-        sx={{margin: "20px", fontSize:"3em", color: "#0067a3", textShadow:"2px 2px 2px gray", "&:hover": {
+        sx={{m: "20px", fontSize:"3em", color: "#0067a3", textShadow:"2px 2px 2px gray", "&:hover": {
           transform: "scale(1.1)"
         }}}>
           N-Surfer</Box>
       </Box>
 
-      <Box sx={{display: 'flex', alignItems: "center", justifyItems: "center", padding: "2em"}}>
+      <Box sx={{display: 'flex', alignItems: "center", justifyItems: "center", p: "2em"}}>
         <Box sx={{
           flexDirection: "row", 
           alignItems: "center",
           justifyItems: "center",
           color:"#097581", 
           textDecoration: "none",
-          padding:"1em"
+          p:"1em"
           }}>
-          <Button component={Link} to='/card/list' 
+          <Button component={Link} to='/card' 
           sx={{fontSize:"1.3em", fontWeight:"bolder", color:"#097581","&:hover": {
             transform: "scale(1.1)"
           } }}>
@@ -79,7 +86,7 @@ const Navbar = ()=>{
               카드추가</Button>
           )}
           {isLogin? 
-            (<Button onClick={()=>{value.authStore.logout(); navigate("/");}}
+            (<Button onClick={()=>{logout();}}
             sx={{fontSize:"1.3em", fontWeight:"bolder", color:"#097581", "&:hover": {
               transform: "scale(1.1)"
             } }} >
@@ -93,7 +100,7 @@ const Navbar = ()=>{
         </Box>
         
         {isLogin?
-          (<Box component={Link} to={`/user/profile?userName=${value.profileStore.userData.userName}`}
+          (<Box component={Link} to={`/user/profile?nickname=${value.profileStore.userData.nickname}`}
           sx={{w : "3em", h: "3em", borderRadius: "100%"}}>
             <Box component="img" sx={{w : "3em", height: "3em", borderRadius: "100%"}} src={userImgSrc} alt="profile"/>
           </Box>):
@@ -104,12 +111,12 @@ const Navbar = ()=>{
         }
         <Box sx={{position:'absolute', top:0,right:0, display:"flex", flexDirection:"row"}}>
           <div onClick={(e)=>{handleLinksOpen(e)}}>
-            <Box component="img" src={require('@images/GitHub.png')} sx={{width:"20px", height:"20px", margin:"10px", "&:hover": {
+            <Box component="img" src={require('@images/GitHub.png')} sx={{width:"20px", height:"20px", m:"10px", "&:hover": {
               transform: "scale(1.1)"
             }}}/>
           </div>
           <div onClick={()=>{window.open('https://2cleanwater.notion.site/N-Surfer-0d2ae67e463b46dc96126f0044208100')}}>
-            <Box component="img" src={require('@images/Notion.png')} sx={{width:"20px", height:"20px", margin:"10px", "&:hover": {
+            <Box component="img" src={require('@images/Notion.png')} sx={{width:"20px", height:"20px", m:"10px", "&:hover": {
               transform: "scale(1.1)"
             }}}/>
           </div>

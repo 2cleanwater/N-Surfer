@@ -23,14 +23,13 @@ interface hoverDate {
   number: number
 }
 
-const Wave = ({userName}:{userName:string}) => {
+const Wave = ({nickname}:{nickname:string}) => {
   const value = useRootStore()!;
   const waveStore = value.waveStore;
   const latestDate = waveStore.calFirstDate(new Date());
   const [firstDate,setFirstDate] = useState<Date>(latestDate);
   const [stringDate, setStringDate]= useState<string>(waveStore.stringifyDate(firstDate));
   // date, date의 wave 갯수, index
-  // const [hoverData, setHoverData]= useState<Array<string,number,number>>(["", 0, 70]);
   const [hoverData, setHoverData]= useState<hoverDate>({date:"",number:0});
   const [hoverIndex, setHoverIndex]= useState<number>(70);
   const [waveToggle, setWaveToggle]= useState(false);
@@ -39,8 +38,8 @@ const Wave = ({userName}:{userName:string}) => {
   // server data ==============================================
   // 날짜가 바뀔 때마다 웨이브를 불러오기 
   useEffect(()=>{
-    // waveStore.getWaveList(userName,10,stringDate,setWaveList);
-    console.log((firstDate))
+    waveStore.getWaveList(nickname,10,stringDate,setWaveList);
+    // console.log((firstDate))
   },[stringDate])
 
   // Test data ================================================
@@ -81,25 +80,25 @@ const Wave = ({userName}:{userName:string}) => {
 
   return (
     <Box sx={{ 
-      margin: "2em", 
-      backgroundColor:"waveBackground",
+      m: "2em", 
+      bgcolor:"waveBackground",
       justifyContent:"center",
       alignContent: "center",
       width: "900px",
       borderRadius:"2em",
-      paddingTop:"20px",
-      paddingBottom:"40px",
+      pt:"20px",
+      pb:"40px",
       position:"relative"
       }}>
       <Box sx={{display:"flex", justifyContent: "space-between"}}>
-        <Box sx={{textAlign:"left", color:"white", paddingLeft:"40px",paddingBottom:"20px", fontSize:"2em", fontWeight:"Bold", textShadow:"2px 2px 2px gray"}}>
-          "{userName}"님의 파도</Box>
-        <Box id="singleItemValue" sx={{width:"220px", height:"30px", display:"flex", flexDirection:"row", justifyContent: "space-between", alignItems: "center", padding:"10px", marginRight:"40px", backgroundColor:"#F2E0C9",borderRadius: "30px",boxShadow: 3}}>
+        <Box sx={{textAlign:"left", color:"white", pl:"40px",pb:"20px", fontSize:"2em", fontWeight:"Bold", textShadow:"2px 2px 2px gray"}}>
+          "{nickname}"님의 파도</Box>
+        <Box id="singleItemValue" sx={{width:"220px", height:"30px", display:"flex", flexDirection:"row", justifyContent: "space-between", alignItems: "center", p:"10px", mr:"40px", bgcolor:"#F2E0C9",borderRadius: "30px",boxShadow: 3}}>
           {hoverData.date?
-          (<Box sx={{fontWeight:"bold", color:"#0F8DBF", paddingLeft:"10px"}}>{formatDate(hoverData.date)} : {hoverData.number}번</Box>):
+          (<Box sx={{fontWeight:"bold", color:"#0F8DBF", pl:"10px"}}>{formatDate(hoverData.date)} : {hoverData.number}번</Box>):
           (<div></div>)}
           <Box component="img" id="waveToggle"
-          sx={{width:"30px", height:"30px", justifyContent:"center",alignContent: "center",borderRadius:"2em", backgroundColor: waveToggle?"DarkBlue":"White", 
+          sx={{width:"30px", height:"30px", justifyContent:"center",alignContent: "center",borderRadius:"2em", bgcolor: waveToggle?"DarkBlue":"White", 
           "&:hover": {
             transform: "scale(1.3)"
           },}} 
@@ -108,7 +107,7 @@ const Wave = ({userName}:{userName:string}) => {
       </Box>
       <Box sx={{display:"flex",justifyContent:"center",
       alignContent: "center"}}>
-        <Box component="ul" sx={{display:"flex", flexDirection:"column", listStyleType: "none", textAlign:"center", padding: "0px", margin:"0px", paddingRight:"10px", justifyContent: "center", alignItems: "center"}} >
+        <Box component="ul" sx={{display:"flex", flexDirection:"column", listStyleType: "none", textAlign:"center", p: "0px", m:"0px", pr:"10px", justifyContent: "center", alignItems: "center"}} >
           <DayList>SUN</DayList>
           <DayList>MON</DayList>
           <DayList>TUE</DayList>
@@ -146,17 +145,17 @@ const Wave = ({userName}:{userName:string}) => {
         ))}
         </Box>
       </Box>
-      <IconButton type="submit" size="small" sx={{position:"absolute", bottom:"7%", left:"2em", color: "white", backgroundColor:"#0F7B6C", 
+      <IconButton type="submit" size="small" sx={{position:"absolute", bottom:"7%", left:"2em", color: "white", bgcolor:"#0F7B6C", 
           "&:hover":{
-            color: "#0F7B6C", backgroundColor:"white",
+            color: "#0F7B6C", bgcolor:"white",
             transform: "scale(1.1)",
             cursor : "pointer"
           }}} onClick={(e)=>{changeDate(firstDate, -70)}}>
           <ChevronLeftIcon fontSize="small" />
         </IconButton>
-        <IconButton type="submit" size="small" disabled={isSameDay(firstDate,latestDate)?true:false} sx={{position:"absolute", bottom:"7%",right:"2em", color: "white", backgroundColor:"#0F7B6C", 
+        <IconButton type="submit" size="small" disabled={isSameDay(firstDate,latestDate)?true:false} sx={{position:"absolute", bottom:"7%",right:"2em", color: "white", bgcolor:"#0F7B6C", 
           "&:hover":{
-            color: "#0F7B6C", backgroundColor:"white",
+            color: "#0F7B6C", bgcolor:"white",
             transform: "scale(1.1)",
             cursor : "pointer"
           }}} onClick={(e)=>{changeDate(firstDate, +70)}}>

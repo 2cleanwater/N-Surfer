@@ -3,9 +3,9 @@ import axios from "axios";
 // axios에 baseURL 설정 =====================================================
 const instance = axios.create({
   // 백엔드 서버
-  // baseURL : process.env.REACT_APP_BACKEND_SERVER
+  baseURL : process.env.REACT_APP_BACKEND_SERVER
   // 로컬 서버
-  baseURL : process.env.REACT_APP_LOCALHOST_BACKEND_SERVER
+  // baseURL : process.env.REACT_APP_LOCALHOST_BACKEND_SERVER
 });
 
 let isRefreshing = false;
@@ -61,7 +61,7 @@ instance.interceptors.request.use(
     // 토큰이 없을시 그냥 전송
     return config;
   },
-  async (error) => Promise.reject(error)
+  // async (error) => Promise.reject(error)
 );
 
 instance.interceptors.response.use(

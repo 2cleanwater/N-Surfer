@@ -15,18 +15,17 @@ import { useRootStore } from '@provider/rootContext';
 import InteractiveWave from '@components/InteractiveWave'
 import {UserDataForm} from '@store/ProfileStore'
 
-const EditProfile = () => {
+const EditProfile = ({userData}:{userData:UserDataForm}) => {
   const value = useRootStore()!;
-  const userData = value.profileStore.userData;
-  // const userData = require("@test/userData.json")[1] as UserDataForm; 
   const navigate = useNavigate();
   const baseImg:string= process.env.REACT_APP_PROFILE_BASE_IMG!;
 
-  const [isEditing, setIsEditing] = useState(false);
   const [userImgSrc, setUserImgSrc] = useState<string>("");
-  const [isBasicImg, setIsBasicImg] = useState<string>("NO");
-
+  const [isBasicImg, setIsBasicImg] = useState<string>("false");
   const [dataChanged, setDataChanged] = useState<boolean>(false);
+
+  const [todayWave, setTodayWave] = useState<number>(userData.todayWave||0)
+  const [totalWave, setTotalWave] = useState<number>(userData.totalWave||0)
 
   // useForm 선언 ===================================================
   const methods = useForm<{
@@ -34,7 +33,7 @@ const EditProfile = () => {
     inputName: string;
   }>({
     defaultValues:{
-      inputName: userData.userName
+      inputName: userData.nickname
     }
   });
 
@@ -43,11 +42,18 @@ const EditProfile = () => {
   // submit 버튼 클릭 시 ===================================================
   const onSubmit = async(data:any)=>{
     const formData:FormData = new FormData();
-    formData.append("isBasicImg", isBasicImg);
-    formData.append("imgFile", data.inputImg);
-    formData.append("userName", data.inputName);
-    console.log(formData)
-    value.profileStore.patchMyUserData(formData);
+    const updateProfile:object= {"isBasicImg":isBasicImg,"nickname":data.inputName}
+    const blob = new Blob([JSON.stringify(updateProfile)], {type:"application/json"});
+    formData.append("updateProfile",blob);
+    // data.inputImg[0]&&formData.append("imgFile", data.inputImg[0]);
+    formData.append("imgFile", data.inputImg[0]);
+    try {
+      await value.profileStore.patchMyUserData(formData);
+      navigate(`/user/profile?nickname=${data.inputName}`)
+    } catch (err) {
+      console.log(err);
+      window.alert("변경에 실패했습니다.");
+    }
   };
   
   // 새로고침 방지 ===================================================
@@ -65,11 +71,10 @@ const EditProfile = () => {
         value.profileStore.deleteMyUserData();
         navigate("/");} 
     }else return}
-  
 
   //기본 이미지 체커
   useEffect(()=>{
-    (userImg==baseImg)?setIsBasicImg("YES"):setIsBasicImg("NO")
+    (userImg==baseImg)?setIsBasicImg("true"):setIsBasicImg("false")
   },[userImg]);
   
   //이미지를 URL 처리해서 userImgSrc에 저장 이미지 입력받을 때마다 리렌더링 ===================================================
@@ -93,7 +98,7 @@ const EditProfile = () => {
       animation: "rotate 1s infinite",
       cursor : "pointer"
     },
-    animation: isEditing?"rotate 1s infinite":"",
+    animation: "rotate 1s infinite",
     color:"black",
     position: "absolute",
     top:"5%",
@@ -162,75 +167,64 @@ const EditProfile = () => {
 
   // 입력창 변경 감지
   useEffect(()=>{
-    if(isEditing){
-      if(watch("inputName")==userData.userName&&(watch("inputImg")&&watch("inputImg").length==0)){
-        setDataChanged(false)
-      }else{
-        setDataChanged(true)}
-    }
-  },[watch("inputName"),watch("inputImg"),isEditing]);
+    if(watch("inputName")==userData.nickname&&(watch("inputImg")&&watch("inputImg").length==0)&&isBasicImg==="false"){
+      setDataChanged(false)
+    }else{
+      setDataChanged(true)}
+  },[watch("inputName"),watch("inputImg"),isBasicImg]);
 
   return (
-    <Box sx={{ width: "900px", height: "450px", margin:"10px" ,boxShadow: 3, borderRadius:"2em", alignItems:"center", justifyContent:"center",display:"flex", flexDirection:"row", backgroundColor:"#F5F5F7", position:"relative"}}>
+    <Box sx={{ width: "900px", height: "450px", m:"10px" ,boxShadow: 3, borderRadius:"2em", alignItems:"center", justifyContent:"center",display:"flex", flexDirection:"row", backgroundColor:"#F5F5F7", position:"relative"}}>
       <Box component="img" src={userImg} alt='UserImage' 
-      sx={{ objectFit: "cover", objectPosition:"center" ,borderRadius:"50%", width:"200px", height:"200px", overflow: "hidden", padding:"3%"}}  />
+      sx={{ objectFit: "cover", objectPosition:"center" ,borderRadius:"50%", width:"200px", height:"200px", overflow: "hidden", p:"3%"}}  />
       <Box sx={{position: "absolute",bottom:"10%",left:"5%"}}>
-          {isEditing&&
-          <IconButton component="label" size="medium" sx={uploadImgButton} >
-            <FileUploadIcon fontSize="medium"  />
-            <input type="file" hidden className="profileImgInput" id= "profileImg" accept="image/png, image/jpeg, image/jpg"
-            {...register("inputImg", {
-              validate:{
-                maxSize : (files) => (!files[0]||files[0]?.size<3 * 1024 * 1024)||"이미지는 3MB 이내로만 업로드 가능합니다.",
-              }
-            })} />
-          </IconButton>
-          }
-        </Box>
-      <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{paddingRight:"3%", paddingLeft:"3%"}}>
+        <IconButton component="label" size="medium" sx={uploadImgButton} >
+          <FileUploadIcon fontSize="medium"  />
+          <input type="file" hidden className="profileImgInput" id= "profileImg" accept="image/png, image/jpeg, image/jpg"
+          {...register("inputImg", {
+            validate:{
+              maxSize : (files) => (!files[0]||files[0]?.size<3 * 1024 * 1024)||"이미지는 3MB 이내로만 업로드 가능합니다.",
+            }
+          })} />
+        </IconButton>
+      </Box>
+      <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{pr:"3%", pl:"3%"}}>
         <Box sx={{display:"flex", flexDirection:"row"}}>
-          <Box component="ul" sx={{listStyle:"none", padding:"0",paddingRight:"20px", fontWeight:"bold", fontSize:"20px", color:"gray"}}>
-            <Box sx={{margin:"20px"}}>이름 : </Box>
-            <Box sx={{margin:"20px"}}>가입 경로 : </Box>
-            <Box sx={{margin:"20px"}}>이메일 : </Box>
+          <Box component="ul" sx={{listStyle:"none", p:"0",pr:"20px", fontWeight:"bold", fontSize:"20px", color:"gray"}}>
+            <Box sx={{m:"20px"}}>이름 : </Box>
+            <Box sx={{m:"20px"}}>가입 경로 : </Box>
+            <Box sx={{m:"20px"}}>이메일 : </Box>
           </Box>
-          {isEditing?
-            (<Box component="ul" sx={{listStyle:"none", padding:"0", fontWeight:"bold", fontSize:"20px",}}>
+            <Box component="ul" sx={{listStyle:"none", p:"0", fontWeight:"bold", fontSize:"20px",}}>
               <TextField
                 type="text"
                 id="outlined-basic"
                 label="Name"
                 variant="outlined"
                 size="small"
-                sx={{marginLeft:"10px", marginTop:"20px"}}
+                sx={{ml:"10px", mt:"20px"}}
                 {...register("inputName", {
                   required: "이름을 입력해주세요.",
                   onChange: (e) => {setValue("inputName", e.target.value);},
                   pattern: {
-                    value: /^[가-힣a-zA-Z]+$/,
+                    value: /^[가-힣a-zA-Z0-9]+$/,
                     message: "올바른 이름을 입력해주세요."
                   }
                 })}
               />
-              <Box sx={{marginLeft:"20px", marginTop:"9px"}}>{userData.provider}</Box>
-              <Box sx={{margin:"20px"}}>{userData.userEmail}</Box>
-            </Box>):
-            (<Box component="ul" sx={{listStyle:"none", padding:"0", fontWeight:"bold", fontSize:"20px",}}>
-              <Box sx={{margin:"20px"}}>{userData.userName}</Box>
-              <Box sx={{margin:"20px"}}>{userData.provider}</Box>
-              <Box sx={{margin:"20px"}}>{userData.userEmail}</Box>
-            </Box>)
-          }
+              <Box sx={{ml:"20px", mt:"9px"}}>{userData.provider}</Box>
+              <Box sx={{m:"20px"}}>{userData.userEmail}</Box>
+            </Box>
           </Box>
 
         <Box sx={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"center", }}>
-          <Box sx={{textAlign:"center",width:"220px", height:"130px", marginRight:"50px", boxShadow: 3, borderRadius:"1em", backgroundColor:"#FFFCBF", position:"relative", justifyItems:"center", alignItems:"center"}}>
+          <Box sx={{textAlign:"center",width:"220px", height:"130px", mr:"50px", boxShadow: 3, borderRadius:"1em", backgroundColor:"#FFFCBF", position:"relative", justifyItems:"center", alignItems:"center"}}>
             <Box sx={{}}>
               <InteractiveWave width={220} height={130} color="#FFFCBF"/>
             </Box>
             <Box sx={{position:"absolute", display:"flex",flexDirection:"column",top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
               <Box sx={{fontSize:"20px", fontWeight:"bold",color:"#F88C65", textShadow:"1px 1px orange"}}>오늘의 파도</Box>
-              <Box sx={{fontSize:"40px", fontWeight:"bolder",color:"White", textShadow:" 1px 1px 1px blue" }}>15</Box>
+              <Box sx={{fontSize:"40px", fontWeight:"bolder",color:"White", textShadow:" 1px 1px 1px blue" }}>{todayWave}</Box>
             </Box>
           </Box>
           <Box sx={{textAlign:"center",width:"220px", height:"130px", boxShadow: 3, borderRadius:"1em", backgroundColor:"#FFFCBF", position:"relative", justifyItems:"center", alignItems:"center"}}>
@@ -239,32 +233,28 @@ const EditProfile = () => {
             </Box>
             <Box sx={{position:"absolute", display:"flex",flexDirection:"column",top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
               <Box sx={{fontSize:"20px", fontWeight:"bold",color:"green",textShadow:"1px 1px gray"}}>모든 파도</Box>
-              <Box sx={{fontSize:"40px", fontWeight:"bolder",color:"White", textShadow:" 1px 1px 1px blue" }}>105</Box>
+              <Box sx={{fontSize:"40px", fontWeight:"bolder",color:"White", textShadow:" 1px 1px 1px blue" }}>{totalWave}</Box>
             </Box>
           </Box>
         </Box>
 
-        <IconButton size="medium" onClick={()=>{setIsEditing(!isEditing); setUserImgSrc(""); resetFileInput(); setValue("inputName",userData.userName!); clearErrors();}} sx={settingButton} >
-          <SettingsIcon fontSize="medium" />
-        </IconButton>
-        {isEditing&&
         <IconButton size="medium" type="submit" disabled={!dataChanged} sx={saveButton} >
           <SaveIcon fontSize="medium" />
-        </IconButton>}
-        {isEditing&&
+        </IconButton>
+
         <IconButton size="medium" onClick={(e)=>{preventEvent(e); checkDeleteUser()}} sx={deleteButton} >
           <PersonRemoveAlt1Icon fontSize="medium" />
-        </IconButton>}
-        {isEditing&&<IconButton size="medium" onClick={(e)=>{preventEvent(e); setUserImgSrc(""); resetFileInput()}} sx={originImgButton} >
+        </IconButton>
+        <IconButton size="medium" onClick={(e)=>{preventEvent(e); setUserImgSrc(""); resetFileInput()}} sx={originImgButton} >
           <AccountBoxIcon fontSize="medium" />
-        </IconButton>}
-        {isEditing&&<IconButton size="medium" onClick={(e)=>{preventEvent(e); setUserImgSrc(baseImg); resetFileInput()}} sx={baseImgButton} >
+        </IconButton>
+        <IconButton size="medium" onClick={(e)=>{preventEvent(e); setUserImgSrc(baseImg); resetFileInput()}} sx={baseImgButton} >
           <DeleteForeverIcon fontSize="medium" />
-        </IconButton>}
-        {isEditing&&<Box sx={{position:"absolute", top:"5%", right:"20%", color:"red"}} >
+        </IconButton>
+        <Box sx={{position:"absolute", top:"5%", right:"20%", color:"red"}} >
           {errors.inputImg?<span>{errors.inputImg.message}</span>:
             <div>{errors.inputName?<span>{errors.inputName.message}</span>:<div></div>}</div>}
-        </Box>}
+        </Box>
       </Box>
     </Box>
   )

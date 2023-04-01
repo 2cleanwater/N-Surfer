@@ -9,18 +9,43 @@ export interface label{
   name:string;
   color:string;
 }
-
 export const wholeLabelList = [
-  {name: "프론트엔드", color:"#E03E3E"},
-  {name: "백엔드", color:"#0B6E99"},
-  {name: "상식", color:"#D9730D"},
-  {name: "과학", color:"#0F7B6C"},
-  {name: "수학", color:"#9B9A97"}
+  {name: "프론트엔드", color:"red"},
+  {name: "백엔드", color:"blue"},
+  {name: "상식", color:"orange"},
+  {name: "자료구조", color:"green"},
+  {name: "알고리즘", color:"brown"}
 ]
+
+export const labelColor = (color:string) => {
+  switch(color){
+    case "red":
+      return {textColor:"#FBE4E4", backgroundColor:"#E03E3E"}
+    case "pink":
+      return {textColor:"#F4DFEB", backgroundColor:"#AD1A72"}
+    case "purple":
+      return {textColor:"#EAE4F2", backgroundColor:"#6940A5"}
+    case "blue":
+      return {textColor:"#DDEBF1", backgroundColor:"#0B6E99"}
+    case "green":
+      return {textColor:"#DDEDEA", backgroundColor:"#0F7B6C"}
+    case "yellow":
+      return {textColor:"#FBF3DB", backgroundColor:"#DFAB01"}
+    case "orange":
+      return {textColor:"#FAEBDD", backgroundColor:"#D9730D"}
+    case "brown":
+      return {textColor:"#E9E5E3", backgroundColor:"#64473A"}
+    case "gray":
+      return {textColor:"#EBECED", backgroundColor:"#9B9A97"}
+    case "default":
+      return {textColor:"#FFFFFF", backgroundColor:"#37352F"}
+    default:
+  }
+}
 
 export interface OceanData{
   cardId: string;
-  username?: number;
+  nickname?: number;
   title?: string;
   labels: Array<label>;
   content?: string;

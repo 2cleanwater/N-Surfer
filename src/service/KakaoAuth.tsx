@@ -1,3 +1,4 @@
+import Loading  from '@/components/Loading';
 // import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react';
@@ -32,10 +33,9 @@ const KakaoAuth= function() {
     }
   };
   getKakaoToken();
-  // useEffect(()=>{
-    
-  // },[]);
-  return null
+  return (
+    <Loading/>
+  )
 }
 export default observer(KakaoAuth);
 
