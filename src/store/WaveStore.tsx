@@ -1,4 +1,4 @@
-import instance from "@/service/axiosInterceptor";
+import instance from "@service/axiosInterceptor";
 
 export interface waveData {
   date:string,
@@ -27,7 +27,6 @@ const WaveStore = (): WaveStoreForm=>{
         })
         .then((res)=>{
           setValue(res.data.waves as Array<waveData>);
-          console.log("웨이브~")
         })
         .catch((err)=>{
           console.log(err);

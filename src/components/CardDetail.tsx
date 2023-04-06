@@ -1,11 +1,10 @@
-import { useRootStore } from '@/provider/rootContext';
-import { OceanData, imageForm, labelColor } from '@/store/OceanStore';
+import { useRootStore } from '@provider/rootContext';
+import { OceanData, imageForm, labelColor, transDate } from '@store/OceanStore';
 import { Box, IconButton} from '@mui/material'
 import { observer } from 'mobx-react';
 
 const CardDetail = ({oceanData}:{oceanData:OceanData}) => {
   const value = useRootStore()!;
-  const transData = value!.oceanStore.transDate;
   const baseOceanImg:string= process.env.REACT_APP_OCEAN_BASE_IMG!;
 
   return (
@@ -26,7 +25,7 @@ const CardDetail = ({oceanData}:{oceanData:OceanData}) => {
             ))}
         </Box>}
         <Box sx={{width:"110px",fontSize:"20px", textAlign:"center", fontWeight:"400", mr:"30px"}}>
-          {transData(oceanData?.createDate?? "")}</Box>
+          {transDate(oceanData?.createDate?? "")}</Box>
       </Box>
       {[...Array(3)].map((_, index) => (<div key={index}>
           {oceanData.images[index]&&<Box component="img" sx={{borderRadius:"1em", boxShadow: 5, width:"600px", mt:"30px"}} alt='CardImg' 

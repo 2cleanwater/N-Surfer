@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Box, Button, FormControl, FormHelperText, IconButton, Input, InputLabel, TextField } from '@mui/material';
+import { Box, Button, FormControl, FormHelperText, IconButton, Input, InputLabel, TextField, Tooltip } from '@mui/material';
 import { observer } from 'mobx-react';
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 
-import SettingsIcon from '@mui/icons-material/Settings';
 import SaveIcon from '@mui/icons-material/Save';
 import PersonRemoveAlt1Icon from '@mui/icons-material/PersonRemoveAlt1';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
@@ -15,7 +14,13 @@ import { useRootStore } from '@provider/rootContext';
 import InteractiveWave from '@components/InteractiveWave'
 import {UserDataForm} from '@store/ProfileStore'
 
-const EditProfile = ({userData}:{userData:UserDataForm}) => {
+type myProfileEditProps = {
+  userData: UserDataForm;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  getUserData: (getByNickName:string)=>void;
+}
+
+const EditProfile = ({ userData, setIsEditing, getUserData }:myProfileEditProps) => {
   const value = useRootStore()!;
   const navigate = useNavigate();
   const baseImg:string= process.env.REACT_APP_PROFILE_BASE_IMG!;
@@ -37,7 +42,7 @@ const EditProfile = ({userData}:{userData:UserDataForm}) => {
     }
   });
 
-  const { register, handleSubmit, formState: { errors }, setValue, watch, clearErrors, getValues } = methods;
+  const { register, handleSubmit,formState, formState: { isSubmitting, errors }, setValue, watch, clearErrors, getValues } = methods;
 
   // submit 버튼 클릭 시 ===================================================
   const onSubmit = async(data:any)=>{
@@ -48,29 +53,67 @@ const EditProfile = ({userData}:{userData:UserDataForm}) => {
     // data.inputImg[0]&&formData.append("imgFile", data.inputImg[0]);
     formData.append("imgFile", data.inputImg[0]);
     try {
+      //patch후 navigate. param로 nickname을 받아온 후 getUserData가 완료될때까지 대기
       await value.profileStore.patchMyUserData(formData);
       navigate(`/user/profile?nickname=${data.inputName}`)
+      await getUserData(data.inputName);
+      setIsEditing(false);
     } catch (err) {
       console.log(err);
-      window.alert("변경에 실패했습니다.");
+      setIsButtonClicked(false);
     }
   };
   
   // 새로고침 방지 ===================================================
   const preventEvent = (e:React.MouseEvent) =>{e.preventDefault();};
 
+  // 더블 서밋 체크
+  const [isButtonClicked, setIsButtonClicked]= useState<boolean>(false);
+  function doubleSubmitCheck(){
+    if(isButtonClicked){
+      console.log(isButtonClicked)
+      return isButtonClicked;
+    }else{
+      setIsButtonClicked(true);
+      return false;
+    }
+  }
+
+  // 삭제 체크 ===================================================
+  const checkDeleteUser = ()=>{
+    if(doubleSubmitCheck())return;
+    if (window.confirm('탈퇴하시겠습니까?')){
+      if(window.confirm('확인을 누르면 탈퇴됩니다.')){
+        value.profileStore.deleteMyUserData();
+        navigate("/");} 
+    }else {
+      setIsButtonClicked(false);
+      return}
+    }
+      
+  // 저장 체크 ===================================================
+  const checkSave = ()=>{
+    if(doubleSubmitCheck())return
+    if(Object.keys(formState.dirtyFields).length <= 0&&
+    watch("inputName")==userData.nickname&&
+    (watch("inputImg")&&
+    watch("inputImg").length==0)&&
+    isBasicImg==="false"){
+      window.confirm('변경된 내용이 없습니다.');
+      setIsButtonClicked(false);
+    }else{
+      if (window.confirm('저장하시겠습니까?')){
+        handleSubmit(onSubmit)();
+      }else {
+        setIsButtonClicked(false);
+        return}
+    }  
+  }
   // 이미지 프리뷰 ===================================================
   let userImg: string|undefined = userData.imgUrl;
   if(userImgSrc===""){userImg = userData.imgUrl||baseImg;}
   else{userImg = userImgSrc;};
 
-  // 탈퇴 체크 ===================================================
-  const checkDeleteUser = ()=>{
-    if (window.confirm('탈퇴하시겠습니까?')){
-      if(window.confirm('확인을 누르면 탈퇴됩니다.')){
-        value.profileStore.deleteMyUserData();
-        navigate("/");} 
-    }else return}
 
   //기본 이미지 체커
   useEffect(()=>{
@@ -87,23 +130,6 @@ const EditProfile = ({userData}:{userData:UserDataForm}) => {
   //이미지 업로드 취소 ===================================================
   const resetFileInput = ():void => {setValue("inputImg", []);};
   
-  //설정 버튼 css
-  const settingButton= {
-    "&:hover":{
-      "@keyframes rotate": {
-        "100%": {
-          transform: "rotate(180deg)"
-        }
-      },
-      animation: "rotate 1s infinite",
-      cursor : "pointer"
-    },
-    animation: "rotate 1s infinite",
-    color:"black",
-    position: "absolute",
-    top:"5%",
-    right:"3%"
-  }
   // 저장버튼 css
   const saveButton= {
     "&:hover":{
@@ -176,17 +202,19 @@ const EditProfile = ({userData}:{userData:UserDataForm}) => {
   return (
     <Box sx={{ width: "900px", height: "450px", m:"10px" ,boxShadow: 3, borderRadius:"2em", alignItems:"center", justifyContent:"center",display:"flex", flexDirection:"row", backgroundColor:"#F5F5F7", position:"relative"}}>
       <Box component="img" src={userImg} alt='UserImage' 
-      sx={{ objectFit: "cover", objectPosition:"center" ,borderRadius:"50%", width:"200px", height:"200px", overflow: "hidden", p:"3%"}}  />
+      sx={{ objectFit: "cover", objectPosition:"center" ,borderRadius:"50%", width:"200px", height:"200px", overflow: "hidden", m:"4%"}}  />
       <Box sx={{position: "absolute",bottom:"10%",left:"5%"}}>
-        <IconButton component="label" size="medium" sx={uploadImgButton} >
-          <FileUploadIcon fontSize="medium"  />
-          <input type="file" hidden className="profileImgInput" id= "profileImg" accept="image/png, image/jpeg, image/jpg"
-          {...register("inputImg", {
-            validate:{
-              maxSize : (files) => (!files[0]||files[0]?.size<3 * 1024 * 1024)||"이미지는 3MB 이내로만 업로드 가능합니다.",
-            }
-          })} />
-        </IconButton>
+        <Tooltip title={<div style={{fontSize:"15px"}}>사진 업로드</div>}>
+          <IconButton component="label" size="medium" sx={uploadImgButton} >
+            <FileUploadIcon fontSize="medium"  />
+            <input type="file" hidden className="profileImgInput" id= "profileImg" accept="image/png, image/jpeg, image/jpg"
+            {...register("inputImg", {
+              validate:{
+                maxSize : (files) => (!files[0]||files[0]?.size<3 * 1024 * 1024)||"이미지는 3MB 이내로만 업로드 가능합니다.",
+              }
+            })} />
+          </IconButton>
+        </Tooltip>
       </Box>
       <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{pr:"3%", pl:"3%"}}>
         <Box sx={{display:"flex", flexDirection:"row"}}>
@@ -237,20 +265,32 @@ const EditProfile = ({userData}:{userData:UserDataForm}) => {
             </Box>
           </Box>
         </Box>
+        
+        <Tooltip title={<div style={{fontSize:"15px"}}>프로필 저장</div>}>
+          <IconButton size="medium" type="submit" onClick={(e)=>{preventEvent(e); checkSave()}} sx={saveButton} >
+            <SaveIcon fontSize="medium" />
+          </IconButton>
+        </Tooltip>
+        
+        <Tooltip title={<div style={{fontSize:"15px"}}>회원 탈퇴</div>}>
+          <IconButton size="medium" onClick={(e)=>{preventEvent(e); checkDeleteUser()}} sx={deleteButton} >
+            <PersonRemoveAlt1Icon fontSize="medium" />
+          </IconButton>
+        </Tooltip>
+        
+        <Tooltip title={<div style={{fontSize:"15px"}}>프로필 사진 복구</div>}>
+          <IconButton size="medium" onClick={(e)=>{preventEvent(e); setUserImgSrc(""); resetFileInput()}} sx={originImgButton} >
+            <AccountBoxIcon fontSize="medium" />
+          </IconButton>
+        </Tooltip>
+        
+        <Tooltip title={<div style={{fontSize:"15px"}}>기본 이미지로 변경</div>}>
+          <IconButton size="medium" onClick={(e)=>{preventEvent(e); setUserImgSrc(baseImg); resetFileInput()}} sx={baseImgButton} >
+            <DeleteForeverIcon fontSize="medium" />
+          </IconButton>
+        </Tooltip>
+        
 
-        <IconButton size="medium" type="submit" disabled={!dataChanged} sx={saveButton} >
-          <SaveIcon fontSize="medium" />
-        </IconButton>
-
-        <IconButton size="medium" onClick={(e)=>{preventEvent(e); checkDeleteUser()}} sx={deleteButton} >
-          <PersonRemoveAlt1Icon fontSize="medium" />
-        </IconButton>
-        <IconButton size="medium" onClick={(e)=>{preventEvent(e); setUserImgSrc(""); resetFileInput()}} sx={originImgButton} >
-          <AccountBoxIcon fontSize="medium" />
-        </IconButton>
-        <IconButton size="medium" onClick={(e)=>{preventEvent(e); setUserImgSrc(baseImg); resetFileInput()}} sx={baseImgButton} >
-          <DeleteForeverIcon fontSize="medium" />
-        </IconButton>
         <Box sx={{position:"absolute", top:"5%", right:"20%", color:"red"}} >
           {errors.inputImg?<span>{errors.inputImg.message}</span>:
             <div>{errors.inputName?<span>{errors.inputName.message}</span>:<div></div>}</div>}

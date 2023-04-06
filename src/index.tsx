@@ -3,13 +3,13 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './App';
 
-import Home from '@/pages/Home'
-import Profile from '@/pages/Profile'
-import CardList from '@/pages/CardList'
-import Card from '@/pages/Card'
-import NotFound from '@/pages/NotFound'
-import Test from '@/pages/Test'
-import CardForm from '@/pages/CardForm';
+import Home from '@pages/Home'
+import Profile from '@pages/Profile'
+import CardList from '@pages/CardList'
+import Card from '@pages/Card'
+import NotFound from '@pages/NotFound'
+import Test from '@pages/Test'
+import CardForm from '@pages/CardForm';
 import KakaoAuth from '@service/KakaoAuth';
 
 import ProtectedRoute from '@provider/ProtectedRoute';

@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
-import Navbar from '@/components/Navbar'
+import Navbar from '@components/Navbar'
 import { observer } from 'mobx-react';
-import ModalLogin from '@/components/ModalLogin';
+import ModalLogin from '@components/ModalLogin';
 import { useRootStore } from '@provider/rootContext';
 
 const App = ()=>{

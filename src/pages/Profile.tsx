@@ -1,30 +1,30 @@
-import Wave from '@/components/Wave';
-import UserProfile from '@/components/UserProfile';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { Box, IconButton } from '@mui/material';
-import { useRootStore } from '@/provider/rootContext';
-import EditProfile from '@/components/UserProfileEditable';
-import CardMini from '@/components/CardMini';
-import { UserDataForm } from '@/store/ProfileStore';
+import Wave from '@components/Wave';
+import UserProfile from '@components/UserProfile';
+import { useRootStore } from '@provider/rootContext';
+import EditProfile from '@components/UserProfileEditable';
+import { UserDataForm } from '@store/ProfileStore';
+import { OceanData } from '@store/OceanStore';
+import instance from '@service/axiosInterceptor';
+import CardMini from '@components/CardMini';
 
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+
+import { Box, IconButton, Tooltip } from '@mui/material';
 import ListIcon from '@mui/icons-material/List';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { useEffect, useState } from 'react';
-import { OceanData } from '@/store/OceanStore';
-import instance from '@/service/axiosInterceptor';
-
 import SettingsIcon from '@mui/icons-material/Settings';
+
 
 const Profile = () => {
   const value = useRootStore()!;
-  const [searchParams, setSearchParams] = useSearchParams();
-  const nickname:string = searchParams.get("nickname")!;
   const navigate = useNavigate();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const nickname:string = searchParams.get("nickname")||"";
   const [userOceanList, setUserOceanList] = useState<Array<OceanData>>([]);
-
-  const [userData, setUserData]= useState<UserDataForm|null>(null);
-
-  const [isEditing, setIsEditing] = useState(false);
+  const [userData, setUserData]= useState<UserDataForm>({} as UserDataForm);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   // 추가버튼 css
   const addButton= {
@@ -66,8 +66,8 @@ const Profile = () => {
   }
 
   // userData 받아오기 ==================================================
-  const getUserData= async function(){
-    const profileUrl = `/user/profile?nickname=${nickname}`;
+  const getUserData= async function(getByNickName:string){
+    const profileUrl = `/user/profile?nickname=${getByNickName}`;
     await instance({
       method: "GET",
       url: profileUrl,
@@ -104,36 +104,46 @@ const Profile = () => {
 
   // sever data =============================================
   useEffect(()=>{
-    getUserData();
+    getUserData(nickname);
+  },[searchParams]);
+
+  useEffect(()=>{
     getOceanList();
-    setIsEditing(false);
   },[searchParams])
-  
+
   return (
     <Box sx={{display:"flex", flexDirection:"column", justifyItems:"center", alignItems:"center"}}>
-      {userData&&<Box sx={{position:"relative", justifyItems:"center", alignItems:"center", display:"flex", flexDirection:"column",}}>
+      {userData.nickname&&<Box sx={{position:"relative", justifyItems:"center", alignItems:"center", display:"flex", flexDirection:"column",}}>
         {nickname===value.profileStore.userData.nickname&&
-        <IconButton size="medium" onClick={()=>{setIsEditing(!isEditing)}} sx={settingButton} >
-          <SettingsIcon fontSize="medium" />
-        </IconButton>}
-        {nickname===value.profileStore.userData.nickname&&isEditing?
-        (<EditProfile userData={userData}/>):
+        <Tooltip title={<div style={{fontSize:"15px"}}>설정</div>}>
+          <IconButton size="medium" onClick={()=>{setIsEditing(!isEditing)}} sx={settingButton} >
+            <SettingsIcon fontSize="medium" />
+          </IconButton>
+        </Tooltip>}
+        {isEditing?
+        (<EditProfile userData={userData} setIsEditing={setIsEditing} getUserData={getUserData}/>):
         (<UserProfile userData={userData}/>)}
       </Box>}
 
       <Wave nickname={nickname}/>
 
       <Box sx={{ minWidth:"894px", display:"flex", flexDirection:"row", justifyContent:"right" }}>
-        {nickname===value.profileStore.userData.nickname&&<IconButton size="large" onClick={()=>{navigate(`/cardForm`)}} sx={addButton} >
-          <AddCircleOutlineIcon fontSize="large" />
-        </IconButton>}
-        <IconButton size="large" onClick={()=>{navigate(`/card?nickname=${nickname}`)}} sx={listButton} >
-          <ListIcon fontSize="large" />
-        </IconButton>
+        {nickname===value.profileStore.userData.nickname&&
+        <Tooltip title={<div style={{fontSize:"15px"}}>내 파도추가</div>}>
+          <IconButton size="large" onClick={()=>{navigate(`/cardForm`)}} sx={addButton} >
+            <AddCircleOutlineIcon fontSize="large" />
+          </IconButton>
+        </Tooltip>
+        }
+        <Tooltip title={<div style={{fontSize:"15px"}}>내 파도목록</div>}>
+          <IconButton size="large" onClick={()=>{navigate(`/card?nickname=${nickname}`)}} sx={listButton} >
+            <ListIcon fontSize="large" />
+          </IconButton>
+        </Tooltip>        
       </Box>
 
-      {userOceanList&&<Box sx={{display:'flex', minWidth:"894px",minHeight:"408",justifyContent: "center", alignItems: "center", p:"30px", mt:"50px"}}>
-        {/* {[...Array(3)].map((_, index) => {return (<CardMini key={index} OceanData={userOceanList[index]}/>)})}       */}
+      {userOceanList.length>0&&<Box sx={{display:'flex', minWidth:"894px",minHeight:"408",justifyContent: "center", alignItems: "center", p:"30px", mt:"50px"}}>
+        {[...Array(3)].map((_, index) => {return (<div>{userOceanList[index]&&<CardMini key={index} OceanData={userOceanList[index]}/>}</div>)})}      
       </Box>}
     </Box>
   )

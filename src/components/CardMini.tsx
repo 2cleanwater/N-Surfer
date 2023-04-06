@@ -1,8 +1,8 @@
 import { Box } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import InteractiveWave from '@/components/InteractiveWave';
-import { labelColor, OceanData } from '@/store/OceanStore';
-import { useRootStore } from '@/provider/rootContext';
+import InteractiveWave from '@components/InteractiveWave';
+import { labelColor, OceanData, transDate } from '@store/OceanStore';
+import { useRootStore } from '@provider/rootContext';
 
 const CardMini = ({OceanData}:{OceanData:OceanData}) => {
   // css
@@ -20,22 +20,22 @@ const CardMini = ({OceanData}:{OceanData:OceanData}) => {
   }
   
   const value = useRootStore();
-  const transData = value!.oceanStore.transDate;
   const navigate = useNavigate();
   const baseOceanImg:string= process.env.REACT_APP_OCEAN_BASE_IMG!;
+  const bottle:string= process.env.REACT_APP_BOTTLE!;
   
   return (
     <Box sx={mainBox} onClick={()=>{navigate(`/card/${OceanData.cardId}`)}}>
-      <Box component="img" src={require("@images/bottle.png")} sx={{zIndex:"-100", position:"absolute", width:"270px", top:"37%", left:"50%", transform:"translate(-50%,-50%)"}}/>
+      <Box component="img" src={bottle} sx={{zIndex:"-100", position:"absolute", width:"270px", top:"37%", left:"50%", transform:"translate(-50%,-50%)"}}/>
       <Box sx={{position:"absolute", zIndex:"-1"}}> 
         <InteractiveWave width={240} height={300} color="#F9F5F5"></InteractiveWave>
       </Box>
       <Box sx={{fontSize:"20px",fontWeight:"700",p:"20px", pb:"10px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
         {OceanData.title}</Box>
       <Box component="img" src={OceanData.images[0]?.imageUrl||baseOceanImg}
-      sx={{minWidth: 180, minHeight: 120, width: 180, height: 120, objectFit: 'cover', justifyItems:"center",alignItems:"center", alignContent:"center", justifyContents:"center", borderRadius:"1em", boxShadow: 3}} alt='CardImg'></Box>
+      sx={{minWidth: 180, minHeight: 120, width: 180, height: 120, objectFit: OceanData.images[0]?'cover':'contain', justifyItems:"center",alignItems:"center", alignContent:"center", justifyContents:"center", borderRadius:"1em", boxShadow: 3}} alt='CardImg'></Box>
       <Box sx={{display:"flex", justifyContent: "space-between", px: "25px", pt:"10px"}}>
-        <Box sx={{width:"110px",fontSize:"13px", textAlign:"left", fontWeight:"300"}}>{transData(OceanData?.createDate ?? "")}</Box>
+        <Box sx={{width:"110px",fontSize:"13px", textAlign:"left", fontWeight:"300"}}>{transDate(OceanData?.createDate ?? "")}</Box>
         <Box sx={{width:"110px",fontSize:"13px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontWeight:"400", textAlign:"right"}}>
           {OceanData.nickname}</Box>
       </Box>
