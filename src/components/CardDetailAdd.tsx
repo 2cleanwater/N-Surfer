@@ -1,6 +1,6 @@
-import { useRootStore } from '@/provider/rootContext';
-import { label, OceanData, wholeLabelList } from '@/store/OceanStore';
-import { Box, Button, Checkbox, Chip, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField} from '@mui/material'
+import { useRootStore } from '@provider/rootContext';
+import { label,labelColor, OceanData, wholeLabelList, transDate } from '@store/OceanStore';
+import { Box, Button, Checkbox, Chip, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField, Tooltip} from '@mui/material'
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import SaveIcon from '@mui/icons-material/Save';
@@ -14,11 +14,10 @@ import { useNavigate } from 'react-router-dom';
 const CardDetailAdd = () => {
   const value = useRootStore();
   const navigate = useNavigate();
-  const transData = value!.oceanStore.transDate;
   const wholeLabels:Array<label> = wholeLabelList;
-  const [labelList, setLabelList] = useState<Array<string>>([]);
+  // const [labelList, setLabelList] = useState<Array<string>>([]);
   const [userImgSrc, setUserImgSrc] = useState<Array<string>>(["","",""]);
-  const [deleteImgSrc, setDeleteImgSrc] = useState<Array<string>>(["","",""]);
+  // const [deleteImgSrc, setDeleteImgSrc] = useState<Array<string>>(["","",""]);
 
   // useForm 선언 ===================================================
   const methods = useForm<{
@@ -33,7 +32,7 @@ const CardDetailAdd = () => {
       inputContent: ""
     }
   });
-  const { register, handleSubmit, formState: { errors }, setValue, watch, reset, clearErrors, getValues, unregister } = methods;
+  const { register, handleSubmit, formState, formState: { isSubmitting, errors }, setValue, watch, reset, clearErrors, getValues, unregister } = methods;
   
   const today = new Date().toLocaleDateString();
 
@@ -50,7 +49,12 @@ const CardDetailAdd = () => {
     for(let i=0;i<data.inputImg.length;i++){
       data.inputImg[i]&&formData.append("imgFiles", data.inputImg[i]);
     }
-    value?.oceanStore.postOcean(formData, navigate);
+    try {
+      value?.oceanStore.postOcean(formData, navigate);
+    } catch(err) {
+      console.log(err);
+      setIsButtonClicked(false);
+    }
   };
 
   //이미지를 URL 처리해서 userImgSrc에 저장 이미지 입력받을 때마다 리렌더링 ===================================================
@@ -82,20 +86,43 @@ const CardDetailAdd = () => {
   // 새로고침 방지 ===================================================
   const preventEvent = (e:React.MouseEvent) =>{e.preventDefault();};
 
+  // 더블 서밋 체크
+  const [isButtonClicked, setIsButtonClicked]= useState<boolean>(false);
+  function doubleSubmitCheck(){
+    if(isButtonClicked){
+      return isButtonClicked;
+    }else{
+      setIsButtonClicked(true);
+      return false;
+    }
+  }
+
   // 삭제 체크 ===================================================
   const checkCancel = ()=>{
+    if(doubleSubmitCheck())return;
     if (window.confirm('글 작성을 취소하시겠습니까? 글 내용이 사라집니다.')){
-      if(window.confirm('확인을 누르면 취소됩니다.')){
+      if(window.confirm('확인을 누르면 글 작성이 취소됩니다.')){
         navigate("/");} 
-    }else return}
-      
+    }else {
+      setIsButtonClicked(false);
+      return}
+    }
+
   // 저장 체크 ===================================================
   const checkSave = ()=>{
-    if (window.confirm('저장하시겠습니까?')){
-      handleSubmit(onSubmit);
-    }else return
+    if(doubleSubmitCheck())return;
+    if(Object.keys(formState.dirtyFields).length > 0){
+      if (window.confirm('저장하시겠습니까?')){
+        handleSubmit(onSubmit)();
+      }else {
+        setIsButtonClicked(false);
+        return}
+    }else{
+      window.confirm('작성된 내용이 없습니다.');
+      setIsButtonClicked(false);
+    }  
   }
-  
+
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{bgcolor:"waveBackground", width:"900px", alignItems:"center",borderRadius:"2em", p:"10px", mb:"50px",position:"relative", boxShadow: "5"}}>
       <Box sx={{bgcolor:"#2158A8", borderRadius:"1em",width:"750px", p:"25px",py:"55px",wordBreak:"break-all",m: "30px auto", mb:"15px", position:"relative", fontWeight:"bolder", fontSize:"30px", color: "white", display:"flex", flexDirection:"column" ,justifyContent:"center", alignItems:"center", boxShadow: "5"}}>
@@ -119,13 +146,11 @@ const CardDetailAdd = () => {
       </Box>
 
       <Box sx={{width:"800px", height:"80px", bgcolor:"#2E88C7", borderRadius:"1em",display:"flex", m: "0px auto", mb:"40px", justifyContent: "space-between", alignItems:"center", boxShadow: "5" }}>
-        <Box sx={{display:"flex"}}>
+        <Box sx={{display:"flex", m:"10px"}}>
           {wholeLabels.map((element, index)=>(
-            <Box component="label" key={index} htmlFor='' sx={{bgcolor:watch(`inputLabel.${index}`)?element.color:"white", display:"flex", ml:"20px", borderRadius:"0.8em", pl:"10px", boxShadow:watch(`inputLabel.${index}`)?5:"inset 1px 1px 3px #444"}}>
-              <FormControlLabel control={<Checkbox value={JSON.stringify(element)} {...register(`inputLabel.${index}`,{onChange:(e) => { console.log(watch("inputLabel")); }})} sx={{display:"none"}}/>} 
-              sx={{m:"10px auto", mr:"10px", color: watch(`inputLabel.${index}`)?"white":"gray" }}
-              label={element.name} />
-            </Box>
+            <FormControlLabel key={index} control={<Checkbox value={JSON.stringify(element)} {...register(`inputLabel.${index}`,{onChange:(e) => {}})} sx={{display:"none"}}/>}
+            sx={{p:"10px",m:"5px","&:hover":{transform: "scale(1.1)", cursor : "pointer"},bgcolor:watch(`inputLabel.${index}`)?labelColor(element.color)?.backgroundColor:"white",color: watch(`inputLabel.${index}`)?labelColor(element.color)?.textColor:"gray", display:"flex",borderRadius:"0.8em", boxShadow:watch(`inputLabel.${index}`)?5:"inset 1px 1px 3px #444"}} 
+            label={element.name} />
             ))}
         </Box>
         <Box sx={{width:"110px",fontSize:"20px", textAlign:"center", fontWeight:"400", mr:"30px"}}>
@@ -187,38 +212,30 @@ const CardDetailAdd = () => {
           })}/>
       </Box>
 
-      {/* <IconButton type="submit" size="medium" sx={{position:"absolute", top:"1%", right:"10px", color: "white", bgcolor:"#9B9A97", 
-      "&:hover":{
-        color: "#9B9A97", bgcolor:"white",
-        transform: "scale(1.1)",
-        cursor : "pointer"
-      },
-      "@keyframes rotate": {
-        "100%": {
-          transform: "rotate(180deg)"
-        }},
-        animation: "rotate 1s infinite",
-      }} onClick={(e)=>{preventEvent(e); navigate(`/card/${cardId}`);}}>
-        <SettingsIcon fontSize="medium" />
-      </IconButton> */}
-
-      <IconButton type="submit" size="medium" sx={{position:"absolute", top:"7%", right:"10px", color: "white", bgcolor:"#0F7B6C", 
-      "&:hover":{
-        color: "#0F7B6C", bgcolor:"white",
-        transform: "scale(1.1)",
-        cursor : "pointer"
-      }}} onClick={(e)=>{checkSave();}}>
-        <SaveIcon fontSize="medium" />
-      </IconButton>
-
-      <IconButton size="medium" sx={{position:"absolute", top:"13%", right:"10px", color: "white", bgcolor:"#E03E3E", 
-      "&:hover":{
-        color: "#E03E3E", bgcolor:"white",
-        transform: "scale(1.1)",
-        cursor : "pointer"
-      }}} onClick={(e)=>{preventEvent(e); checkCancel(); }} >
-        <DeleteForeverIcon fontSize="medium" />
-      </IconButton>
+      <Tooltip title={<div style={{fontSize:"15px"}}>글 저장</div>}>
+        <IconButton size="medium" sx={{position:"absolute", top:"11%", right:"10px", color: "white", bgcolor:"#0F7B6C", 
+        "&:hover":{
+          color: "#0F7B6C", bgcolor:"white",
+          transform: "scale(1.1)",
+          cursor : "pointer"
+        }}} 
+        onClick={(e)=>{preventEvent(e);checkSave();}}
+        >
+          <SaveIcon fontSize="medium" />
+        </IconButton>
+      </Tooltip>
+      
+      <Tooltip title={<div style={{fontSize:"15px"}}>작성 취소</div>}>
+        <IconButton size="medium" sx={{position:"absolute", top:"18%", right:"10px", color: "white", bgcolor:"#E03E3E", 
+        "&:hover":{
+          color: "#E03E3E", bgcolor:"white",
+          transform: "scale(1.1)",
+          cursor : "pointer"
+        }}} onClick={(e)=>{preventEvent(e); checkCancel(); }} >
+          <DeleteForeverIcon fontSize="medium" />
+        </IconButton>
+      </Tooltip>
+      
     </Box>
   )
 }
