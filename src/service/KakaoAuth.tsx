@@ -1,4 +1,4 @@
-import Loading  from '@/components/Loading';
+import Loading  from '@components/Loading';
 // import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react';

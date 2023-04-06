@@ -3,11 +3,12 @@ import { observer } from 'mobx-react'
 
 import { useRootStore } from '@provider/rootContext';
 import WaveBox from '@components/WaveBox';
-import { waveData } from '@/store/WaveStore';
+import { waveData } from '@store/WaveStore';
 import { useEffect, useRef, useState } from 'react';
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { transDate } from '@store/OceanStore';
 
 // css
 const DayList = styled("li")({
@@ -35,17 +36,14 @@ const Wave = ({nickname}:{nickname:string}) => {
   const [waveToggle, setWaveToggle]= useState(false);
   const [waveList, setWaveList]= useState<Array<waveData>>([]);
 
+  const waveIcon:string= process.env.REACT_APP_WAVEICON!;
+
   // server data ==============================================
   // 날짜가 바뀔 때마다 웨이브를 불러오기 
   useEffect(()=>{
     waveStore.getWaveList(nickname,10,stringDate,setWaveList);
     // console.log((firstDate))
-  },[stringDate])
-
-  // Test data ================================================
-  useEffect(()=>{
-    setWaveList(require("@test/waveData.json") as Array<waveData>);
-  },[])
+  },[stringDate, value.profileStore.userData.todayWave])
 
   const userWaveForm= waveStore.matchWaveForm(waveList);
 
@@ -97,14 +95,20 @@ const Wave = ({nickname}:{nickname:string}) => {
           {hoverData.date?
           (<Box sx={{fontWeight:"bold", color:"#0F8DBF", pl:"10px"}}>{formatDate(hoverData.date)} : {hoverData.number}번</Box>):
           (<div></div>)}
-          <Box component="img" id="waveToggle"
-          sx={{width:"30px", height:"30px", justifyContent:"center",alignContent: "center",borderRadius:"2em", bgcolor: waveToggle?"DarkBlue":"White", 
-          "&:hover": {
-            transform: "scale(1.3)"
-          },}} 
-          src={require('@static/images/waveIcon.png')} onClick={()=>{setWaveToggle(!waveToggle)}}/>
+          <Tooltip title={<div style={{fontSize:"15px"}}>파도 멈추기</div>}>
+            <Box component="img" id="waveToggle"
+            sx={{width:"30px", height:"30px", justifyContent:"center",alignContent: "center",borderRadius:"2em", bgcolor: waveToggle?"DarkBlue":"White", 
+            "&:hover": {
+              transform: "scale(1.1)",
+              cursor : "pointer"
+            },}} 
+            src={waveIcon} onClick={()=>{setWaveToggle(!waveToggle)}}/>
+          </Tooltip>  
         </Box>
       </Box>
+
+      <Box sx={{ml:"150px",p:"5px",fontSize:"20px", color:"#0067a3", textShadow:"1px 1px 2px gray"}}>{formatDate(stringDate)}</Box>
+
       <Box sx={{display:"flex",justifyContent:"center",
       alignContent: "center"}}>
         <Box component="ul" sx={{display:"flex", flexDirection:"column", listStyleType: "none", textAlign:"center", p: "0px", m:"0px", pr:"10px", justifyContent: "center", alignItems: "center"}} >
@@ -146,21 +150,21 @@ const Wave = ({nickname}:{nickname:string}) => {
         </Box>
       </Box>
       <IconButton type="submit" size="small" sx={{position:"absolute", bottom:"7%", left:"2em", color: "white", bgcolor:"#0F7B6C", 
-          "&:hover":{
-            color: "#0F7B6C", bgcolor:"white",
-            transform: "scale(1.1)",
-            cursor : "pointer"
-          }}} onClick={(e)=>{changeDate(firstDate, -70)}}>
-          <ChevronLeftIcon fontSize="small" />
-        </IconButton>
-        <IconButton type="submit" size="small" disabled={isSameDay(firstDate,latestDate)?true:false} sx={{position:"absolute", bottom:"7%",right:"2em", color: "white", bgcolor:"#0F7B6C", 
-          "&:hover":{
-            color: "#0F7B6C", bgcolor:"white",
-            transform: "scale(1.1)",
-            cursor : "pointer"
-          }}} onClick={(e)=>{changeDate(firstDate, +70)}}>
-          <ChevronRightIcon fontSize="small" />
-        </IconButton>
+        "&:hover":{
+          color: "#0F7B6C", bgcolor:"white",
+          transform: "scale(1.1)",
+          cursor : "pointer"
+        }}} onClick={(e)=>{changeDate(firstDate, -70)}}>
+        <ChevronLeftIcon fontSize="small" />
+      </IconButton>
+      <IconButton type="submit" size="small" disabled={isSameDay(firstDate,latestDate)?true:false} sx={{position:"absolute", bottom:"7%",right:"2em", color: "white", bgcolor:"#0F7B6C", 
+        "&:hover":{
+          color: "#0F7B6C", bgcolor:"white",
+          transform: "scale(1.1)",
+          cursor : "pointer"
+        }}} onClick={(e)=>{changeDate(firstDate, +70)}}>
+        <ChevronRightIcon fontSize="small" />
+      </IconButton>
     </Box>
   )
 }

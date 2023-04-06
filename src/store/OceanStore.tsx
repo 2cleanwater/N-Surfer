@@ -1,4 +1,4 @@
-import instance from "@/service/axiosInterceptor";
+import instance from "@service/axiosInterceptor";
 import { useNavigate } from "react-router-dom";
 
 export interface imageForm{
@@ -52,30 +52,24 @@ export interface OceanData{
   createDate?: string;
   images: Array<imageForm>;
 }
+export const transDate = (createDate:string)=>{
+  const date = new Date(createDate);
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  return `${year}.${month}.${day}`
+}
 
 export interface OceanStoreForm{
-  // oceanData: OceanData;
-  transDate: (createDate:string)=>string;
-  // setOcean: (oceanData:OceanData)=>void;
   getOcean: (cardId:string, setValue:(oceanData:OceanData)=>void)=>void;
   postOcean: (formData:FormData, navigate:(link:string)=>void)=>void;
   patchOcean: (cardId:string, formData:FormData)=>void;
   deleteOcean: (cardId:string)=>void;
+  getOceanList: (nickname?:string, label?:string, numOfCards?:number, setValue?:(oceanList:Array<OceanData>)=>void)=>void;
 }
 
 const OceanStore = (): OceanStoreForm => {
   return {
-    // oceanData: {cardId:"",images:[],labels:[]},
-    transDate: function(createDate:string){
-      const date = new Date(createDate);
-      const year = date.getUTCFullYear();
-      const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-      const day = String(date.getUTCDate()).padStart(2, '0');
-      return `${year}.${month}.${day}`
-    },
-    // setOcean: function(oceanData: OceanData){
-    //   this.oceanData = JSON.parse(JSON.stringify(oceanData));
-    // },
     getOcean: async function(cardId:string, setValue:(oceanData:OceanData)=>void){
       const oceanUrl = `/card/${cardId}`;
       await instance({
@@ -123,7 +117,6 @@ const OceanStore = (): OceanStoreForm => {
           'Content-Type': 'application/json'
         }})
         .then((res)=>{
-          // this.getOcean(cardId);
           window.alert("성공적으로 수정되었습니다.")
         })
         .catch((err)=>{
@@ -145,6 +138,26 @@ const OceanStore = (): OceanStoreForm => {
         .catch((err)=>{
           console.log(err);
           window.alert("삭제에 실패했습니다.")
+      })
+    },
+    getOceanList: async function(nickname?:string, label?:string, numOfCards?:number, setValue?:(oceanList:Array<OceanData>)=>void){
+      const nicknameUrl = (nickname||nickname!=="") ? `nickname=${nickname}` : '';
+      const labelUrl = (label||nickname!=="") ? `&label=${label}` : '';
+      const numOfCardsUrl = nickname ? `&numOfCards=${numOfCards}` : '';
+      const oceanListUrl = `/card?${nicknameUrl}${labelUrl}${numOfCardsUrl}`;
+      await instance({
+        method: "GET",
+        url: oceanListUrl,
+        headers:{
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((res)=>{
+        setValue&&setValue(res.data.cardList as Array<OceanData>|| [])
+      })
+      .catch((err)=>{
+        console.log(err);
+        window.alert("Ocean List의 정보를 가져올 수 없습니다.");
       })
     }
   }

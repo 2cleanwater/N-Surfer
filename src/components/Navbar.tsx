@@ -14,6 +14,11 @@ const Navbar = ()=>{
 
   const [userImgSrc, setUserImgSrc] = useState<string | undefined>(undefined);
 
+  const profileBaseImg:string= process.env.REACT_APP_PROFILE_BASE_IMG!;
+  const nserferIcon:string= process.env.REACT_APP_NSURFERICON!;
+  const githubFavicon:string= process.env.REACT_APP_GITHUBFAVICON!;
+  const notionFavicon:string= process.env.REACT_APP_NOTIONFAVICON!;
+
   // 앱 동작시 accessToken 여부 확인 후 로그인
   useEffect(()=>{
     if(localStorage.getItem('accessToken')){
@@ -30,7 +35,7 @@ const Navbar = ()=>{
   // 프로필 이미지 지정
   useEffect(()=>{
     const imgUrl = value.profileStore.userData.imgUrl;
-    const defaultImg = "https://res.cloudinary.com/nsurfer/image/upload/v1677038493/profile_logo_mapxvu.jpg";
+    const defaultImg = profileBaseImg;
     setUserImgSrc(imgUrl || defaultImg);
   },[value.profileStore.userData.imgUrl])
   
@@ -56,7 +61,7 @@ const Navbar = ()=>{
       sx={{ display: "flex", flexDirection: "row", alignItems: "center", textDecoration: "none" }}>
         <Box component="img"
         sx={{width:"5em",height:"5em",ml:"3em"}}
-        src={require('@static/images/N-Surfer_Icon.png')} alt="logo"></Box>
+        src={nserferIcon} alt="logo"></Box>
         <Box component="h1"
         sx={{m: "20px", fontSize:"3em", color: "#0067a3", textShadow:"2px 2px 2px gray", "&:hover": {
           transform: "scale(1.1)"
@@ -77,13 +82,13 @@ const Navbar = ()=>{
           sx={{fontSize:"1.3em", fontWeight:"bolder", color:"#097581","&:hover": {
             transform: "scale(1.1)"
           } }}>
-            카드목록</Button>
+            파도목록</Button>
           {isLogin&&(
             <Button component={Link} to='/cardForm' 
             sx={{fontSize:"1.3em", fontWeight:"bolder", color:"#097581", "&:hover": {
               transform: "scale(1.1)"
             } }}>
-              카드추가</Button>
+              파도추가</Button>
           )}
           {isLogin? 
             (<Button onClick={()=>{logout();}}
@@ -100,26 +105,16 @@ const Navbar = ()=>{
         </Box>
         
         {isLogin?
-          (<Box component={Link} to={`/user/profile?nickname=${value.profileStore.userData.nickname}`}
-          sx={{w : "3em", h: "3em", borderRadius: "100%"}}>
-            <Box component="img" sx={{w : "3em", height: "3em", borderRadius: "100%"}} src={userImgSrc} alt="profile"/>
-          </Box>):
-          (<Box 
-          sx={{w : "3em", h: "3em", borderRadius: "100%"}}>
-            <Box component="img" sx={{w : "3em", height: "3em", borderRadius: "100%"}} src={userImgSrc} alt="profile"/>
-          </Box>)
+          (<Box component="img" onClick={()=>{navigate(`/user/profile?nickname=${value.profileStore.userData.nickname}`)}} 
+          sx={{"&:hover":{transform:"scale(1.1)", cursor:"pointer"},width: "3em", height: "3em", objectFit:"cover",objectPosition:"center" ,borderRadius: "50%"}} src={userImgSrc} alt="profile"/>):
+          (<Box component="img" sx={{width: "3em", height: "3em", objectFit:"cover",objectPosition:"center" ,borderRadius: "50%"}} src={userImgSrc} alt="profile"/>)
         }
         <Box sx={{position:'absolute', top:0,right:0, display:"flex", flexDirection:"row"}}>
-          <div onClick={(e)=>{handleLinksOpen(e)}}>
-            <Box component="img" src={require('@images/GitHub.png')} sx={{width:"20px", height:"20px", m:"10px", "&:hover": {
-              transform: "scale(1.1)"
-            }}}/>
-          </div>
-          <div onClick={()=>{window.open('https://2cleanwater.notion.site/N-Surfer-0d2ae67e463b46dc96126f0044208100')}}>
-            <Box component="img" src={require('@images/Notion.png')} sx={{width:"20px", height:"20px", m:"10px", "&:hover": {
-              transform: "scale(1.1)"
-            }}}/>
-          </div>
+          <Box component="img" src={githubFavicon} onClick={(e)=>{handleLinksOpen(e)}} 
+          sx={{width:"20px", height:"20px", m:"10px", "&:hover": {transform: "scale(1.1)",cursor:"pointer"}}}/>
+          <Box component="img" src={notionFavicon}
+          onClick={()=>{window.open('https://2cleanwater.notion.site/N-Surfer-0d2ae67e463b46dc96126f0044208100')}}
+          sx={{width:"20px", height:"20px", m:"10px", "&:hover": {transform: "scale(1.1)",cursor:"pointer"}}}/>
         </Box>
       </Box>
     </Box>

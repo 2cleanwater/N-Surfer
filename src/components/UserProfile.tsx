@@ -1,17 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Box } from '@mui/material';
-import instance from '@/service/axiosInterceptor';
+import instance from '@service/axiosInterceptor';
 import InteractiveWave from '@components/InteractiveWave'
-import { UserDataForm } from '@/store/ProfileStore';
+import { UserDataForm } from '@store/ProfileStore';
 
 const UserProfile = ({userData}:{userData:UserDataForm}) => {
-
-  const [userImgSrc, setUserImgSrc] = useState<string>("");
+  const [userImgSrc, setUserImgSrc] = useState<string>(userData.imgUrl||"");
   const baseImg:string= process.env.REACT_APP_PROFILE_BASE_IMG!;
 
   // 이미지 url이 없으면 기본 이미지 =====================================
   useEffect(()=>{
-    console.log(userData)
     userData.imgUrl?setUserImgSrc(userData.imgUrl):setUserImgSrc(baseImg);
   },[])
 
@@ -19,7 +17,7 @@ const UserProfile = ({userData}:{userData:UserDataForm}) => {
     <Box sx={{ width: "900px", height: "450px", m:"10px" ,boxShadow: 3, borderRadius:"2em", alignItems:"center", justifyContent:"center",display:"flex", flexDirection:"row", bgcolor:"#F5F5F7"}}>
 
       <Box component="img" src={userImgSrc} alt='UserImage' 
-      sx={{ objectFit: "cover", objectPosition:"center" ,borderRadius:"50%", width:"200px", height:"200px", overflow: "hidden", p:"3%"}}  />
+      sx={{ objectFit: "cover", objectPosition:"center" ,borderRadius:"50%", width:"200px", height:"200px", overflow: "hidden", m:"4%"}}  />
       
       <Box sx={{pr:"3%", pl:"3%"}}>
         <Box sx={{display:"flex", flexDirection:"row"}}>
