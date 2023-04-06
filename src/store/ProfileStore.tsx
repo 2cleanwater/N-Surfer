@@ -68,7 +68,7 @@ const ProfileStore = (): ProfileStoreForm => {
     deleteMyUserData: async function(){
       await instance({
         method: "DELETE",
-        url: profileUrl,
+        url: "/user",
         headers: {
           'Content-Type': 'application/json'
         }
