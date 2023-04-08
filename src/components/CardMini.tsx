@@ -1,8 +1,10 @@
-import { Box } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
 import InteractiveWave from '@components/InteractiveWave';
 import { labelColor, OceanData, transDate } from '@store/OceanStore';
 import { useRootStore } from '@provider/rootContext';
+
+import { useNavigate } from 'react-router-dom'
+
+import { Box } from '@mui/material'
 
 const CardMini = ({OceanData}:{OceanData:OceanData}) => {
   // css

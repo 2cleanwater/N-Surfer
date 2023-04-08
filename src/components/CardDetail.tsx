@@ -1,7 +1,9 @@
 import { useRootStore } from '@provider/rootContext';
-import { OceanData, imageForm, labelColor, transDate } from '@store/OceanStore';
-import { Box, IconButton} from '@mui/material'
+import { OceanData, labelColor, transDate } from '@store/OceanStore';
+
 import { observer } from 'mobx-react';
+
+import { Box} from '@mui/material'
 
 const CardDetail = ({oceanData}:{oceanData:OceanData}) => {
   const value = useRootStore()!;

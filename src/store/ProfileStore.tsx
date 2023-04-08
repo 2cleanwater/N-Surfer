@@ -1,5 +1,5 @@
 import instance from '@service/axiosInterceptor';
-import AuthStore from './AuthStore';
+import AuthStore from '@store/AuthStore';
 
 export interface UserDataForm{
   useId?: number;

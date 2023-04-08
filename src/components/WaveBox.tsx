@@ -1,5 +1,4 @@
 import { Box, styled, Tooltip} from '@mui/material'
-import React from 'react'
 
 interface waveBoxForm {
   date:string,

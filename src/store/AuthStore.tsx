@@ -1,6 +1,7 @@
-import { runInAction } from "mobx"
 import {KAKAO_AUTH_URL} from '@service/KakaoAuth'
-import ProfileStore from "./ProfileStore";
+import ProfileStore from "@store/ProfileStore"
+
+import { runInAction } from "mobx"
 
 export interface AuthStoreForm{
   isLogin: boolean;

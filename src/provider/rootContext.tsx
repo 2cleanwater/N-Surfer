@@ -1,10 +1,11 @@
-import { observable, toJS } from 'mobx';
-import { createContext, ReactNode, useContext } from 'react'
 import AuthStore, { AuthStoreForm } from '@store/AuthStore';
 import ModalStore, { ModalStoreForm } from '@store/ModalStore';
 import ProfileStore, { ProfileStoreForm } from '@store/ProfileStore';
 import WaveStore, { WaveStoreForm } from '@store/WaveStore';
 import OceanStore, { OceanStoreForm } from '@store/OceanStore';
+
+import { observable, toJS } from 'mobx';
+import { createContext, ReactNode, useContext } from 'react'
 
 const RootContext = createContext<{modalStore: ModalStoreForm, authStore: AuthStoreForm, profileStore: ProfileStoreForm, waveStore: WaveStoreForm, oceanStore: OceanStoreForm}|undefined>(undefined);
 
