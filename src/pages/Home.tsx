@@ -1,11 +1,13 @@
-import { observer } from 'mobx-react';
 import CardMini from '@components/CardMini';
 import Wave from '@components/Wave';
-import { Box } from '@mui/material';
 import { useRootStore } from '@provider/rootContext';
 import instance from '@service/axiosInterceptor';
 import { OceanData } from '@store/OceanStore';
+
 import { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+
+import { Box } from '@mui/material';
 
 const Home = () => {
   const value = useRootStore()!;

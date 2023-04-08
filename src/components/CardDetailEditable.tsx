@@ -1,14 +1,16 @@
 import { useRootStore } from '@provider/rootContext';
 import { label, labelColor, OceanData, wholeLabelList } from '@store/OceanStore';
-import { Box, Button, Checkbox, Chip, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField, Tooltip} from '@mui/material'
-import { useEffect, useState } from 'react';
+
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+
+import { Box, Checkbox, FormControlLabel, IconButton, TextField, Tooltip} from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import ReplayIcon from '@mui/icons-material/Replay';
-import { useNavigate } from 'react-router-dom';
 
 type cardEditProps = {
   oceanData: OceanData;
@@ -287,7 +289,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
           })}/>
       </Box>
       <Tooltip title={<div style={{fontSize:"15px"}}>글 수정</div>}>
-        <IconButton type="submit" size="medium" disabled={isSubmitting} sx={{position:"absolute", top:"11%", right:"10px", color: "white", bgcolor:"#0F7B6C", 
+        <IconButton type="submit" size="medium" disabled={isSubmitting} sx={{position:"absolute", top:"7em", right:"10px", color: "white", bgcolor:"#0F7B6C", 
         "&:hover":{
           color: "#0F7B6C", bgcolor:"white",
           transform: "scale(1.1)",
@@ -298,7 +300,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
       </Tooltip>
       
       <Tooltip title={<div style={{fontSize:"15px"}}>글 삭제</div>}>
-        <IconButton size="medium" sx={{position:"absolute", top:"18%", right:"10px", color: "white", bgcolor:"#E03E3E", 
+        <IconButton size="medium" sx={{position:"absolute", top:"10em", right:"10px", color: "white", bgcolor:"#E03E3E", 
         "&:hover":{
           color: "#E03E3E", bgcolor:"white",
           transform: "scale(1.1)",

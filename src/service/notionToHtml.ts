@@ -1,6 +1,4 @@
-import { useRootStore } from '@provider/rootContext';
 import { OceanData,transDate } from '@store/OceanStore';
-import React from 'react'
 
 export const notionToHtml = (oceanData:OceanData) => {
   // title:string, createDate:string, creator:string, label:Array<string>, imgUrl:Array<string>, content:string

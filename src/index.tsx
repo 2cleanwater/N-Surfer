@@ -8,7 +8,6 @@ import Profile from '@pages/Profile'
 import CardList from '@pages/CardList'
 import Card from '@pages/Card'
 import NotFound from '@pages/NotFound'
-import Test from '@pages/Test'
 import CardForm from '@pages/CardForm';
 import KakaoAuth from '@service/KakaoAuth';
 
@@ -32,7 +31,6 @@ const router = createBrowserRouter([
       {path: '/card', element: <CardList/>},
       {path: '/cardForm', element: <ProtectedRoute><CardForm/></ProtectedRoute>},
       {path: '/card/:id', element: <Card/>},
-      {path: '/test', element: <Test/>},
       {path: '/auth/kakao/callback', element: <KakaoAuth/>}
     ]
 }]);

@@ -1,5 +1,4 @@
 import instance from "@service/axiosInterceptor";
-import { useNavigate } from "react-router-dom";
 
 export interface imageForm{
   imageId:string;
@@ -45,13 +44,23 @@ export const labelColor = (color:string) => {
 
 export interface OceanData{
   cardId: string;
-  nickname?: number;
+  nickname?: string;
   title?: string;
   labels: Array<label>;
   content?: string;
   createDate?: string;
   images: Array<imageForm>;
 }
+
+export interface OceanParams{
+  numOfCards: number;
+  nextCardId?: string;
+  nickname?: string;
+  label?: string;
+  setValue?:(oceanList:Array<OceanData>)=>void;
+  setNextCursor?:(CardId:string)=>void;
+}
+
 export const transDate = (createDate:string)=>{
   const date = new Date(createDate);
   const year = date.getUTCFullYear();
@@ -65,7 +74,7 @@ export interface OceanStoreForm{
   postOcean: (formData:FormData, navigate:(link:string)=>void)=>void;
   patchOcean: (cardId:string, formData:FormData)=>void;
   deleteOcean: (cardId:string)=>void;
-  getOceanList: (nickname?:string, label?:string, numOfCards?:number, setValue?:(oceanList:Array<OceanData>)=>void)=>void;
+  getOceanList: (OceanParams:OceanParams)=>void;
 }
 
 const OceanStore = (): OceanStoreForm => {
@@ -85,7 +94,6 @@ const OceanStore = (): OceanStoreForm => {
         })
         .catch((err)=>{
           console.log(err);
-          window.alert("Ocean의 정보를 가져올 수 없습니다.");
       })
     },
     postOcean: async function(formData:FormData, navigate:(link:string)=>void){
@@ -140,11 +148,14 @@ const OceanStore = (): OceanStoreForm => {
           window.alert("삭제에 실패했습니다.")
       })
     },
-    getOceanList: async function(nickname?:string, label?:string, numOfCards?:number, setValue?:(oceanList:Array<OceanData>)=>void){
-      const nicknameUrl = (nickname||nickname!=="") ? `nickname=${nickname}` : '';
-      const labelUrl = (label||nickname!=="") ? `&label=${label}` : '';
-      const numOfCardsUrl = nickname ? `&numOfCards=${numOfCards}` : '';
-      const oceanListUrl = `/card?${nicknameUrl}${labelUrl}${numOfCardsUrl}`;
+    getOceanList: async function(OceanParams:OceanParams){
+      const params = [
+        OceanParams.numOfCards && `numOfCards=${OceanParams.numOfCards}`,
+        OceanParams.nextCardId && `nextCardId=${OceanParams.nextCardId}`,
+        OceanParams.nickname && `nickname=${OceanParams.nickname}`,
+        OceanParams.label && `label=${OceanParams.label}`
+      ].filter(Boolean).join('&');
+      const oceanListUrl = `/card?${params}`;
       await instance({
         method: "GET",
         url: oceanListUrl,
@@ -153,7 +164,8 @@ const OceanStore = (): OceanStoreForm => {
         }
       })
       .then((res)=>{
-        setValue&&setValue(res.data.cardList as Array<OceanData>|| [])
+        OceanParams.setValue&&OceanParams.setValue(res.data.cardList as Array<OceanData>|| []);
+        OceanParams.setNextCursor&&OceanParams.setNextCursor(res.data.next_cursor as string);
       })
       .catch((err)=>{
         console.log(err);

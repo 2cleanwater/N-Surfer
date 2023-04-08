@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Box } from '@mui/material';
-import instance from '@service/axiosInterceptor';
 import InteractiveWave from '@components/InteractiveWave'
 import { UserDataForm } from '@store/ProfileStore';
+
+import React, { useEffect, useState } from 'react'
+
+import { Box } from '@mui/material';
 
 const UserProfile = ({userData}:{userData:UserDataForm}) => {
   const [userImgSrc, setUserImgSrc] = useState<string>(userData.imgUrl||"");

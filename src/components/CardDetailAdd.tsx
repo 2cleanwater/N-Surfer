@@ -1,14 +1,16 @@
 import { useRootStore } from '@provider/rootContext';
-import { label,labelColor, OceanData, wholeLabelList, transDate } from '@store/OceanStore';
-import { Box, Button, Checkbox, Chip, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField, Tooltip} from '@mui/material'
-import { useEffect, useState } from 'react';
+import { label,labelColor, wholeLabelList } from '@store/OceanStore';
+
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+
+import { Box, Checkbox, FormControlLabel, IconButton, TextField, Tooltip} from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import SettingsIcon from '@mui/icons-material/Settings';
-import { useNavigate } from 'react-router-dom';
+
 
 
 const CardDetailAdd = () => {

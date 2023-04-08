@@ -1,7 +1,8 @@
-import { observer } from 'mobx-react';
 import { useRootStore } from '@provider/rootContext';
-import { Box, Button, IconButton } from '@mui/material';
 
+import { observer } from 'mobx-react';
+
+import { Box, Button, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 const ModalLogin = ()=>{
@@ -19,6 +20,11 @@ const ModalLogin = ()=>{
           <CloseIcon fontSize="large"/>
         </IconButton>
         <Box sx={{ display: "flex", flexDirection: "column", width: "70%"}}>
+          <Button variant="contained" 
+          sx={{ bgcolor: 'kakao', ":hover": {bgcolor: 'kakaoHover', boxShadow: 6,}, my: 2, p: 2, fontSize: '30px', fontWeight:"bold", color:"Black" }} 
+          onClick={()=>{value.modalStore.closeModal(); value.authStore.kakaoLogin(); }}>
+          <Box component="img" sx={{width:"40px", height:"40px", mr:"20px"}} src={kakaoIcon}></Box>   
+            Kakao</Button>
           <Button variant="contained"
           sx={{ bgcolor: 'google', ":hover": {bgcolor: 'googleHover', boxShadow: 6,}, my: 2, p: 2, fontSize: '30px',fontWeight:"bold", }} 
           onClick={()=>{value.modalStore.closeModal(); value.authStore.googleLogin();}}>
@@ -29,11 +35,6 @@ const ModalLogin = ()=>{
           onClick={()=>{value.modalStore.closeModal(); value.authStore.githubLogin(); }}>
           <Box component="img" sx={{width:"40px", height:"40px", mr:"20px"}} src={githubIcon}></Box>   
             Github</Button>
-          <Button variant="contained" 
-          sx={{ bgcolor: 'kakao', ":hover": {bgcolor: 'kakaoHover', boxShadow: 6,}, my: 2, p: 2, fontSize: '30px', fontWeight:"bold", color:"Black" }} 
-          onClick={()=>{value.modalStore.closeModal(); value.authStore.kakaoLogin(); }}>
-          <Box component="img" sx={{width:"40px", height:"40px", mr:"20px"}} src={kakaoIcon}></Box>   
-            Kakao</Button>
           <Button variant="contained" 
           sx={{ bgcolor: 'naver', ":hover": {bgcolor: 'naverHover', boxShadow: 6,}, my: 2, p: 2, fontSize: '30px',fontWeight:"bold", }} 
           onClick={()=>{value.modalStore.closeModal(); value.authStore.naverLogin(); }}>
