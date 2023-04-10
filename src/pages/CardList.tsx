@@ -30,13 +30,9 @@ const CardList =() => {
   // 무한스크롤 파트
   const [target, setTarget] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [itemLists, setItemLists] = useState([0]);
-  
   const [oceanList, setOceanList] = useState<Array<OceanData>>([]);
   const [nextOcean, setNextOcean] = useState<Array<OceanData>>([]);
-
   const [nextCursor, setNextCursor]= useState<string>("");
-
   const [oceanIndex,setOceanIndex]= useState<number>(1);
 
   // ocean list 받아오기
@@ -47,12 +43,13 @@ const CardList =() => {
     try{
       setCardExist(true);
       // 첫 데이터 받아옴
+      console.log(nextCursor)
       value.oceanStore.getOceanList({
         numOfCards:9,
         nickname:nicknameParams,
         label:labelParams,
         setValue:setOceanList,
-        // setNextCursor:setNextCursor
+        setNextCursor:setNextCursor
       });
     }catch(err){
       setCardExist(false);
@@ -68,10 +65,11 @@ const CardList =() => {
           setOceanIndex((i)=>i+1);
           await value.oceanStore.getOceanList({
             numOfCards: 9,
-            // nextCardId:nextCursor,
+            nextCardId:nextCursor,
             nickname: nicknameParams,
             label: labelParams,
             setValue: setNextOcean,
+            setNextCursor:setNextCursor
           });
           setIsLoaded(false);
         }
@@ -89,15 +87,11 @@ const CardList =() => {
     setOceanList((oceanList) => oceanList.concat(nextOcean));
   }, [nextOcean]);
 
-
-  
-  // console.log(oceanList)
-
   //label 선택 =============================================================
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-      if((event.target as HTMLDivElement).textContent=="모두"){
+      if((event.target as HTMLDivElement).textContent==="모두"){
         nicknameParams?navigate(`/card?nickname=${nicknameParams}`):navigate(`/card`);
       }
       else{
@@ -206,7 +200,7 @@ const CardList =() => {
               })}
             </div>
           ))}
-          <Box sx={{}} ref={setTarget}>{isLoaded && <Loading/>}</Box>
+          {nextCursor==="noMore"?<div>이게마지막이다리기기기기기기기기기기기ㅣ기기</div>:<Box sx={{}} ref={setTarget}>{isLoaded && <Loading/>}</Box>}
         </Box>):
         (<Box sx={{width:"100%"}}>{cardExist?<Loading/>:<Box>작성된 글이 없습니다. 첫 파도를 일으켜보세요!</Box>}</Box>)}
       </Box>

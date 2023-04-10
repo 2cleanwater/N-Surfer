@@ -1,14 +1,11 @@
-import { useRootStore } from '@provider/rootContext';
-import { OceanData, labelColor, transDate } from '@store/OceanStore';
+import { OceanData, labelColor } from '@store/OceanStore';
+import { dateConverter } from '@service/dateConverter';
 
 import { observer } from 'mobx-react';
 
 import { Box} from '@mui/material'
 
 const CardDetail = ({oceanData}:{oceanData:OceanData}) => {
-  const value = useRootStore()!;
-  const baseOceanImg:string= process.env.REACT_APP_OCEAN_BASE_IMG!;
-
   return (
     <Box sx={{bgcolor:"waveBackground", width:"900px", alignItems:"center",borderRadius:"2em", p:"10px", mb:"50px",boxShadow: "5"}}>
       <Box sx={{bgcolor:"#2158A8", borderRadius:"1em",width:"750px", p:"25px", py:"55px",wordBreak:"break-all",m: "30px auto", mb:"15px", position:"relative", fontWeight:"bolder", fontSize:"30px", color: "white", display:"flex", flexDirection:"column" ,justifyContent:"center", alignItems:"center", boxShadow: "5"}}>
@@ -27,7 +24,7 @@ const CardDetail = ({oceanData}:{oceanData:OceanData}) => {
             ))}
         </Box>}
         <Box sx={{width:"110px",fontSize:"20px", textAlign:"center", fontWeight:"400", mr:"30px"}}>
-          {transDate(oceanData?.createDate?? "")}</Box>
+          {dateConverter({dateString:oceanData.createDate,tag:"korean"})}</Box>
       </Box>
       {[...Array(3)].map((_, index) => (<div key={index}>
           {oceanData.images[index]&&<Box component="img" sx={{borderRadius:"1em", boxShadow: 5, width:"600px", mt:"30px"}} alt='CardImg' 

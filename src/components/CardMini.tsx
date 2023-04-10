@@ -1,6 +1,7 @@
 import InteractiveWave from '@components/InteractiveWave';
-import { labelColor, OceanData, transDate } from '@store/OceanStore';
+import { labelColor, OceanData } from '@store/OceanStore';
 import { useRootStore } from '@provider/rootContext';
+import { dateConverter } from '@service/dateConverter';
 
 import { useNavigate } from 'react-router-dom'
 
@@ -20,8 +21,7 @@ const CardMini = ({OceanData}:{OceanData:OceanData}) => {
     position:"relative",
     textAlign:"center"
   }
-  
-  const value = useRootStore();
+
   const navigate = useNavigate();
   const baseOceanImg:string= process.env.REACT_APP_OCEAN_BASE_IMG!;
   const bottle:string= process.env.REACT_APP_BOTTLE!;
@@ -37,7 +37,7 @@ const CardMini = ({OceanData}:{OceanData:OceanData}) => {
       <Box component="img" src={OceanData.images[0]?.imageUrl||baseOceanImg}
       sx={{minWidth: 180, minHeight: 120, width: 180, height: 120, objectFit: OceanData.images[0]?'cover':'contain', justifyItems:"center",alignItems:"center", alignContent:"center", justifyContents:"center", borderRadius:"1em", boxShadow: 3}} alt='CardImg'></Box>
       <Box sx={{display:"flex", justifyContent: "space-between", px: "25px", pt:"10px"}}>
-        <Box sx={{width:"110px",fontSize:"13px", textAlign:"left", fontWeight:"300"}}>{transDate(OceanData?.createDate ?? "")}</Box>
+        <Box sx={{width:"110px",fontSize:"13px", textAlign:"left", fontWeight:"300"}}>{dateConverter({dateString:OceanData.createDate, tag:"korean"})}</Box>
         <Box sx={{width:"110px",fontSize:"13px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontWeight:"400", textAlign:"right"}}>
           {OceanData.nickname}</Box>
       </Box>
