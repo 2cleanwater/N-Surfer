@@ -1,4 +1,6 @@
 import instance from "@service/axiosInterceptor";
+import LoadingStore from "@store/LoadingStore";
+import { dateConverter } from "@service/dateConverter";
 
 export interface waveData {
   date:string,
@@ -6,27 +8,27 @@ export interface waveData {
 }
 
 export interface WaveStoreForm{
-  getWaveList: (nickname:string,week:number,date:string, setValue:(waveData:Array<waveData>)=>void)=>void;
-  stringifyDate: (date:Date)=>string;
+  getWaveList: (nickname:string, startDate:Date, setValue:(waveData:Array<waveData>)=>void)=>void;
   calFirstDate: (todayDate:Date)=>Date;
-  matchWaveForm: (userWaveList:Array<waveData>)=>Map<string, number>;
+  matchWaveForm: (userWaveList:Array<waveData>, startDate:Date)=>Array<waveData>;
 }
-
-const waveUrl:string= "/user/wave"
 
 const WaveStore = (): WaveStoreForm=>{
   return {
-    getWaveList: async function(nickname:string,week:number,date:string, setValue:(waveData:Array<waveData>)=>void){
+    getWaveList: async function(nickname:string, startDate:Date, setValue:(waveData:Array<waveData>)=>void){
+      const firstDate = dateConverter({date:startDate,tag:"-"})
       await instance({
         method: "GET",
-        url: `/user/wave?nickname=${nickname}&month=${week}`,
-        data:{"date":date},
+        url: `/user/wave?nickname=${nickname}&startDate=${firstDate}`,
         headers: {
           'Content-Type': 'application/json'
         }
         })
         .then((res)=>{
-          setValue(res.data.waves as Array<waveData>);
+          LoadingStore()._IsLoading_True("waveList");
+          setValue(this.matchWaveForm(res.data.waves,startDate)as Array<waveData>);
+
+          LoadingStore()._IsLoading_False("waveList");
         })
         .catch((err)=>{
           console.log(err);
@@ -34,35 +36,32 @@ const WaveStore = (): WaveStoreForm=>{
         });
     },
 
-    stringifyDate: function(date:Date){
-      const year = date.getFullYear().toString();
-      const month = (date.getMonth() + 1).toString().padStart(2, '0');
-      const day = date.getDate().toString().padStart(2, '0');
-      const dateString:string = year + month + day;
-      return dateString;
-    },
-
     calFirstDate: function(todayDate:Date){
       const LastDay = new Date(todayDate);
       let date = new Date(todayDate);
+      //일요일로 맞춘 후 70일 과거 날짜 출력)
       const emptyDate:number = 6-LastDay.getDay();
       date.setDate(LastDay.getDate()+ emptyDate - 69);
       return date;
     },
 
-    matchWaveForm: function(userWaveList:Array<waveData>){
-      const LastDay = new Date();
-      let date = new Date(LastDay);
-      const emptyDate:number = 6-LastDay.getDay();
-      date.setDate(LastDay.getDate()+ emptyDate - 70);
-      let waveForm= new Map<string, number>();
-      for(let i=0;i<70-emptyDate;i++){
-        date.setDate(date.getDate() + 1);
-        waveForm.set(this.stringifyDate(date), 0);
+    matchWaveForm: function(userWaveList:Array<waveData>,startDate:Date){
+      let waveForm:Array<waveData>= [];
+      let timeline = new Date(startDate);
+      const today = new Date();
+      for(let i=0;i<70;i++){
+        const isDateExist:number=userWaveList.findIndex(wave=>wave.date === dateConverter({date:timeline,tag:""}));
+        if(timeline.getTime()<today.getTime()){
+          if(isDateExist===-1){
+            waveForm.push({date:dateConverter({date:timeline,tag:""}),count:0});
+          }
+          else{
+            waveForm.push({date:userWaveList[isDateExist].date,count:userWaveList[isDateExist].count});
+          }
+        }
+        // 70일까지 날짜 올리기
+        timeline.setDate(timeline.getDate() + 1);
       }
-      userWaveList.map((w:waveData) => {
-        if(waveForm.has(w.date))waveForm.set(w.date, w.count);
-      });
       return waveForm;
     }
   }
