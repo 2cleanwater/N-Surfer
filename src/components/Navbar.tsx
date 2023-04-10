@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { useEffect, useState } from 'react';
 
-import { Box, Button, IconButton } from '@mui/material';
+import { Box, Button } from '@mui/material';
 
 const Navbar = ()=>{
   // store 및 service 선언
@@ -52,6 +52,7 @@ const Navbar = ()=>{
         value.authStore.logout(); 
         navigate("/");
     }else return}
+
 
   return (
     <Box 

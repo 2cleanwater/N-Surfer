@@ -10,8 +10,8 @@ body {
   background-image: url("https://res.cloudinary.com/nsurfer/image/upload/v1680503595/main01_hr7vba.gif"), url("https://res.cloudinary.com/nsurfer/image/upload/v1680503595/main02_gwvya2.gif");
   background-repeat: no-repeat, repeat-y;
   background-position: center top, center top;
-  background-size: 1100px, 1100px;
-  width: 1100px;
+  background-size: 70em, 70em;
+  width: 70em;
   -webkit-user-select:none;
   -moz-user-select:none;
   -ms-user-select:none;

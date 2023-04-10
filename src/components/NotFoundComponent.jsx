@@ -293,7 +293,7 @@ const NotFoundComponent = () => {
       const { clientX: x, clientY: y } = target;
 
       mouse.x = x-((window.innerWidth-1100)/2);
-      mouse.y = y-450;
+      mouse.y = y-350;
       mouse.angle = angleBetween(squid.x, squid.y, mouse.x, mouse.y);
     };
 

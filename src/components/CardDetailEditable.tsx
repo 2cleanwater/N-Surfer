@@ -4,6 +4,7 @@ import { label, labelColor, OceanData, wholeLabelList } from '@store/OceanStore'
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { observer } from 'mobx-react';
 
 import { Box, Checkbox, FormControlLabel, IconButton, TextField, Tooltip} from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save';
@@ -11,6 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import ReplayIcon from '@mui/icons-material/Replay';
+
 
 type cardEditProps = {
   oceanData: OceanData;
@@ -314,5 +316,5 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
   )
 }
 
-export default CardDetailEditable
+export default observer(CardDetailEditable)
 

@@ -6,7 +6,7 @@ import { Box } from '@mui/material'
 function NotFound() {
   return (
     <>
-      <Box sx={{pb:"200px"}}>
+      <Box sx={{pb:"10em"}}>
         <Navbar />
       </Box>
       <NotFoundComponent/>

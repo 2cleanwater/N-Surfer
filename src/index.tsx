@@ -1,6 +1,5 @@
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-
 import App from './App';
 
 import Home from '@pages/Home'
@@ -12,13 +11,11 @@ import CardForm from '@pages/CardForm';
 import KakaoAuth from '@service/KakaoAuth';
 
 import ProtectedRoute from '@provider/ProtectedRoute';
+import { RootProvider } from '@provider/rootContext';
 
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './styles/theme';
 import './index.module.css';
-
-import { RootProvider } from '@provider/rootContext';
-
 
 const router = createBrowserRouter([
   {

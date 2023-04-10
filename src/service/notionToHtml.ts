@@ -1,9 +1,10 @@
-import { OceanData,transDate } from '@store/OceanStore';
+import { OceanData } from '@store/OceanStore';
+import { dateConverter } from '@service/dateConverter';
 
 export const notionToHtml = (oceanData:OceanData) => {
   // title:string, createDate:string, creator:string, label:Array<string>, imgUrl:Array<string>, content:string
   const title:string= oceanData.title||"";
-  const createDate= oceanData.createDate?transDate(oceanData.createDate):"";
+  const createDate= oceanData.createDate?dateConverter({dateString:oceanData.createDate, tag:"koean"}):"";
   const creator= oceanData.nickname||"";
   const labelForm:string= oceanData.labels?oceanData.labels.map(element=>element.name).join(', '):"";
   const imgUrlForm:string = oceanData.images?oceanData.images.map(element => `<figure class="image"><a href="${element.imageUrl}"><img src="${element.imageUrl}"/></a></figure>`).join(''):"";

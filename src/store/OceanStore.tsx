@@ -1,4 +1,5 @@
 import instance from "@service/axiosInterceptor";
+import LoadingStore from "@store/LoadingStore"
 
 export interface imageForm{
   imageId:string;
@@ -59,14 +60,6 @@ export interface OceanParams{
   label?: string;
   setValue?:(oceanList:Array<OceanData>)=>void;
   setNextCursor?:(CardId:string)=>void;
-}
-
-export const transDate = (createDate:string)=>{
-  const date = new Date(createDate);
-  const year = date.getUTCFullYear();
-  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-  const day = String(date.getUTCDate()).padStart(2, '0');
-  return `${year}.${month}.${day}`
 }
 
 export interface OceanStoreForm{
@@ -164,8 +157,11 @@ const OceanStore = (): OceanStoreForm => {
         }
       })
       .then((res)=>{
+        LoadingStore()._IsLoading_True("oceanList");
+        console.log(res.data.nextCardId)
         OceanParams.setValue&&OceanParams.setValue(res.data.cardList as Array<OceanData>|| []);
-        OceanParams.setNextCursor&&OceanParams.setNextCursor(res.data.next_cursor as string);
+        OceanParams.setNextCursor&&OceanParams.setNextCursor(res.data.nextCardId as string||"noMore");
+        LoadingStore()._IsLoading_False("oceanList");
       })
       .catch((err)=>{
         console.log(err);

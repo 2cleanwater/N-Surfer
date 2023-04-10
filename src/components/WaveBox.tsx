@@ -1,3 +1,4 @@
+import { dateConverter } from '@service/dateConverter'
 import { Box, styled, Tooltip} from '@mui/material'
 
 interface waveBoxForm {
@@ -14,13 +15,6 @@ const colorCode = {
   waveLv3: '#2E88C7',
   waveLv4: '#2158A8',
   waveLv5: '#232A5C'
-}
-
-function formatDate(dateString:string) {
-  const year = dateString.slice(0, 4);
-  const month = dateString.slice(4, 6);
-  const day = dateString.slice(6, 8);
-  return `${year}년 ${month}월 ${day}일`;
 }
 
 const WaveBox = ({date,count,toggle,isClicked}:waveBoxForm) => {
@@ -51,7 +45,7 @@ const WaveBox = ({date,count,toggle,isClicked}:waveBoxForm) => {
   });
 
   return (
-    <Tooltip title={<div style={{ color: "lightblue", fontSize:"20px" }}>{formatDate(date)+ ": " + count +"번"} </div>} sx={{m:"2px"}}>
+    <Tooltip title={<div style={{ color: "lightblue", fontSize:"20px" }}>{dateConverter({dateString:date,tag:"korean"})+ ": " + count +"번"} </div>} sx={{m:"2px"}}>
       <div>
       {count===0?(
           <Box sx={waveStyle}>
