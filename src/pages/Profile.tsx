@@ -8,7 +8,7 @@ import instance from '@service/axiosInterceptor';
 import CardMini from '@components/CardMini';
 
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Box, IconButton, Tooltip } from '@mui/material';
 import ListIcon from '@mui/icons-material/List';

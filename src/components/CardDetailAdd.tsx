@@ -4,14 +4,13 @@ import { label,labelColor, wholeLabelList } from '@store/OceanStore';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { observer } from 'mobx-react';
 
 import { Box, Checkbox, FormControlLabel, IconButton, TextField, Tooltip} from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-
-
 
 const CardDetailAdd = () => {
   const value = useRootStore();
@@ -242,5 +241,5 @@ const CardDetailAdd = () => {
   )
 }
 
-export default CardDetailAdd
+export default observer(CardDetailAdd)
 
