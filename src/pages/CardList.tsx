@@ -200,7 +200,7 @@ const CardList =() => {
               })}
             </div>
           ))}
-          {nextCursor==="noMore"?<div>이게마지막이다리기기기기기기기기기기기ㅣ기기</div>:<Box sx={{}} ref={setTarget}>{isLoaded && <Loading/>}</Box>}
+          {nextCursor==="noMore"?<div>마지막 글입니다.</div>:<Box sx={{}} ref={setTarget}>{isLoaded && <Loading/>}</Box>}
         </Box>):
         (<Box sx={{width:"100%"}}>{cardExist?<Loading/>:<Box>작성된 글이 없습니다. 첫 파도를 일으켜보세요!</Box>}</Box>)}
       </Box>
