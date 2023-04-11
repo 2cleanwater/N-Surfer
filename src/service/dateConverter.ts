@@ -26,11 +26,11 @@ export const dateConverter = (dateInput:dateConverterForm) => {
       day = String(date.getUTCDate()).padStart(2, '0');
     }
   }
-  // const dateString:string = year +tag+ month +tag + day;
   switch(dateInput.tag){
     case "korean": return year+"년 " + month+"월 " + day+"일";
     case "-": return year+"-" + month+"-" + day;
     case "": return year+ month+ day;
+    case ".": return year+"."+month+"."+day;
     default: return year+ month+ day;
   }
 }

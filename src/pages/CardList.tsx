@@ -43,7 +43,6 @@ const CardList =() => {
     try{
       setCardExist(true);
       // 첫 데이터 받아옴
-      console.log(nextCursor)
       value.oceanStore.getOceanList({
         numOfCards:9,
         nickname:nicknameParams,
@@ -121,15 +120,15 @@ const CardList =() => {
   return (
     <Box sx={{display:"flex", flexDirection:"column"}}>
       <Box id="title" sx={{ textAlign:"right" }}>
-        <TextField variant="outlined" label="회원이름 검색" value={inputNickname} onChange={handleNicknameSearch} onKeyDown={activeEnter} inputProps={{style: {backgroundColor:"white", borderRadius:"5px"}}}></TextField>
+        <TextField variant="outlined" label="회원이름 검색" value={inputNickname} onChange={handleNicknameSearch} onKeyDown={activeEnter} inputProps={{style: {backgroundColor:"white", borderRadius:"5px"}}}/>
         <IconButton size="large" onClick={searchOnClick} >
           <SearchIcon fontSize="large" />
         </IconButton>
       </Box>
 
       <Box id="body" sx={{display:"flex"}}>
-        <Box id="tags" sx={{listStyle:"none", p:"15px",m:"20px" ,width:"150px", borderRadius:"1em", bgcolor:"waveBackground"}}>
-          <Box sx={{ w: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+        <Box id="tags" sx={{listStyle:"none", p:"1em",ml:"1em" ,width:"10em", borderRadius:"1em", bgcolor:"waveBackground"}}>
+          <Box sx={{ width: '10em', maxWidth: "10em", bgcolor: 'background.paper'}}>
             <List component="nav" aria-label="secondary mailbox folder">
               <ListItemButton
                 selected={selectedLabelIndex === -1}
@@ -172,22 +171,7 @@ const CardList =() => {
         </Box>
 
         {oceanList.length>0?
-        // (<Box sx={{display: "flex", flexDirection:"column",  pr:"20px", mb:"50px" }}>
-        //   {[...Array(3)].map((_, rowIndex) => (
-        //     <div key={rowIndex} style={{ display: "flex",flexDirection:"row"}}>
-        //       {[...Array(3)].map((_, colIndex) => {
-        //         const index = rowIndex*3 + colIndex;
-        //         return (
-        //         <Box key={`${colIndex}-${rowIndex}`} sx={{ width: "100%", height: index<oceanList.length?"100%":"0%", mt:index<oceanList.length?"80px":"0%"}}>
-        //           {index<oceanList.length?<CardMini OceanData={oceanList[index]}/>:<></>}
-        //         </Box>
-        //         );
-        //       })}
-        //     </div>
-        //   ))}
-        //   <div ref={setTarget}>{isLoaded && <Loading/>}</div>
-        // </Box>):
-        (<Box sx={{display: "flex", flexDirection:"column",  pr:"20px", mb:"50px" }}>
+        (<Box sx={{display: "flex", flexDirection:"column",  pr:"1em"}}>
           {[...Array(3*oceanIndex)].map((_, rowIndex) => (
             <div key={rowIndex} style={{ display: "flex",flexDirection:"row"}}>
               {[...Array(3)].map((_, colIndex) => {
@@ -200,7 +184,9 @@ const CardList =() => {
               })}
             </div>
           ))}
-          {nextCursor==="noMore"?<div>마지막 글입니다.</div>:<Box sx={{}} ref={setTarget}>{isLoaded && <Loading/>}</Box>}
+          {nextCursor==="noMore"?
+          <Box sx={{width:"18.5em",bgcolor:"#2158A8", borderRadius:"1em", textAlign:"center", m:"1em", p:"1em",fontSize:"40px", fontWeight:"bold",color:"white"}}>마지막 글입니다.</Box>:
+          <Box sx={{width:"100%"}} ref={setTarget}>{isLoaded && <Loading/>}</Box>}
         </Box>):
         (<Box sx={{width:"100%"}}>{cardExist?<Loading/>:<Box>작성된 글이 없습니다. 첫 파도를 일으켜보세요!</Box>}</Box>)}
       </Box>

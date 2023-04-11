@@ -15,7 +15,7 @@ const Navbar = ()=>{
   const [userImgSrc, setUserImgSrc] = useState<string | undefined>(undefined);
 
   const profileBaseImg:string= process.env.REACT_APP_PROFILE_BASE_IMG!;
-  const nserferIcon:string= process.env.REACT_APP_NSURFERICON!;
+  const nSurferIcon:string= process.env.REACT_APP_NSURFERICON!;
   const githubFavicon:string= process.env.REACT_APP_GITHUBFAVICON!;
   const notionFavicon:string= process.env.REACT_APP_NOTIONFAVICON!;
 
@@ -62,7 +62,7 @@ const Navbar = ()=>{
       sx={{ display: "flex", flexDirection: "row", alignItems: "center", textDecoration: "none" }}>
         <Box component="img"
         sx={{width:"5em",height:"5em",ml:"3em"}}
-        src={nserferIcon} alt="logo"></Box>
+        src={nSurferIcon} alt="logo"></Box>
         <Box component="h1"
         sx={{m: "20px", fontSize:"3em", color: "#0067a3", textShadow:"2px 2px 2px gray", "&:hover": {
           transform: "scale(1.1)"

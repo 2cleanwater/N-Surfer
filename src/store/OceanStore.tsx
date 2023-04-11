@@ -82,8 +82,6 @@ const OceanStore = (): OceanStoreForm => {
         }})
         .then((res)=>{
           setValue(res.data as OceanData);
-          console.log(setValue)
-          // this.setOcean(res.data as OceanData);
         })
         .catch((err)=>{
           console.log(err);
@@ -158,7 +156,6 @@ const OceanStore = (): OceanStoreForm => {
       })
       .then((res)=>{
         LoadingStore()._IsLoading_True("oceanList");
-        console.log(res.data.nextCardId)
         OceanParams.setValue&&OceanParams.setValue(res.data.cardList as Array<OceanData>|| []);
         OceanParams.setNextCursor&&OceanParams.setNextCursor(res.data.nextCardId as string||"noMore");
         LoadingStore()._IsLoading_False("oceanList");

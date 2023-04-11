@@ -1,8 +1,8 @@
-import React, { Component, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import p5 from 'p5';
 import { Box } from '@mui/material';
 
-const InteractiveWave = ({width,height,color}) => {
+const InteractiveWave = ({width,height,color,percent}) => {
   class Spring {
     constructor(_p5, p, v, a) {
       this._5p = _p5;
@@ -52,7 +52,7 @@ const InteractiveWave = ({width,height,color}) => {
       this.dumping = 0.95;
 
       //setting basic parameter
-      this.defaultWaterLevel = height / 2.5;
+      this.defaultWaterLevel = height / percent;
       this.springNum = width / 3;
       this.springs_interval = width / (this.springNum - 1);
 
@@ -149,7 +149,7 @@ const InteractiveWave = ({width,height,color}) => {
 
     splash() {
       let index = this._p5.floor(this._p5.random(1, this.springNum));
-      let vy = this._p5.random(100, height);
+      let vy = this._p5.random(50, height);
       if (index > 0 && index < this.springNum) {
         this.springs[index].v.y = vy;
       }

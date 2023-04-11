@@ -19,13 +19,13 @@ const colorCode = {
 
 const WaveBox = ({date,count,toggle,isClicked}:waveBoxForm) => {
   const waveStyle = {
-    m:"2px",
+    m:"0.2em",
     overflow: "hidden",
     border: isClicked?"2px solid #4B89DC":"2px solid transparent",
     bgcolor: isClicked?'lightblue':'',
     borderRadius: "8px",
-    width: "50px",
-    height: "50px",
+    width: "4em",
+    height: "3em",
     boxShadow: 3,
     "&:hover": {
       border: "2px solid green",
@@ -41,7 +41,7 @@ const WaveBox = ({date,count,toggle,isClicked}:waveBoxForm) => {
     },
     position: "relative",
     bottom: "0",
-    animation: toggle?"":"shift 1.5s linear infinite"
+    // animation: toggle?"":"shift 1.5s linear infinite"
   });
 
   return (
@@ -49,7 +49,7 @@ const WaveBox = ({date,count,toggle,isClicked}:waveBoxForm) => {
       <div>
       {count===0?(
           <Box sx={waveStyle}>
-            <StyledSvg width="600" height="50px" fill={colorCode.waveLv0} viewBox="0 0 120 10">
+            <StyledSvg width="600" height="50px" sx={{animation: toggle?"":"shift 2.5s linear infinite"}} fill={colorCode.waveLv0} viewBox="0 0 120 10">
             <path d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
             <path transform="translate(60)" d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
             </StyledSvg>
@@ -58,7 +58,7 @@ const WaveBox = ({date,count,toggle,isClicked}:waveBoxForm) => {
         ):null}
       {count>0&&count<=3?(
           <Box sx={waveStyle}>
-            <StyledSvg width="600" height="50px" fill={colorCode.waveLv1} viewBox="0 0 120 10">
+            <StyledSvg width="600" height="50px" sx={{animation: toggle?"":"shift 2.3s linear infinite"}}  fill={colorCode.waveLv1} viewBox="0 0 120 10">
             <path d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
             <path transform="translate(60)" d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
             </StyledSvg>
@@ -66,7 +66,7 @@ const WaveBox = ({date,count,toggle,isClicked}:waveBoxForm) => {
         ):null}
       {count>3&&count<=6?(
           <Box sx={waveStyle}>
-            <StyledSvg width="600" height="50px" fill={colorCode.waveLv2} viewBox="0 0 120 10">
+            <StyledSvg width="600" height="50px" sx={{animation: toggle?"":"shift 2.1s linear infinite"}}  fill={colorCode.waveLv2} viewBox="0 0 120 10">
             <path d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
             <path transform="translate(60)" d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
             </StyledSvg>
@@ -74,7 +74,7 @@ const WaveBox = ({date,count,toggle,isClicked}:waveBoxForm) => {
         ):null}
       {count>6&&count<=9?(
           <Box sx={waveStyle}>
-            <StyledSvg width="600" height="50px" fill={colorCode.waveLv3} viewBox="0 0 120 10">
+            <StyledSvg width="600" height="50px" sx={{animation: toggle?"":"shift 1.8s linear infinite"}}  fill={colorCode.waveLv3} viewBox="0 0 120 10">
             <path d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
             <path transform="translate(60)" d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
             </StyledSvg>
@@ -82,7 +82,7 @@ const WaveBox = ({date,count,toggle,isClicked}:waveBoxForm) => {
         ):null}
       {count>9&&count<=12?(
           <Box sx={waveStyle}>
-            <StyledSvg width="600" height="50px" fill={colorCode.waveLv4} viewBox="0 0 120 10">
+            <StyledSvg width="600" height="50px" sx={{animation: toggle?"":"shift 1.5s linear infinite"}}  fill={colorCode.waveLv4} viewBox="0 0 120 10">
             <path d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
             <path transform="translate(60)" d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
             </StyledSvg>
@@ -90,7 +90,7 @@ const WaveBox = ({date,count,toggle,isClicked}:waveBoxForm) => {
         ):null}
       {count>12?(
           <Box sx={waveStyle}>
-            <StyledSvg width="600" height="50px" fill={colorCode.waveLv5} viewBox="0 0 120 10">
+            <StyledSvg width="600" height="50px" sx={{animation: toggle?"":"shift 1s linear infinite"}}  fill={colorCode.waveLv5} viewBox="0 0 120 10">
             <path d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
             <path transform="translate(60)" d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
             </StyledSvg>

@@ -10,6 +10,7 @@ body {
   background-image: url("https://res.cloudinary.com/nsurfer/image/upload/v1680503595/main01_hr7vba.gif"), url("https://res.cloudinary.com/nsurfer/image/upload/v1680503595/main02_gwvya2.gif");
   background-repeat: no-repeat, repeat-y;
   background-position: center top, center top;
+  background-attachment: fixed;
   background-size: 70em, 70em;
   width: 70em;
   -webkit-user-select:none;
@@ -17,7 +18,11 @@ body {
   -ms-user-select:none;
   user-select:none
 }
-
+@media (max-width: 767px) {
+  #body {
+    background-size: 1000em;
+  }
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

@@ -16,8 +16,8 @@ import { Box, IconButton, styled, Tooltip } from '@mui/material';
 const DayList = styled("li")({
   flexGrow: "1",
   display: "inline-block",
-  height: "55px",
-  lineHeight: "60px"
+  height: "2em",
+  lineHeight: "3.5em"
 });
 
 // interface
@@ -34,6 +34,18 @@ const Wave = ({nickname}:{nickname:string}) => {
   const latestDate = waveStore.calFirstDate(new Date());
   // wave의 First date
   const [firstDate,setFirstDate] = useState<Date>(latestDate);
+  function findLastDate(date:Date){
+    const today = new Date();
+    console.log(today)
+    date.setDate(date.getDate()+ 69);
+    console.log(date.getTime()<today.getTime())
+    if(date.getTime()<today.getTime()){
+      // console.log(date)
+    }else{
+      // console.log(today)
+    }
+  }
+  console.log(firstDate)
   // 날짜를 문자형식으로
   const [stringDate, setStringDate]= useState<string>(dateConverter({date:firstDate,tag:""}));
   // date, date의 wave 갯수, index
@@ -46,15 +58,10 @@ const Wave = ({nickname}:{nickname:string}) => {
   // 받아온 waveList
   const [waveList, setWaveList]= useState<Array<waveData>>([]);
 
-  // 표현식으로 변화된 wave? 필요한가?
-  // const [userWaveForm, setUserWaveForm]= useState<Array<waveData>>();
-
   // server data ==============================================
   // 날짜가 바뀔 때마다 웨이브를 불러오기 
   useEffect(()=>{
     waveStore.getWaveList(nickname,firstDate,setWaveList);
-    // console.log(waveList)
-    // setUserWaveForm(waveStore.matchWaveForm(waveList, firstDate));
   },[stringDate, value.profileStore.userData.todayWave])
 
   //Click 체크
@@ -73,7 +80,6 @@ const Wave = ({nickname}:{nickname:string}) => {
   const changeDate= async(date:Date, number:number)=>{
     date.setDate(date.getDate()+ number);
     setFirstDate(date);
-    console.log(firstDate)
     setStringDate(dateConverter({date:firstDate, tag:""}))   
   }
 
@@ -83,22 +89,21 @@ const Wave = ({nickname}:{nickname:string}) => {
       bgcolor:"waveBackground",
       justifyContent:"center",
       alignContent: "center",
-      width: "900px",
+      width: "60em",
       borderRadius:"2em",
-      pt:"20px",
-      pb:"40px",
+      py:"2.5em",
       position:"relative"
       }}>
-      <Box sx={{display:"flex", justifyContent: "space-between"}}>
-        <Box sx={{textAlign:"left", color:"white", pl:"40px",pb:"20px", fontSize:"2em", fontWeight:"Bold", textShadow:"2px 2px 2px gray"}}>
+      <Box sx={{display:"flex", justifyContent: "space-between", pb:"1em"}}>
+        <Box sx={{textAlign:"left", color:"white", pl:"1em", fontSize:"2em", fontWeight:"Bold", textShadow:"2px 2px 2px gray"}}>
           "{nickname}"님의 파도</Box>
-        <Box id="singleItemValue" sx={{width:"220px", height:"30px", display:"flex", flexDirection:"row", justifyContent: "space-between", alignItems: "center", p:"10px", mr:"40px", bgcolor:"#F2E0C9",borderRadius: "30px",boxShadow: 3}}>
+        <Box id="singleItemValue" sx={{width:"15em", height:"2em", display:"flex", flexDirection:"row", justifyContent: "space-between", alignItems: "center", p:"0.5em", mr:"2em", bgcolor:"#F2E0C9",borderRadius: "30px",boxShadow: 3}}>
           {hoverData.date?
           (<Box sx={{fontWeight:"bold", color:"#0F8DBF", pl:"10px"}}>{dateConverter({dateString:hoverData.date,tag:"korean"})} : {hoverData.number}번</Box>):
           (<div></div>)}
           <Tooltip title={<div style={{fontSize:"15px"}}>파도 멈추기</div>}>
             <Box component="img" id="waveToggle"
-            sx={{width:"30px", height:"30px", justifyContent:"center",alignContent: "center",borderRadius:"2em", bgcolor: waveToggle?"DarkBlue":"White", 
+            sx={{width:"2em", height:"2em", justifyContent:"center",alignContent: "center",borderRadius:"2em", bgcolor: waveToggle?"DarkBlue":"White", 
             "&:hover": {
               transform: "scale(1.1)",
               cursor : "pointer"
@@ -108,12 +113,32 @@ const Wave = ({nickname}:{nickname:string}) => {
         </Box>
       </Box>
 
-      <Box sx={{ml:"150px",p:"5px",fontSize:"20px", color:"#0067a3", textShadow:"1px 1px 2px gray"}}>
-        {dateConverter({date:firstDate, tag:"korean"})}</Box>
+      <Box sx={{py:"1em",px:"4em",fontSize:"20px", color:"#0067a3", textShadow:"1px 1px 2px gray", display:"flex", justifyContent: "space-between"}}>
+        <Box>{waveList.length>0?dateConverter({dateString:waveList[0].date, tag:"korean"}):""}</Box>
+        <Box>{waveList.length>0?dateConverter({dateString:waveList[waveList.length-1].date, tag:"korean"}):""}</Box>
+      </Box>
 
-      <Box sx={{display:"flex",justifyContent:"center",
-      alignContent: "center"}}>
-        <Box component="ul" sx={{display:"flex", flexDirection:"column", listStyleType: "none", textAlign:"center", p: "0px", m:"0px", pr:"10px", justifyContent: "center", alignItems: "center"}} >
+      <IconButton type="submit" size="medium" 
+      sx={{position:"absolute", top:"4.7em", left:"1em", color: "white", bgcolor:"#0F7B6C", 
+        "&:hover":{
+          color: "#0F7B6C", bgcolor:"white",
+          transform: "scale(1.1)",
+          cursor : "pointer"
+        }}} onClick={(e)=>{changeDate(firstDate, -70); setHoverData({date:"",number:0}); setHoverIndex(70);}}>
+        <ChevronLeftIcon fontSize="medium" />
+      </IconButton>
+      <IconButton type="submit" size="medium" disabled={isSameDay(firstDate,latestDate)?true:false} 
+      sx={{position:"absolute", top:"4.7em",right:"1em", color: "white", bgcolor:"#0F7B6C", 
+        "&:hover":{
+          color: "#0F7B6C", bgcolor:"white",
+          transform: "scale(1.1)",
+          cursor : "pointer"
+        }}} onClick={(e)=>{changeDate(firstDate, +70); setHoverData({date:"",number:0});setHoverIndex(70);}}>
+        <ChevronRightIcon fontSize="medium" />
+      </IconButton>
+
+      <Box sx={{display:"flex",justifyContent:"center", alignContent: "center"}}>
+        <Box component="ul" sx={{display:"flex", flexDirection:"column", listStyleType: "none", textAlign:"center", p: "0px", m:"0px", pr:"1em", justifyContent: "center", alignItems: "center"}} >
           <DayList>SUN</DayList>
           <DayList>MON</DayList>
           <DayList>TUE</DayList>
@@ -151,24 +176,16 @@ const Wave = ({nickname}:{nickname:string}) => {
             </div>
           ))}
           </Box>}
-
+          <Box component="ul" sx={{display:"flex", flexDirection:"column", listStyleType: "none", textAlign:"center", p: "0px", m:"0px", pl:"1em", justifyContent: "center", alignItems: "center"}} >
+          <DayList>SUN</DayList>
+          <DayList>MON</DayList>
+          <DayList>TUE</DayList>
+          <DayList>WED</DayList>
+          <DayList>THU</DayList>
+          <DayList>FRI</DayList>
+          <DayList>SAT</DayList>
+        </Box>
       </Box>
-      <IconButton type="submit" size="small" sx={{position:"absolute", bottom:"7%", left:"2em", color: "white", bgcolor:"#0F7B6C", 
-        "&:hover":{
-          color: "#0F7B6C", bgcolor:"white",
-          transform: "scale(1.1)",
-          cursor : "pointer"
-        }}} onClick={(e)=>{changeDate(firstDate, -70); setHoverData({date:"",number:0}); setHoverIndex(70);}}>
-        <ChevronLeftIcon fontSize="small" />
-      </IconButton>
-      <IconButton type="submit" size="small" disabled={isSameDay(firstDate,latestDate)?true:false} sx={{position:"absolute", bottom:"7%",right:"2em", color: "white", bgcolor:"#0F7B6C", 
-        "&:hover":{
-          color: "#0F7B6C", bgcolor:"white",
-          transform: "scale(1.1)",
-          cursor : "pointer"
-        }}} onClick={(e)=>{changeDate(firstDate, +70); setHoverData({date:"",number:0});setHoverIndex(70);}}>
-        <ChevronRightIcon fontSize="small" />
-      </IconButton>
     </Box>
   )
 }
