@@ -127,7 +127,7 @@ const Profile = () => {
 
       <Wave nickname={nickname}/>
 
-      <Box sx={{ minWidth:"894px", display:"flex", flexDirection:"row", justifyContent:"right" }}>
+      <Box sx={{ minWidth:"55em", display:"flex", flexDirection:"row", justifyContent:"right" }}>
         {nickname===value.profileStore.userData.nickname&&
         <Tooltip title={<div style={{fontSize:"15px"}}>내 파도추가</div>}>
           <IconButton size="large" onClick={()=>{navigate(`/cardForm`)}} sx={addButton} >
@@ -142,8 +142,8 @@ const Profile = () => {
         </Tooltip>        
       </Box>
 
-      {userOceanList.length>0&&<Box sx={{display:'flex', minWidth:"894px",minHeight:"408",justifyContent: "center", alignItems: "center", p:"30px", mt:"50px"}}>
-        {[...Array(3)].map((_, index) => {return (<div>{userOceanList[index]&&<CardMini key={index} OceanData={userOceanList[index]}/>}</div>)})}      
+      {userOceanList.length>0&&<Box sx={{display:'flex',justifyContent: "center", alignItems: "center", p:"1em", mt:"4em"}}>
+        {[...Array(3)].map((_, index) => {return (<div key={index}>{userOceanList[index]&&<CardMini OceanData={userOceanList[index]}/>}</div>)})}      
       </Box>}
     </Box>
   )

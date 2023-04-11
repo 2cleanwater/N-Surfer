@@ -19,23 +19,18 @@ const LoadingStore = (): LoadingStoreForm=>{
       switch(name){
         case "waveList":
           this._IsLoading_WaveList=true;
-          console.log("waveList" + this._IsLoading_WaveList)
         break;
         case "myProfile":
           this._IsLoading_MyProfile=true;
-          console.log("myProfile" + this._IsLoading_MyProfile)
         break;
         case "userProfile":
           this._IsLoading_UserProfile=true;
-          console.log("userProfile" + this._IsLoading_UserProfile)
         break;
         case "oceanList":
           this._IsLoading_OceanList=true;
-          console.log("oceanList" + this._IsLoading_OceanList)
         break;
         case "ocean":
           this._IsLoading_Ocean=true;
-          console.log("ocean" + this._IsLoading_Ocean)
         break;        
       }
     },
@@ -43,23 +38,18 @@ const LoadingStore = (): LoadingStoreForm=>{
       switch(name){
         case "waveList":
           this._IsLoading_WaveList=false;
-          console.log("waveList" + this._IsLoading_WaveList)
         break;
         case "myProfile":
           this._IsLoading_MyProfile=false;
-          console.log("myProfile" + this._IsLoading_MyProfile)
         break;
         case "userProfile":
           this._IsLoading_UserProfile=false;
-          console.log("userProfile" + this._IsLoading_UserProfile)
         break;
         case "oceanList":
           this._IsLoading_OceanList=false;
-          console.log("oceanList" + this._IsLoading_OceanList)
         break;
         case "ocean":
           this._IsLoading_Ocean=false;
-          console.log("ocean" + this._IsLoading_Ocean)
         break;   
       }
     }

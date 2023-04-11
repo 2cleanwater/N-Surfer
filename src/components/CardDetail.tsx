@@ -7,31 +7,31 @@ import { Box} from '@mui/material'
 
 const CardDetail = ({oceanData}:{oceanData:OceanData}) => {
   return (
-    <Box sx={{bgcolor:"waveBackground", width:"900px", alignItems:"center",borderRadius:"2em", p:"10px", mb:"50px",boxShadow: "5"}}>
-      <Box sx={{bgcolor:"#2158A8", borderRadius:"1em",width:"750px", p:"25px", py:"55px",wordBreak:"break-all",m: "30px auto", mb:"15px", position:"relative", fontWeight:"bolder", fontSize:"30px", color: "white", display:"flex", flexDirection:"column" ,justifyContent:"center", alignItems:"center", boxShadow: "5"}}>
+    <Box sx={{bgcolor:"waveBackground", width:"57em", alignItems:"center",borderRadius:"2em", p:"0.5em", mb:"3em",boxShadow: "5"}}>
+      <Box sx={{bgcolor:"#2158A8", borderRadius:"1em",width:"25em", p:"0.8em", py:"1.5em",wordBreak:"break-all",m: "1em auto", position:"relative", fontWeight:"bolder", fontSize:"30px", color: "white", display:"flex", flexDirection:"column" ,justifyContent:"center", alignItems:"center", boxShadow: "5"}}>
         {oceanData.title}
-        <Box sx={{pr:"50px", color:"lightblue",fontWeight:"bold",fontSize:"20px" ,textAlign:"right", position:"absolute", bottom:"20px", right:"0px"}}>
+        <Box sx={{pr:"2em", color:"lightblue",fontWeight:"bold",fontSize:"20px" ,textAlign:"right", position:"absolute", bottom:"1em", right:"0"}}>
           by. {oceanData?.nickname ?? "Unknown"}</Box>
       </Box>
-      <Box sx={{width:"800px", height:"80px", bgcolor:"#2E88C7", borderRadius:"1em",display:"flex", m: "0px auto", mb:"40px", justifyContent: "space-between", alignItems:"center", boxShadow: "5"}}>
+      <Box sx={{width:"50em", height:"5em", bgcolor:"#2E88C7", borderRadius:"1em",display:"flex", m: "0px auto", mb:"1em", justifyContent: "space-between", alignItems:"center", boxShadow: "5"}}>
         {oceanData.labels&&<Box sx={{display:"flex"}}>
           {oceanData.labels.map((element, index)=>(
-            <Box component="label" key={index} htmlFor='' sx={{bgcolor:labelColor(element.color)?.backgroundColor, display:"flex", ml:"20px", borderRadius:"0.8em", pl:"10px", boxShadow: "5" }}>
-              <Box sx={{m:"10px auto", mr:"10px", color: labelColor(element.color)?.textColor,}}>
+            <Box component="label" key={index} htmlFor='' sx={{bgcolor:labelColor(element.color)?.backgroundColor, display:"flex", ml:"1em", borderRadius:"0.8em", pl:"0.5em", boxShadow: "5" }}>
+              <Box sx={{m:"0.5em auto", mr:"0.5em", color: labelColor(element.color)?.textColor,}}>
                 {element.name}
               </Box>
             </Box>
             ))}
         </Box>}
-        <Box sx={{width:"110px",fontSize:"20px", textAlign:"center", fontWeight:"400", mr:"30px"}}>
-          {dateConverter({dateString:oceanData.createDate,tag:"korean"})}</Box>
+        <Box sx={{width:"5em",fontSize:"20px", textAlign:"center", fontWeight:"400", mr:"1em"}}>
+          {dateConverter({dateString:oceanData.createDate,tag:"."})}</Box>
       </Box>
       {[...Array(3)].map((_, index) => (<div key={index}>
-          {oceanData.images[index]&&<Box component="img" sx={{borderRadius:"1em", boxShadow: 5, width:"600px", mt:"30px"}} alt='CardImg' 
+          {oceanData.images[index]&&<Box component="img" sx={{borderRadius:"1em", boxShadow: 5, width:"40em", mt:"1em"}} alt='CardImg' 
           src={oceanData.images[index].imageUrl}></Box>}
         </div>))}
-      <Box sx={{ width:"720px", p:"40px", wordWrap: "break-word", backgroundColor:"#D3ECF9", borderRadius:"1em", m:"30px auto", fontSize:"20px", boxShadow: "5"}}>
-        {oceanData?.content ?? ""}</Box>
+      <Box sx={{ width:"40em", p:"2em", wordWrap: "break-word", backgroundColor:"#D3ECF9", borderRadius:"1em", m:"1em auto", fontSize:"20px", boxShadow: "5"}}>
+        {oceanData?.content ?? "내용이 없습니다."}</Box>
     </Box>
   )
 }

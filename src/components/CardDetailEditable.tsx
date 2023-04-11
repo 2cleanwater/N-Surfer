@@ -27,8 +27,6 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
   const oceanLabelList: Array<string> = oceanData.labels.map(item=>JSON.stringify(item));
   const oceanImgUrlList: Array<string> = oceanData.images.map(item => item.imageUrl);
 
-  const [isButtonClicked, setIsButtonClicked]= useState<boolean>(false);
-
   //라벨 기본 클릭 설정
   const labelResetData = ()=>{
     let resetLabel = Array(5);
@@ -40,7 +38,6 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
     return resetLabel
   }
 
-  // const [labelList, setLabelList] = useState<Array<string>>(labelResetData());
   const [userImgSrc, setUserImgSrc] = useState<Array<string>>(oceanImgUrlList);
   const [deleteImgSrc, setDeleteImgSrc] = useState<Array<string>>(["","",""]);
 
@@ -58,7 +55,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
       inputLabel: labelResetData()
     }
   });
-  const { register, handleSubmit, formState, formState: { isSubmitting, errors }, setValue, watch, reset, clearErrors, getValues, unregister } = methods;
+  const { register, handleSubmit, formState, formState: { isSubmitting, errors }, setValue, watch, reset, getValues } = methods;
   
   const today = new Date().toLocaleDateString();
 
@@ -84,7 +81,6 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
       navigate(`/card/${oceanData.cardId}`)
     } catch (err) {
       console.log(err);
-      setIsButtonClicked(false);
     }
   };
 
@@ -150,46 +146,48 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
   // 새로고침 방지 ===================================================
   const preventEvent = (e:React.MouseEvent) =>{e.preventDefault();};
 
-  // 더블 서밋 체크
-  function doubleSubmitCheck(){
-    if(isButtonClicked){
-      return isButtonClicked;
-    }else{
-      setIsButtonClicked(true);
-      return false;
-    }
-  }
-
   // 삭제 체크 ===================================================
   const checkDelete = ()=>{
-    if(doubleSubmitCheck())return;
     if (window.confirm('글을 삭제하시겠습니까?')){
       if(window.confirm('확인을 누르면 글이 삭제됩니다.')){
         value?.oceanStore.deleteOcean(oceanData.cardId); 
-        navigate(`/user/profile?nickname=${oceanData.nickname}`);} 
+        navigate(`/`);} 
     }else {
-      setIsButtonClicked(false);
       return}
     }
 
   // 저장 체크 ===================================================
   const checkSave = ()=>{
-    if(doubleSubmitCheck())return
     if(Object.keys(formState.dirtyFields).length <= 0&&JSON.stringify(oceanImgUrlList)==JSON.stringify(userImgSrc)){
       window.confirm('변경된 내용이 없습니다.');
-      setIsButtonClicked(false);
     }else{
       if (window.confirm('저장하시겠습니까?')){
         handleSubmit(onSubmit)();
       }else {
-        setIsButtonClicked(false);
         return}
     }  
   }
 
+  // 쓰로쓸링 디바운싱
+  let timer: NodeJS.Timeout | number = 0;
+  const throttle = (func:Function): void => {
+    if (timer) {return;}  
+    timer = setTimeout(() => {
+      func()
+      timer = 0;
+    }, 1000);
+  };
+
+  const debounce = (func:Function) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func()
+      }, 1000);
+  }
+
   return (
-    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{bgcolor:"waveBackground", width:"900px", alignItems:"center",borderRadius:"2em", p:"10px", mb:"50px",position:"relative", boxShadow: "5"}}>
-      <Box sx={{bgcolor:"#2158A8", borderRadius:"1em",width:"750px", p:"25px",pt:"55px", pb:"55px",wordBreak:"break-all",m: "30px auto", mb:"15px", position:"relative", fontWeight:"bolder", fontSize:"30px", color: "white", display:"flex", flexDirection:"column" ,justifyContent:"center", alignItems:"center", boxShadow: "5"}}>
+    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{bgcolor:"waveBackground", width:"57em", alignItems:"center",borderRadius:"2em", p:"0.5em", mb:"3em",position:"relative", boxShadow: "5"}}>
+      <Box sx={{bgcolor:"#2158A8", borderRadius:"1em",width:"25em", p:"0.8em",py:"1.5em", wordBreak:"break-all",m: "1em auto", position:"relative", fontWeight:"bolder", fontSize:"30px", color: "white", display:"flex", flexDirection:"column" ,justifyContent:"center", alignItems:"center", boxShadow: "5"}}>
         <TextField
           type="text"
           id="outlined-basic"
@@ -200,30 +198,31 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
           error={watch("inputTitle").length>50||watch("inputTitle").length==0 ?true:false}
           helperText={watch("inputTitle").length==0? '제목을 적어주세요.' : watch("inputTitle").length>500 ? '제목은 50글자를 넘을 수 없습니다.' : ''}
           inputProps={{style: {minHeight:"50px", fontWeight:"bolder", fontSize:"30px", color: "white", textAlign:"center", lineHeight: '1.5'}}}
-          sx={{width:"700px"}}
+          sx={{width:"23em"}}
           {...register("inputTitle", {
-            onChange: (e) => setValue("inputTitle", e.target.value),
+            onChange: (e) => debounce(()=>setValue("inputTitle", e.target.value)),
             required:"제목을 입력해주세요"        
           })}/>
-        <Box sx={{pr:"50px", color:"lightblue",fontWeight:"bold",fontSize:"20px" ,textAlign:"right", position:"absolute", bottom:"20px", right:"0px"}}>by. {value?.profileStore.userData.nickname} </Box>
+        <Box sx={{pr:"2em", color:"lightblue",fontWeight:"bold",fontSize:"20px" ,textAlign:"right", position:"absolute", bottom:"1em", right:"0"}}>
+          by. {value?.profileStore.userData.nickname} </Box>
       </Box>
 
-      <Box sx={{width:"800px", height:"80px", bgcolor:"#2E88C7", borderRadius:"1em",display:"flex", m: "0px auto", mb:"40px", justifyContent: "space-between", alignItems:"center", boxShadow: "5" }}>
-        <Box sx={{display:"flex",  m:"10px"}}>
+      <Box sx={{width:"50em", height:"5em", bgcolor:"#2E88C7", borderRadius:"1em",display:"flex", m: "0px auto", mb:"1em", justifyContent: "space-between", alignItems:"center", boxShadow: "5" }}>
+        <Box sx={{display:"flex",  m:"0.5em"}}>
           {wholeLabels.map((element, index)=>(
             <FormControlLabel key={index} control={<Checkbox value={JSON.stringify(element)} {...register(`inputLabel.${index}`,{onChange:(e) => {}})} sx={{display:"none"}}/>}
-            sx={{p:"10px",m:"5px","&:hover":{transform: "scale(1.1)", cursor : "pointer"},bgcolor:watch(`inputLabel.${index}`)?labelColor(element.color)?.backgroundColor:"white",color: watch(`inputLabel.${index}`)?labelColor(element.color)?.textColor:"gray", display:"flex",borderRadius:"0.8em", boxShadow:watch(`inputLabel.${index}`)?5:"inset 1px 1px 3px #444"}} 
+            sx={{p:"0.5em",m:"0.5em","&:hover":{transform: "scale(1.1)", cursor : "pointer"},bgcolor:watch(`inputLabel.${index}`)?labelColor(element.color)?.backgroundColor:"white",color: watch(`inputLabel.${index}`)?labelColor(element.color)?.textColor:"gray", display:"flex",borderRadius:"0.8em", boxShadow:watch(`inputLabel.${index}`)?5:"inset 1px 1px 3px #444"}} 
             label={element.name} />
           ))}
         </Box>
-        <Box sx={{width:"110px",fontSize:"20px", textAlign:"center", fontWeight:"400", mr:"30px"}}>
+        <Box sx={{width:"6em",fontSize:"20px", textAlign:"center", fontWeight:"400", mr:"1em"}}>
           {today}
         </Box>
       </Box>
 
-      <Box sx={{ width:"800px",wordWrap: "break-word", borderRadius:"1em", m:"0px auto", pt:"10px", fontSize:"30px", fontWeight:"bolder",color:"white",alignContent:"center", display:"flex", flexDirection:"row", justifyContent: "space-between"}}>
+      <Box sx={{ width:"25em",wordWrap: "break-word", borderRadius:"1em", m:"0px auto", pt:"1em", fontSize:"30px", fontWeight:"bolder",color:"white",alignContent:"center", display:"flex", flexDirection:"row", justifyContent: "space-between"}}>
         {[...Array(3)].map((_, index)=>(
-          <Box key={index} sx={{width:"220px",height:"270px", m:"10px", borderRadius:"20px", border: userImgSrc[index]?"lightblue 5px solid":"lightblue 5px dashed", position: "relative", boxShadow: "5"}}>
+          <Box key={index} sx={{width:"25em",height:"10em", m:"0.2em", borderRadius:"20px", border: userImgSrc[index]?"lightblue 5px solid":"lightblue 5px dashed", position: "relative", boxShadow: "5"}}>
             {errors.inputImg&&<Box sx={{fontSize:"15px", position:"absolute", top:"105%",left:"8%"}}>{errors.inputImg[index]?.message}</Box>}
             <Box sx={{ display: userImgSrc[index]?'none':"", position:"absolute",top:"50%", left:"50%", transform:"translate(-50%,-50%)" }}>
               <Tooltip title={<div style={{ fontSize:"15px" }}>이미지 업로드</div>}>
@@ -244,11 +243,11 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
             {userImgSrc[index]&&
             <Box sx={{}}>
               <Box component="img" key={index} src={userImgSrc[index]} alt='UserImage' 
-                sx={{width:"220px",height:"270px", borderRadius:"15px", objectFit: "cover", objectPosition:"center", overflow: "hidden"}} />
+                sx={{width:"7.5em",height:"10em", borderRadius:"15px", objectFit: "cover", objectPosition:"center", overflow: "hidden"}} />
             </Box>}
 
             <Tooltip title={<div style={{fontSize:"15px"}}>이미지 삭제</div>}>
-              <IconButton size="small" sx={{ position: "absolute", right: "10px", top: "10px", bgcolor:"gray", color:"white", 
+              <IconButton size="small" sx={{ position: "absolute", right: "0.5em", top: "0.5em", bgcolor:"gray", color:"white", 
                 "&:hover":{
                   bgcolor:"white",color:"gray",
                   transform: "scale(1.1)",
@@ -259,7 +258,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
             </Tooltip>
             
             <Tooltip title={<div style={{fontSize:"15px"}}>이미지 복구</div>}>
-              <IconButton size="small" sx={{ position: "absolute", right: "50px", top: "10px", bgcolor:"#0B6E99", color:"white", 
+              <IconButton size="small" sx={{ position: "absolute", right: "3em", top: "0.5em", bgcolor:"#0B6E99", color:"white", 
               "&:hover":{
                 bgcolor:"white",color:"#0B6E99",
                 transform: "scale(1.1)",
@@ -272,7 +271,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
         ))}
       </Box>
 
-      <Box sx={{ width:"720px", p:"40px", wordWrap: "break-word", bgcolor:"#D3ECF9", borderRadius:"1em", m:"40px auto", fontSize:"20px", alignContent:"center", boxShadow: "5"}}>
+      <Box sx={{ width:"40em", p:"2em", wordWrap: "break-word", bgcolor:"#D3ECF9", borderRadius:"1em", m:"1em auto", fontSize:"20px", alignContent:"center", boxShadow: "5"}}>
         <TextField
           type="text"
           id="outlined-basic"
@@ -283,31 +282,31 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
           rows={6}
           error={watch("inputContent").length==0 ?true:false}
           helperText={watch("inputContent").length==0? '내용을 적어주세요.' :''}
-          sx={{width:"700px"}}
+          sx={{width:"40em"}}
           inputProps={{style: {fontSize: 20}}}
           {...register("inputContent", {
-            onChange: (e) => setValue("inputContent", e.target.value),
+            onChange: (e) => debounce(()=>setValue("inputContent", e.target.value)),
             required:"내용을 입력해주세요" 
           })}/>
       </Box>
       <Tooltip title={<div style={{fontSize:"15px"}}>글 수정</div>}>
-        <IconButton type="submit" size="medium" disabled={isSubmitting} sx={{position:"absolute", top:"7em", right:"10px", color: "white", bgcolor:"#0F7B6C", 
+        <IconButton type="submit" size="medium" disabled={isSubmitting} sx={{position:"absolute", top:"7em", right:"0.5em", color: "white", bgcolor:"#0F7B6C", 
         "&:hover":{
           color: "#0F7B6C", bgcolor:"white",
           transform: "scale(1.1)",
           cursor : "pointer",
-        }}} onClick={(e)=>{preventEvent(e); checkSave();}}>
+        }}} onClick={(e)=>{preventEvent(e); throttle(checkSave);}}>
           <SaveIcon fontSize="medium" />
         </IconButton>
       </Tooltip>
       
       <Tooltip title={<div style={{fontSize:"15px"}}>글 삭제</div>}>
-        <IconButton size="medium" sx={{position:"absolute", top:"10em", right:"10px", color: "white", bgcolor:"#E03E3E", 
+        <IconButton size="medium" sx={{position:"absolute", top:"10em", right:"0.5em", color: "white", bgcolor:"#E03E3E", 
         "&:hover":{
           color: "#E03E3E", bgcolor:"white",
           transform: "scale(1.1)",
           cursor : "pointer"
-        }}} onClick={(e)=>{preventEvent(e); checkDelete(); }} >
+        }}} onClick={(e)=>{preventEvent(e); throttle(checkDelete) }} >
           <DeleteForeverIcon fontSize="medium" />
         </IconButton>
       </Tooltip>

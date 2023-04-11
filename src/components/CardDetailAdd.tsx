@@ -16,9 +16,7 @@ const CardDetailAdd = () => {
   const value = useRootStore();
   const navigate = useNavigate();
   const wholeLabels:Array<label> = wholeLabelList;
-  // const [labelList, setLabelList] = useState<Array<string>>([]);
   const [userImgSrc, setUserImgSrc] = useState<Array<string>>(["","",""]);
-  // const [deleteImgSrc, setDeleteImgSrc] = useState<Array<string>>(["","",""]);
 
   // useForm 선언 ===================================================
   const methods = useForm<{
@@ -33,7 +31,7 @@ const CardDetailAdd = () => {
       inputContent: ""
     }
   });
-  const { register, handleSubmit, formState, formState: { isSubmitting, errors }, setValue, watch, reset, clearErrors, getValues, unregister } = methods;
+  const { register, handleSubmit, formState, formState: { errors }, setValue, watch, reset, getValues } = methods;
   
   const today = new Date().toLocaleDateString();
 
@@ -54,7 +52,6 @@ const CardDetailAdd = () => {
       value?.oceanStore.postOcean(formData, navigate);
     } catch(err) {
       console.log(err);
-      setIsButtonClicked(false);
     }
   };
 
@@ -87,46 +84,46 @@ const CardDetailAdd = () => {
   // 새로고침 방지 ===================================================
   const preventEvent = (e:React.MouseEvent) =>{e.preventDefault();};
 
-  // 더블 서밋 체크
-  const [isButtonClicked, setIsButtonClicked]= useState<boolean>(false);
-  function doubleSubmitCheck(){
-    if(isButtonClicked){
-      return isButtonClicked;
-    }else{
-      setIsButtonClicked(true);
-      return false;
-    }
-  }
-
   // 삭제 체크 ===================================================
   const checkCancel = ()=>{
-    if(doubleSubmitCheck())return;
     if (window.confirm('글 작성을 취소하시겠습니까? 글 내용이 사라집니다.')){
       if(window.confirm('확인을 누르면 글 작성이 취소됩니다.')){
         navigate("/");} 
     }else {
-      setIsButtonClicked(false);
       return}
     }
 
   // 저장 체크 ===================================================
   const checkSave = ()=>{
-    if(doubleSubmitCheck())return;
     if(Object.keys(formState.dirtyFields).length > 0){
       if (window.confirm('저장하시겠습니까?')){
         handleSubmit(onSubmit)();
       }else {
-        setIsButtonClicked(false);
         return}
     }else{
       window.confirm('작성된 내용이 없습니다.');
-      setIsButtonClicked(false);
     }  
   }
 
+  // 쓰로쓸링 디바운싱
+  let timer: NodeJS.Timeout | number = 0;
+  const throttle = (func:Function): void => {
+    if (timer) {return;}  
+    timer = setTimeout(() => {
+      func()
+      timer = 0;
+    }, 1000);
+  };
+  const debounce = (func:Function) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func()
+      }, 1000);
+  }
+
   return (
-    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{bgcolor:"waveBackground", width:"900px", alignItems:"center",borderRadius:"2em", p:"10px", mb:"50px",position:"relative", boxShadow: "5"}}>
-      <Box sx={{bgcolor:"#2158A8", borderRadius:"1em",width:"750px", p:"25px",py:"55px",wordBreak:"break-all",m: "30px auto", mb:"15px", position:"relative", fontWeight:"bolder", fontSize:"30px", color: "white", display:"flex", flexDirection:"column" ,justifyContent:"center", alignItems:"center", boxShadow: "5"}}>
+    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{bgcolor:"waveBackground", width:"57em", alignItems:"center",borderRadius:"2em", p:"0.5em", mb:"3em",position:"relative", boxShadow: "5"}}>
+      <Box sx={{bgcolor:"#2158A8", borderRadius:"1em",width:"25em", p:"0.8em",py:"1.5em",wordBreak:"break-all",m: "1em auto", position:"relative", fontWeight:"bolder", fontSize:"30px", color: "white", display:"flex", flexDirection:"column" ,justifyContent:"center", alignItems:"center", boxShadow: "5"}}>
         <TextField
           type="text"
           id="outlined-basic"
@@ -135,33 +132,33 @@ const CardDetailAdd = () => {
           size="small"
           multiline
           error={watch("inputTitle").length>50||watch("inputTitle").length==0 ?true:false}
-          // helperText={watch("inputTitle").length>30 ? '제목은 30글자를 넘을 수 없습니다.' : ''}
           helperText={watch("inputTitle").length==0? '제목을 적어주세요.' : watch("inputTitle").length>500 ? '제목은 50글자를 넘을 수 없습니다.' : ''}
-          inputProps={{style: {minHeight:"50px", fontWeight:"bolder", fontSize:"30px", color: "white", textAlign:"center", lineHeight: '1.5'}}}
-          sx={{width:"700px"}}
+          inputProps={{style: {minHeight:"2em", fontWeight:"bolder", fontSize:"30px", color: "white", textAlign:"center", lineHeight: '1.5'}}}
+          sx={{width:"23em"}}
           {...register("inputTitle", {
-            onChange: (e) => setValue("inputTitle", e.target.value),
+            onChange: (e) => debounce(()=>setValue("inputTitle", e.target.value)),
             required:"제목을 입력해주세요"        
           })}/>
-        <Box sx={{pr:"50px", color:"lightblue",fontWeight:"bold",fontSize:"20px" ,textAlign:"right", position:"absolute", bottom:"20px", right:"0px"}}>by. {value?.profileStore.userData.nickname} </Box>
+        <Box sx={{pr:"2em", color:"lightblue",fontWeight:"bold",fontSize:"20px" ,textAlign:"right", position:"absolute", bottom:"1em", right:"0"}}>
+          by. {value?.profileStore.userData.nickname} </Box>
       </Box>
 
-      <Box sx={{width:"800px", height:"80px", bgcolor:"#2E88C7", borderRadius:"1em",display:"flex", m: "0px auto", mb:"40px", justifyContent: "space-between", alignItems:"center", boxShadow: "5" }}>
-        <Box sx={{display:"flex", m:"10px"}}>
+      <Box sx={{width:"50em", height:"5em", bgcolor:"#2E88C7", borderRadius:"1em",display:"flex", m: "0px auto", mb:"1em", justifyContent: "space-between", alignItems:"center", boxShadow: "5" }}>
+        <Box sx={{display:"flex", m:"0.5em"}}>
           {wholeLabels.map((element, index)=>(
             <FormControlLabel key={index} control={<Checkbox value={JSON.stringify(element)} {...register(`inputLabel.${index}`,{onChange:(e) => {}})} sx={{display:"none"}}/>}
-            sx={{p:"10px",m:"5px","&:hover":{transform: "scale(1.1)", cursor : "pointer"},bgcolor:watch(`inputLabel.${index}`)?labelColor(element.color)?.backgroundColor:"white",color: watch(`inputLabel.${index}`)?labelColor(element.color)?.textColor:"gray", display:"flex",borderRadius:"0.8em", boxShadow:watch(`inputLabel.${index}`)?5:"inset 1px 1px 3px #444"}} 
+            sx={{p:"0.5em",m:"0.5em","&:hover":{transform: "scale(1.1)", cursor : "pointer"},bgcolor:watch(`inputLabel.${index}`)?labelColor(element.color)?.backgroundColor:"white",color: watch(`inputLabel.${index}`)?labelColor(element.color)?.textColor:"gray", display:"flex",borderRadius:"0.8em", boxShadow:watch(`inputLabel.${index}`)?5:"inset 1px 1px 3px #444"}} 
             label={element.name} />
             ))}
         </Box>
-        <Box sx={{width:"110px",fontSize:"20px", textAlign:"center", fontWeight:"400", mr:"30px"}}>
+        <Box sx={{width:"6em",fontSize:"20px", textAlign:"center", fontWeight:"400", mr:"1em"}}>
           {today}
         </Box>
       </Box>
 
-      <Box sx={{ width:"800px",wordWrap: "break-word", borderRadius:"1em", m:"0px auto", pt:"10px", fontSize:"30px", fontWeight:"bolder",color:"white",alignContent:"center", display:"flex", flexDirection:"row", justifyContent: "space-between"}}>
+      <Box sx={{ width:"25em",wordWrap: "break-word", borderRadius:"1em", m:"0px auto", pt:"1em", fontSize:"30px", fontWeight:"bolder",color:"white",alignContent:"center", display:"flex", flexDirection:"row", justifyContent: "space-between"}}>
         {[...Array(3)].map((_, index)=>(
-          <Box key={index} sx={{width:"220px",height:"270px", m:"10px", borderRadius:"20px", border: userImgSrc[index]?"lightblue 5px solid":"lightblue 5px dashed", position: "relative", boxShadow: "5"}}>
+          <Box key={index} sx={{width:"25em",height:"10em", m:"0.2em", borderRadius:"20px", border: userImgSrc[index]?"lightblue 5px solid":"lightblue 5px dashed", position: "relative", boxShadow: "5"}}>
             {errors.inputImg&&<Box sx={{fontSize:"15px", position:"absolute", top:"105%",left:"8%"}}>{errors.inputImg[index]?.message}</Box>}
             <Box sx={{ display: userImgSrc[index]?'none':"", position:"absolute",top:"50%", left:"50%", transform:"translate(-50%,-50%)" }}>
               <IconButton component="label" size="large" sx={{color:"#0B6E99"}} >
@@ -180,8 +177,8 @@ const CardDetailAdd = () => {
             {userImgSrc[index]&&
             <Box sx={{}}>
               <Box component="img" key={index} src={userImgSrc[index]} alt='UserImage' 
-                sx={{width:"220px",height:"270px", borderRadius:"15px", objectFit: "cover", objectPosition:"center", overflow: "hidden"}} />
-              <IconButton size="small" sx={{ position: "absolute", right: "10px", top: "10px", bgcolor:"gray", color:"white", 
+                sx={{width:"7.5em",height:"10em", borderRadius:"15px", objectFit: "cover", objectPosition:"center", overflow: "hidden"}} />
+              <IconButton size="small" sx={{ position: "absolute", right: "0.5em", top: "0.5em", bgcolor:"gray", color:"white", 
               "&:hover":{
                 bgcolor:"white",color:"gray",
                 transform: "scale(1.1)",
@@ -194,7 +191,7 @@ const CardDetailAdd = () => {
         ))}
       </Box>
 
-      <Box sx={{ width:"720px", p:"40px", wordWrap: "break-word", bgcolor:"#D3ECF9", borderRadius:"1em", m:"40px auto", fontSize:"20px", alignContent:"center", boxShadow: "5"}}>
+      <Box sx={{ width:"40em", p:"2em", wordWrap: "break-word", bgcolor:"#D3ECF9", borderRadius:"1em", m:"1em auto", fontSize:"20px", alignContent:"center", boxShadow: "5"}}>
         <TextField
           type="text"
           id="outlined-basic"
@@ -205,34 +202,34 @@ const CardDetailAdd = () => {
           rows={6}
           error={watch("inputContent").length==0 ?true:false}
           helperText={watch("inputContent").length==0? '내용을 적어주세요.' :''}
-          sx={{width:"700px"}}
+          sx={{width:"40em"}}
           inputProps={{style: {fontSize: 20}}}
           {...register("inputContent", {
-            onChange: (e) => setValue("inputContent", e.target.value),
+            onChange: (e) => debounce(()=>setValue("inputContent", e.target.value)),
             required:"내용을 입력해주세요" 
           })}/>
       </Box>
 
       <Tooltip title={<div style={{fontSize:"15px"}}>글 저장</div>}>
-        <IconButton size="medium" sx={{position:"absolute", top:"11%", right:"10px", color: "white", bgcolor:"#0F7B6C", 
+        <IconButton size="medium" sx={{position:"absolute", top:"7em", right:"0.5em", color: "white", bgcolor:"#0F7B6C", 
         "&:hover":{
           color: "#0F7B6C", bgcolor:"white",
           transform: "scale(1.1)",
           cursor : "pointer"
         }}} 
-        onClick={(e)=>{preventEvent(e);checkSave();}}
+        onClick={(e)=>{preventEvent(e);throttle(checkSave);}}
         >
           <SaveIcon fontSize="medium" />
         </IconButton>
       </Tooltip>
       
       <Tooltip title={<div style={{fontSize:"15px"}}>작성 취소</div>}>
-        <IconButton size="medium" sx={{position:"absolute", top:"18%", right:"10px", color: "white", bgcolor:"#E03E3E", 
+        <IconButton size="medium" sx={{position:"absolute", top:"10em", right:"0.5em", color: "white", bgcolor:"#E03E3E", 
         "&:hover":{
           color: "#E03E3E", bgcolor:"white",
           transform: "scale(1.1)",
           cursor : "pointer"
-        }}} onClick={(e)=>{preventEvent(e); checkCancel(); }} >
+        }}} onClick={(e)=>{preventEvent(e); throttle(checkCancel); }} >
           <DeleteForeverIcon fontSize="medium" />
         </IconButton>
       </Tooltip>
