@@ -6,6 +6,7 @@ import { UserDataForm } from '@store/ProfileStore';
 import { OceanData } from '@store/OceanStore';
 import instance from '@service/axiosInterceptor';
 import CardMini from '@components/CardMini';
+import Loading from '@components/Loading';
 
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -14,7 +15,6 @@ import { Box, IconButton, Tooltip } from '@mui/material';
 import ListIcon from '@mui/icons-material/List';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SettingsIcon from '@mui/icons-material/Settings';
-
 
 const Profile = () => {
   const value = useRootStore()!;
@@ -72,48 +72,33 @@ const Profile = () => {
       method: "GET",
       url: profileUrl,
       headers:{
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json; charset=UTF-8',
       }})
       .then((res)=>{
         setUserData(res.data as UserDataForm)
       })
       .catch((err)=>{
         console.log(err);
-        window.alert(nickname + "의 정보를 가져올 수 없습니다.");
       })
   }
 
-  // ocean list 받아오기
-  const getOceanList= async function(){
-    const oceanListUrl = `/card?nickname=${nickname}&numOfCards=3`;
-    await instance({
-      method: "GET",
-      url: oceanListUrl,
-      headers:{
-        'Content-Type': 'application/json'
-      }
-    })
-    .then((res)=>{
-      setUserOceanList(res.data.cardList as Array<OceanData>|| [])
-    })
-    .catch((err)=>{
-      console.log(err);
-      window.alert("Ocean List의 정보를 가져올 수 없습니다.");
-    })
-  }
-
   // sever data =============================================
+  // useEffect(()=>{
+  //   getUserData(nickname);
+  // },[searchParams, isEditing]);
   useEffect(()=>{
     getUserData(nickname);
-  },[searchParams]);
+  },[]);
+
 
   useEffect(()=>{
-    getOceanList();
+    value.oceanStore.getOceanList({numOfCards:3,nickname:nickname, setValue:setUserOceanList});
   },[searchParams])
 
   return (
     <Box sx={{display:"flex", flexDirection:"column", justifyItems:"center", alignItems:"center"}}>
-      {userData.nickname&&<Box sx={{position:"relative", justifyItems:"center", alignItems:"center", display:"flex", flexDirection:"column",}}>
+      {userData.nickname?
+      <Box sx={{position:"relative", justifyItems:"center", alignItems:"center", display:"flex", flexDirection:"column",}}>
         {nickname===value.profileStore.userData.nickname&&
         <Tooltip title={<div style={{fontSize:"15px"}}>설정</div>}>
           <IconButton size="medium" onClick={()=>{setIsEditing(!isEditing)}} sx={settingButton} >
@@ -123,7 +108,11 @@ const Profile = () => {
         {isEditing?
         (<EditProfile userData={userData} setIsEditing={setIsEditing} getUserData={getUserData}/>):
         (<UserProfile userData={userData}/>)}
-      </Box>}
+      </Box>:
+      <Box sx={{ width: "60em", height: "30em", m:"1em" ,boxShadow: 3, borderRadius:"2em", alignItems:"center", justifyItems:"center",display:"flex", flexDirection:"row", bgcolor:"#F5F5F7"}}>
+        <Loading/>
+      </Box>
+      }
 
       <Wave nickname={nickname}/>
 
@@ -142,9 +131,17 @@ const Profile = () => {
         </Tooltip>        
       </Box>
 
-      {userOceanList.length>0&&<Box sx={{display:'flex',justifyContent: "center", alignItems: "center", p:"1em", mt:"4em"}}>
-        {[...Array(3)].map((_, index) => {return (<div key={index}>{userOceanList[index]&&<CardMini OceanData={userOceanList[index]}/>}</div>)})}      
-      </Box>}
+      {value.oceanStore.isOceanListLoading?
+      <Box sx={{width:"100%"}}><Loading/></Box>:
+      <>{userOceanList.length<=0?
+        <Box sx={{display:'flex', flexDirection:"column", justifyContent: "center", alignItems: "center",my:"2em",height:"10em"}}>
+          <Box sx={{fontSize:"40px", color:"#0F7B6C"}}>최근 작성된 파도가 없습니다!</Box>
+          <Box sx={{fontSize:"25px", color:"#0F7B6C"}}>글을 작성하여 파도를 추가해보세요.</Box>
+        </Box>:
+        <Box sx={{display:'flex',justifyContent: "center", alignItems: "center",my:"6em"}}>
+          {[...Array(3)].map((_, index) => {return (<div key={index}>{userOceanList[index]&&<CardMini OceanData={userOceanList[index]}/>}</div>)})}
+        </Box>
+      }</>}
     </Box>
   )
 }

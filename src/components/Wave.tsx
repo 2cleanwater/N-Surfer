@@ -11,7 +11,6 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Box, IconButton, styled, Tooltip } from '@mui/material';
 
-
 // css
 const DayList = styled("li")({
   flexGrow: "1",
@@ -34,18 +33,7 @@ const Wave = ({nickname}:{nickname:string}) => {
   const latestDate = waveStore.calFirstDate(new Date());
   // wave의 First date
   const [firstDate,setFirstDate] = useState<Date>(latestDate);
-  function findLastDate(date:Date){
-    const today = new Date();
-    console.log(today)
-    date.setDate(date.getDate()+ 69);
-    console.log(date.getTime()<today.getTime())
-    if(date.getTime()<today.getTime()){
-      // console.log(date)
-    }else{
-      // console.log(today)
-    }
-  }
-  console.log(firstDate)
+
   // 날짜를 문자형식으로
   const [stringDate, setStringDate]= useState<string>(dateConverter({date:firstDate,tag:""}));
   // date, date의 wave 갯수, index
@@ -62,7 +50,7 @@ const Wave = ({nickname}:{nickname:string}) => {
   // 날짜가 바뀔 때마다 웨이브를 불러오기 
   useEffect(()=>{
     waveStore.getWaveList(nickname,firstDate,setWaveList);
-  },[stringDate, value.profileStore.userData.todayWave])
+  },[stringDate])
 
   //Click 체크
   const isClicked=(index:number)=>{
@@ -96,7 +84,7 @@ const Wave = ({nickname}:{nickname:string}) => {
       }}>
       <Box sx={{display:"flex", justifyContent: "space-between", pb:"1em"}}>
         <Box sx={{textAlign:"left", color:"white", pl:"1em", fontSize:"2em", fontWeight:"Bold", textShadow:"2px 2px 2px gray"}}>
-          "{nickname}"님의 파도</Box>
+          "{nickname}" 님의 파도</Box>
         <Box id="singleItemValue" sx={{width:"15em", height:"2em", display:"flex", flexDirection:"row", justifyContent: "space-between", alignItems: "center", p:"0.5em", mr:"2em", bgcolor:"#F2E0C9",borderRadius: "30px",boxShadow: 3}}>
           {hoverData.date?
           (<Box sx={{fontWeight:"bold", color:"#0F8DBF", pl:"10px"}}>{dateConverter({dateString:hoverData.date,tag:"korean"})} : {hoverData.number}번</Box>):
@@ -147,8 +135,8 @@ const Wave = ({nickname}:{nickname:string}) => {
           <DayList>FRI</DayList>
           <DayList>SAT</DayList>
         </Box>
-        {value.loadingStore._IsLoading_WaveList?
-          <Loading/>:
+        {value.waveStore.isWaveLoading?
+          <Box sx={{display: "flex", width:"47em", height:"26em"}}><Loading/></Box>:
           <Box sx={{display: "flex",}}>
           {[...Array(10)].map((_, rowIndex) => (
             <div key={rowIndex} style={{ display: "flex",flexDirection:"column"}}>

@@ -36,8 +36,7 @@ const NotFoundComponent = () => {
     
     const onResize = () => {
       // w = window.innerWidth;
-      // console.log(w)
-      w = 1100;
+      w = 1120;
       h = window.innerHeight;
 
       wH = w >> 1;
@@ -292,7 +291,7 @@ const NotFoundComponent = () => {
       const target = (e.touches && e.touches.length) ? e.touches[0] : e;
       const { clientX: x, clientY: y } = target;
 
-      mouse.x = x-((window.innerWidth-1100)/2);
+      mouse.x = x-((window.innerWidth-1120)/2);
       mouse.y = y-350;
       mouse.angle = angleBetween(squid.x, squid.y, mouse.x, mouse.y);
     };

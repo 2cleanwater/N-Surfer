@@ -3,6 +3,7 @@ import instance from '@service/axiosInterceptor';
 
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react';
+import { useEffect } from 'react';
 
 const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
 const TOKEN_URL = "/auth/login/kakao";
@@ -18,8 +19,6 @@ const KakaoAuth= function() {
   const getKakaoToken = async (): Promise<string | void> =>{
     try{
       const { data: { accessToken, refreshToken} } = await instance.get<{ accessToken: string; refreshToken: string }>(`${TOKEN_URL}?redirectUrl=${REDIRECT_URI}&code=${code}`);
-      console.log(accessToken);
-      console.log(refreshToken);
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
       alert('성공적으로 로그인 했습니다');
@@ -33,7 +32,10 @@ const KakaoAuth= function() {
       navigate("/");
     }
   };
-  getKakaoToken();
+  useEffect(()=>{
+    if(localStorage.getItem('accessToken')){navigate("/")}
+    else{getKakaoToken();}
+  },[])
   return (
     <Loading/>
   )

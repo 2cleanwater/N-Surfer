@@ -25,8 +25,6 @@ const CardList =() => {
   const nicknameParams:string= searchParams.get("nickname")||"";
   const selectedLabelIndex:number = labelParams?labelList.indexOf(labelParams):-1
 
-  const [cardExist, setCardExist]= useState<boolean>(true);
-
   // 무한스크롤 파트
   const [target, setTarget] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -41,7 +39,6 @@ const CardList =() => {
     //입력창과 파람을 비교해 파람기준으로 맞춰줌
     if(nicknameParams!==inputNickname)setInputNickname(nicknameParams);
     try{
-      setCardExist(true);
       // 첫 데이터 받아옴
       value.oceanStore.getOceanList({
         numOfCards:9,
@@ -51,7 +48,6 @@ const CardList =() => {
         setNextCursor:setNextCursor
       });
     }catch(err){
-      setCardExist(false);
     }
   },[searchParams])
 
@@ -127,8 +123,8 @@ const CardList =() => {
       </Box>
 
       <Box id="body" sx={{display:"flex"}}>
-        <Box id="tags" sx={{listStyle:"none", p:"1em",ml:"1em" ,width:"10em", borderRadius:"1em", bgcolor:"waveBackground"}}>
-          <Box sx={{ width: '10em', maxWidth: "10em", bgcolor: 'background.paper'}}>
+        <Box id="tags" sx={{listStyle:"none", p:"1em",m:"1em" ,width:"8em", borderRadius:"1em", bgcolor:"waveBackground"}}>
+          <Box sx={{ width: '8em', maxWidth: "10em", bgcolor: 'background.paper'}}>
             <List component="nav" aria-label="secondary mailbox folder">
               <ListItemButton
                 selected={selectedLabelIndex === -1}
@@ -169,7 +165,6 @@ const CardList =() => {
             </List>
           </Box>
         </Box>
-
         {oceanList.length>0?
         (<Box sx={{display: "flex", flexDirection:"column",  pr:"1em"}}>
           {[...Array(3*oceanIndex)].map((_, rowIndex) => (
@@ -188,7 +183,10 @@ const CardList =() => {
           <Box sx={{width:"18.5em",bgcolor:"#2158A8", borderRadius:"1em", textAlign:"center", m:"1em", p:"1em",fontSize:"40px", fontWeight:"bold",color:"white"}}>마지막 글입니다.</Box>:
           <Box sx={{width:"100%"}} ref={setTarget}>{isLoaded && <Loading/>}</Box>}
         </Box>):
-        (<Box sx={{width:"100%"}}>{cardExist?<Loading/>:<Box>작성된 글이 없습니다. 첫 파도를 일으켜보세요!</Box>}</Box>)}
+        (<Box sx={{width:"100%"}}>{value.oceanStore.isOceanListLoading?<Loading/>:
+        <Box sx={{width:"25em",bgcolor:"#2158A8", borderRadius:"1em", textAlign:"center", m:"1em", p:"1em",fontSize:"30px", fontWeight:"bold",color:"white"}}>
+          작성된 글이 없습니다.<br></br> <br></br>첫 파도를 일으켜보세요!</Box>}</Box>)
+        }
       </Box>
     </Box>
   )

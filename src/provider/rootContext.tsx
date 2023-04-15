@@ -3,7 +3,6 @@ import ModalStore, { ModalStoreForm } from '@store/ModalStore';
 import ProfileStore, { ProfileStoreForm } from '@store/ProfileStore';
 import WaveStore, { WaveStoreForm } from '@store/WaveStore';
 import OceanStore, { OceanStoreForm } from '@store/OceanStore';
-import LoadingStore, { LoadingStoreForm } from '@store/LoadingStore';
 
 import { observable } from 'mobx';
 import { createContext, ReactNode, useContext } from 'react'
@@ -14,8 +13,7 @@ const RootContext = createContext<{
   profileStore: ProfileStoreForm, 
   waveStore: WaveStoreForm, 
   oceanStore: OceanStoreForm,
-  loadingStore: LoadingStoreForm
-}|undefined>(undefined);
+}|null>(null);
 
 interface MyChildren {
   children: ReactNode;
@@ -27,9 +25,8 @@ export const RootProvider = ({children}: MyChildren) => {
   const profileStore= observable<ProfileStoreForm>(ProfileStore());
   const waveStore= observable<WaveStoreForm>(WaveStore());
   const oceanStore= observable<OceanStoreForm>(OceanStore());
-  const loadingStore= observable<LoadingStoreForm>(LoadingStore());
   return (
-    <RootContext.Provider value={{modalStore, authStore, profileStore, waveStore, oceanStore, loadingStore}}>{children}</RootContext.Provider>
+    <RootContext.Provider value={{modalStore, authStore, profileStore, waveStore, oceanStore}}>{children}</RootContext.Provider>
   )
 }
 

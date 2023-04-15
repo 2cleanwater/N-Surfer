@@ -53,6 +53,7 @@ const EditProfile = ({ userData, setIsEditing, getUserData }:myProfileEditProps)
     formData.append("imgFile", data.inputImg[0]);
     try {
       //patch후 navigate. param로 nickname을 받아온 후 getUserData가 완료될때까지 대기
+      value?.modalStore.openModal();
       await value.profileStore.patchMyUserData(formData);
       navigate(`/user/profile?nickname=${data.inputName}`)
       await getUserData(data.inputName);

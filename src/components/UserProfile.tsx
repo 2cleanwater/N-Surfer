@@ -1,11 +1,13 @@
 import InteractiveWave from '@components/InteractiveWave'
 import { UserDataForm } from '@store/ProfileStore';
+import { useRootStore } from '@provider/rootContext';
 
 import  { useEffect, useState } from 'react'
 
 import { Box } from '@mui/material';
 
 const UserProfile = ({userData}:{userData:UserDataForm}) => {
+  const value = useRootStore()!;
   const [userImgSrc, setUserImgSrc] = useState<string>(userData.imgUrl||"");
   const baseImg:string= process.env.REACT_APP_PROFILE_BASE_IMG!;
 
@@ -13,6 +15,11 @@ const UserProfile = ({userData}:{userData:UserDataForm}) => {
   useEffect(()=>{
     userData.imgUrl?setUserImgSrc(userData.imgUrl):setUserImgSrc(baseImg);
   },[])
+
+  // 로딩이 끝나면 모달 닫기
+  useEffect(()=>{
+    !value?.profileStore.isUserDataLoading&&value?.modalStore.closeModal();
+  },[value?.profileStore.isUserDataLoading])
 
   return (
     <Box sx={{ width: "60em", height: "30em", m:"1em" ,boxShadow: 3, borderRadius:"2em", alignItems:"center", justifyContent:"center",display:"flex", flexDirection:"row", bgcolor:"#F5F5F7"}}>
