@@ -97,7 +97,7 @@ const Navbar = ()=>{
               transform: "scale(1.1)"
             } }} >
               Logout</Button>) : 
-            (<Button onClick={()=>{value.modalStore.openModal()}}
+            (<Button onClick={()=>{value.authStore.setIsLoginLoading(true); value.modalStore.openModal()}}
             sx={{fontSize:"1.3em", fontWeight:"bolder", color:"#097581", "&:hover": {
               transform: "scale(1.1)"
             } }} >

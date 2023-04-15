@@ -29,11 +29,17 @@ const Home = () => {
       sx={{ width:"55em", borderRadius:"3em", boxShadow: 3,my:"3em"}}/>)}
       <Box sx={{width:"35em", borderRadius:"1em", boxShadow: 3, backgroundColor:"#0067a3", m:"1.5em", p:"0.5em", pl:"1.5em", fontSize:"25px", fontWeight:"bold", color:"white"}}>
         최근 작성된 파도</Box>
-      {value.loadingStore._IsLoading_OceanList||recentList.length<=0?
+      {value.oceanStore.isOceanListLoading?
       <Box sx={{width:"100%"}}><Loading/></Box>:
-      <Box sx={{display:'flex',justifyContent: "center", alignItems: "center",my:"6em"}}>
-        {[...Array(3)].map((_, index) => {return (<CardMini key={index} OceanData={recentList[index]}/>)})}
-      </Box>}
+      <>{recentList.length<=0?
+        <Box sx={{display:'flex', flexDirection:"column", justifyContent: "center", alignItems: "center",my:"2em",height:"10em"}}>
+          <Box sx={{fontSize:"40px", color:"#0F7B6C"}}>최근 작성된 파도가 없습니다!</Box>
+          <Box sx={{fontSize:"25px", color:"#0F7B6C"}}>글을 작성하여 파도를 추가해보세요.</Box>
+        </Box>:
+        <Box sx={{display:'flex',justifyContent: "center", alignItems: "center",my:"6em"}}>
+          {[...Array(3)].map((_, index) => {return (<div key={index}>{recentList[index]&&<CardMini OceanData={recentList[index]}/>}</div>)})}
+        </Box>
+      }</>}
     </Box>
   )
 }

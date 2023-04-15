@@ -1,5 +1,4 @@
 import instance from "@service/axiosInterceptor";
-import LoadingStore from "@store/LoadingStore"
 
 export interface imageForm{
   imageId:string;
@@ -63,6 +62,10 @@ export interface OceanParams{
 }
 
 export interface OceanStoreForm{
+  isOceanLoading: boolean;
+  setIsOceanLoading: (loading: boolean) => void;
+  isOceanListLoading: boolean;
+  setIsOceanListLoading: (loading: boolean) => void;
   getOcean: (cardId:string, setValue:(oceanData:OceanData)=>void)=>void;
   postOcean: (formData:FormData, navigate:(link:string)=>void)=>void;
   patchOcean: (cardId:string, formData:FormData)=>void;
@@ -72,7 +75,16 @@ export interface OceanStoreForm{
 
 const OceanStore = (): OceanStoreForm => {
   return {
+    isOceanLoading: false,
+    setIsOceanLoading: function(loading: boolean){
+      this.isOceanLoading=loading;
+    },
+    isOceanListLoading: false,
+    setIsOceanListLoading: function(loading: boolean){
+      this.isOceanListLoading=loading;
+    },
     getOcean: async function(cardId:string, setValue:(oceanData:OceanData)=>void){
+      this.setIsOceanLoading(true);
       const oceanUrl = `/card/${cardId}`;
       await instance({
         method: "GET",
@@ -82,12 +94,17 @@ const OceanStore = (): OceanStoreForm => {
         }})
         .then((res)=>{
           setValue(res.data as OceanData);
+          this.setIsOceanLoading(false);
         })
         .catch((err)=>{
+          setValue({} as OceanData)
+          this.setIsOceanLoading(false);
           console.log(err);
+          this.setIsOceanLoading(false);
       })
     },
     postOcean: async function(formData:FormData, navigate:(link:string)=>void){
+      this.setIsOceanLoading(true);
       const oceanUrl = `/card`;
       await instance({
         method: "POST",
@@ -100,13 +117,16 @@ const OceanStore = (): OceanStoreForm => {
           const ocean = res.data as OceanData;
           window.alert("성공적으로 저장되었습니다.");
           navigate(`/card/${ocean.cardId}`)
+          this.setIsOceanLoading(false);
         })
         .catch((err)=>{
           console.log(err);
           window.alert("저장에 실패했습니다.")
+          this.setIsOceanLoading(false);
       })
     },
     patchOcean: async function(cardId:string, formData:FormData){
+      this.setIsOceanLoading(true);
       const oceanUrl = `/card/${cardId}`;
       await instance({
         method: "PATCH",
@@ -117,13 +137,16 @@ const OceanStore = (): OceanStoreForm => {
         }})
         .then((res)=>{
           window.alert("성공적으로 수정되었습니다.")
+          this.setIsOceanLoading(false);
         })
         .catch((err)=>{
           console.log(err);
           window.alert("수정에 실패했습니다.")
+          this.setIsOceanLoading(false);
       })
     },
     deleteOcean: async function(cardId:string){
+      this.setIsOceanLoading(true);
       const oceanUrl = `/card/${cardId}`;
       await instance({
         method: "DELETE",
@@ -133,13 +156,16 @@ const OceanStore = (): OceanStoreForm => {
         }})
         .then(()=>{
           window.alert("성공적으로 삭제되었습니다.")
+          this.setIsOceanLoading(false);
         })
         .catch((err)=>{
           console.log(err);
           window.alert("삭제에 실패했습니다.")
+          this.setIsOceanLoading(false);
       })
     },
     getOceanList: async function(OceanParams:OceanParams){
+      this.setIsOceanListLoading(true);
       const params = [
         OceanParams.numOfCards && `numOfCards=${OceanParams.numOfCards}`,
         OceanParams.nextCardId && `nextCardId=${OceanParams.nextCardId}`,
@@ -155,14 +181,13 @@ const OceanStore = (): OceanStoreForm => {
         }
       })
       .then((res)=>{
-        LoadingStore()._IsLoading_True("oceanList");
         OceanParams.setValue&&OceanParams.setValue(res.data.cardList as Array<OceanData>|| []);
         OceanParams.setNextCursor&&OceanParams.setNextCursor(res.data.nextCardId as string||"noMore");
-        LoadingStore()._IsLoading_False("oceanList");
+        this.setIsOceanListLoading(false);
       })
       .catch((err)=>{
         console.log(err);
-        window.alert("Ocean List의 정보를 가져올 수 없습니다.");
+        this.setIsOceanListLoading(false);
       })
     }
   }

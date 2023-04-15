@@ -1,9 +1,13 @@
 import { Outlet } from 'react-router-dom';
-import Navbar from '@components/Navbar'
 import { observer } from 'mobx-react';
+
+import Navbar from '@components/Navbar'
+import Modal from '@components/Modal';
 import ModalLogin from '@components/ModalLogin';
 import { useRootStore } from '@provider/rootContext';
+
 import { Box } from '@mui/material';
+
 
 const App = ()=>{
   const value = useRootStore()!;
@@ -13,7 +17,7 @@ const App = ()=>{
       <Box sx={{}}>
         <Outlet />
       </Box>
-      {value.modalStore._IsModalOpen&&<ModalLogin/>}
+      {value.modalStore._IsModalOpen&&<Modal/>}
     </>
   )
 }

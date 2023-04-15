@@ -2,13 +2,14 @@ import CardDetail from '@components/CardDetail'
 import CardDetailEditable from '@components/CardDetailEditable';
 import { useRootStore } from '@provider/rootContext';
 import { OceanData } from '@store/OceanStore';
+import CardDetailNull from '@components/CardDetailNull';
 
 import { useEffect, useState } from 'react';
 
-import SettingsIcon from '@mui/icons-material/Settings';
+import { Box,  IconButton, Tooltip } from '@mui/material';
 import { notionToHtml } from '@service/notionToHtml';
 import ShareIcon from '@mui/icons-material/Share';
-import { Box, IconButton, Tooltip } from '@mui/material';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 function Card() {
   const value = useRootStore()!;
@@ -20,6 +21,7 @@ function Card() {
   
   // server data
   useEffect(()=>{
+    value.modalStore.openModal();
     value?.oceanStore.getOcean(cardId, setOceanData);
   },[isEditing]);
 
@@ -36,7 +38,10 @@ function Card() {
 
   return (
     <Box sx={{alignContent:"center", alignItems:"center", justifyContent:"center", justifyItems:"center", textAlign:"center", display:"flex", position:"relative"}}>
-      {oceanData.title&& <div>
+      {value.modalStore._IsModalOpen&&
+      <>
+      {oceanData.title? 
+      <div>
         {oceanData.nickname==value?.profileStore.userData.nickname&&
         <Tooltip title={<div style={{fontSize:"15px"}}>설정</div>}>
           <IconButton type="submit" size="medium" sx={{position:"absolute", top:"1em", right:"4.5em", color: "white", bgcolor:"#9B9A97", zIndex:"1000",
@@ -55,8 +60,9 @@ function Card() {
             <SettingsIcon fontSize="medium" />
           </IconButton>
         </Tooltip>}
+
         <Tooltip title={<div style={{fontSize:"15px", wordWrap: "normal", width:"14em" }}>저장된 HTML파일을 노션에서 "가져오기"해서 추가해보세요!</div>}>
-          <IconButton type="submit" size="medium" sx={{position:"absolute", top:"4em", right:"4.5em", color: "white", bgcolor:"#0B6E99", zIndex:"1000",
+          <IconButton type="submit" size="medium" sx={{position:"absolute", top:"4em", right:"4.5em", color: "white", bgcolor:"#0B6E99", zIndex:"11",
           "&:hover":{
               transform: "scale(1.1)",
               color: "#0B6E99", 
@@ -67,10 +73,15 @@ function Card() {
           <ShareIcon fontSize="medium" />
           </IconButton>
         </Tooltip>
+
       {isEditing?
         (<CardDetailEditable oceanData={oceanData} setIsEditing={setIsEditing}/>):
         (<CardDetail oceanData={oceanData}/>)}
-      </div>}
+
+      </div>:
+        <CardDetailNull/>
+      }
+      </>}
     </Box>
   )
 }

@@ -1,7 +1,7 @@
 import { useRootStore } from '@provider/rootContext';
 import { label, labelColor, OceanData, wholeLabelList } from '@store/OceanStore';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react';
@@ -76,6 +76,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
       deleteImgSrc[i]&&formData.append("deletedImages", deleteImgSrc[i]);
     }
     try {
+      value?.modalStore.openModal();
       await value?.oceanStore.patchOcean(oceanData.cardId ,formData);
       setIsEditing(false);
       navigate(`/card/${oceanData.cardId}`)
@@ -151,7 +152,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
     if (window.confirm('글을 삭제하시겠습니까?')){
       if(window.confirm('확인을 누르면 글이 삭제됩니다.')){
         value?.oceanStore.deleteOcean(oceanData.cardId); 
-        navigate(`/`);} 
+        navigate(`/card`);} 
     }else {
       return}
     }
@@ -163,8 +164,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
     }else{
       if (window.confirm('저장하시겠습니까?')){
         handleSubmit(onSubmit)();
-      }else {
-        return}
+      }else {return}
     }  
   }
 
@@ -184,6 +184,11 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
         func()
       }, 1000);
   }
+
+  // 로딩이 끝나면 모달 닫기
+  useEffect(()=>{
+    !value?.oceanStore.isOceanLoading&&value?.modalStore.closeModal();
+  },[value?.oceanStore.isOceanLoading])
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{bgcolor:"waveBackground", width:"57em", alignItems:"center",borderRadius:"2em", p:"0.5em", mb:"3em",position:"relative", boxShadow: "5"}}>

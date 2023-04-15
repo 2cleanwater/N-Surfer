@@ -14,6 +14,8 @@ export interface UserDataForm{
 
 export interface ProfileStoreForm{
   userData: UserDataForm;
+  isUserDataLoading: boolean;
+  setIsUserDataLoading: (loading: boolean) => void;
   setMyUserData: (userData:UserDataForm)=>void;
   getMyUserData: ()=>void;
   patchMyUserData: (formData:FormData)=>void;
@@ -25,6 +27,10 @@ const profileUrl:string = "/my-page/profile";
 const ProfileStore = (): ProfileStoreForm => {
   return {
     userData: {},
+    isUserDataLoading: false,
+    setIsUserDataLoading: function(loading: boolean){
+      this.isUserDataLoading=loading;
+    },
     setMyUserData: function(userData: UserDataForm){
       this.userData = JSON.parse(JSON.stringify(userData));
     },
@@ -37,15 +43,17 @@ const ProfileStore = (): ProfileStoreForm => {
         }})
         .then((res)=>{
           this.setMyUserData(res.data as UserDataForm);
+          this.setIsUserDataLoading(false)
         }).catch((err) => {
           console.log(err);
-          window.alert("정보를 가져올 수 없습니다.");
           localStorage.clear();
           this.setMyUserData({});
           AuthStore().setIsLogout();
+          this.setIsUserDataLoading(false)
       });
     },
     patchMyUserData: async function(formData:FormData){
+      this.setIsUserDataLoading(true)
       await instance({
         method: "PATCH",
         url: profileUrl,
@@ -55,17 +63,17 @@ const ProfileStore = (): ProfileStoreForm => {
         }
       })
       .then(((res)=>{
-        console.log(res)
-        // this.setMyUserData(res.data as UserDataForm);
-        this.getMyUserData();
         window.alert("성공적으로 변경되었습니다.")
+        this.getMyUserData();
       }))
       .catch((err)=>{
         console.log(err);
         window.alert("변경에 실패했습니다.")
+        this.setIsUserDataLoading(false)
       })
     },
     deleteMyUserData: async function(){
+      this.setIsUserDataLoading(true)
       await instance({
         method: "DELETE",
         url: "/user",
@@ -78,12 +86,14 @@ const ProfileStore = (): ProfileStoreForm => {
         this.setMyUserData({});
         AuthStore().setIsLogout();
         localStorage.clear();
+        this.setIsUserDataLoading(false)
       }))
       .catch((err)=>{
         console.log(err);
         window.alert("탈퇴에 실패했습니다.");
+        this.setIsUserDataLoading(false)
       })
-    } 
+    }
   }
 }
 

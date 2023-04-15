@@ -4,6 +4,8 @@ import ProfileStore from "@store/ProfileStore"
 import { runInAction } from "mobx"
 
 export interface AuthStoreForm{
+  isLoginLoading: boolean;
+  setIsLoginLoading: (loading: boolean) => void;
   isLogin: boolean;
   setIsLogin: ()=>void;
   setIsLogout: ()=>void;
@@ -16,6 +18,10 @@ export interface AuthStoreForm{
 
 const AuthStore = (): AuthStoreForm => {
   return {
+    isLoginLoading: false,
+    setIsLoginLoading: function(loading: boolean){
+      this.isLoginLoading=loading
+    },
     isLogin: false,
     setIsLogin: function(){
       runInAction(() => {

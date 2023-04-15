@@ -2,7 +2,7 @@ import { useRootStore } from '@provider/rootContext';
 import { label,labelColor, wholeLabelList } from '@store/OceanStore';
 
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { observer } from 'mobx-react';
 
@@ -49,6 +49,7 @@ const CardDetailAdd = () => {
       data.inputImg[i]&&formData.append("imgFiles", data.inputImg[i]);
     }
     try {
+      value?.modalStore.openModal();
       value?.oceanStore.postOcean(formData, navigate);
     } catch(err) {
       console.log(err);
@@ -97,6 +98,7 @@ const CardDetailAdd = () => {
   const checkSave = ()=>{
     if(Object.keys(formState.dirtyFields).length > 0){
       if (window.confirm('저장하시겠습니까?')){
+
         handleSubmit(onSubmit)();
       }else {
         return}
@@ -104,6 +106,11 @@ const CardDetailAdd = () => {
       window.confirm('작성된 내용이 없습니다.');
     }  
   }
+
+  // 로딩이 끝나면 모달 닫기
+  useEffect(()=>{
+    !value?.oceanStore.isOceanLoading&&value?.modalStore.closeModal();
+  },[value?.oceanStore.isOceanLoading])
 
   // 쓰로쓸링 디바운싱
   let timer: NodeJS.Timeout | number = 0;
@@ -156,12 +163,23 @@ const CardDetailAdd = () => {
         </Box>
       </Box>
 
-      <Box sx={{ width:"25em",wordWrap: "break-word", borderRadius:"1em", m:"0px auto", pt:"1em", fontSize:"30px", fontWeight:"bolder",color:"white",alignContent:"center", display:"flex", flexDirection:"row", justifyContent: "space-between"}}>
+      <Box sx={{ width:"27em",wordWrap: "break-word", borderRadius:"1em", m:"0px auto", pt:"1em", fontSize:"30px", fontWeight:"bolder",color:"white",alignContent:"center", display:"flex", flexDirection:"row", justifyContent: "space-between"}}>
         {[...Array(3)].map((_, index)=>(
-          <Box key={index} sx={{width:"25em",height:"10em", m:"0.2em", borderRadius:"20px", border: userImgSrc[index]?"lightblue 5px solid":"lightblue 5px dashed", position: "relative", boxShadow: "5"}}>
+          <Box key={index}
+            sx={{backgroundImage: userImgSrc[index]?`url(${userImgSrc[index]})`:"none",width:"25em",height:"10.1em", mx:"0.4em", borderRadius:"20px", border: userImgSrc[index]?" ":"lightblue 5px dashed", position: "relative", boxShadow: "5",backgroundSize: "cover", boxSizing: "border-box",
+            backgroundPosition: "center", }}>
             {errors.inputImg&&<Box sx={{fontSize:"15px", position:"absolute", top:"105%",left:"8%"}}>{errors.inputImg[index]?.message}</Box>}
-            <Box sx={{ display: userImgSrc[index]?'none':"", position:"absolute",top:"50%", left:"50%", transform:"translate(-50%,-50%)" }}>
-              <IconButton component="label" size="large" sx={{color:"#0B6E99"}} >
+            {userImgSrc[index]?
+              <IconButton size="small" sx={{ position: "absolute", right: "0.5em", top: "0.5em", bgcolor:"gray", color:"white", 
+                "&:hover":{
+                  bgcolor:"white",color:"gray",
+                  transform: "scale(1.1)",
+                  cursor : "pointer"
+                }}} onClick={() => {handleClear(index);}}>
+                <CloseIcon fontSize="small"/>
+              </IconButton>
+            :
+              <IconButton component="label" size="large" sx={{color:"#0B6E99", display: userImgSrc[index]?'none':"", position:"absolute",top:"50%", left:"50%", transform:"translate(-50%,-50%)" }} >
                 {!userImgSrc[index]&&<FileUploadIcon sx={{}} fontSize="large"  />}
                 <input type="file" hidden className="profileImgInput" id= "profileImg" accept="image/png, image/jpeg, image/jpg"
                 {...register(`inputImg.${index}`, {
@@ -173,25 +191,12 @@ const CardDetailAdd = () => {
                   onChange: (e) => {changeMultipleFiles(e, index); setValue(`inputImg.${index}`, e.target.files[0]);}
                 })} />
               </IconButton>
-            </Box>
-            {userImgSrc[index]&&
-            <Box sx={{}}>
-              <Box component="img" key={index} src={userImgSrc[index]} alt='UserImage' 
-                sx={{width:"7.5em",height:"10em", borderRadius:"15px", objectFit: "cover", objectPosition:"center", overflow: "hidden"}} />
-              <IconButton size="small" sx={{ position: "absolute", right: "0.5em", top: "0.5em", bgcolor:"gray", color:"white", 
-              "&:hover":{
-                bgcolor:"white",color:"gray",
-                transform: "scale(1.1)",
-                cursor : "pointer"
-              }}} onClick={() => {handleClear(index);}}>
-                <CloseIcon fontSize="small"/>
-              </IconButton>
-            </Box>}
+            }
           </Box>
         ))}
       </Box>
 
-      <Box sx={{ width:"40em", p:"2em", wordWrap: "break-word", bgcolor:"#D3ECF9", borderRadius:"1em", m:"1em auto", fontSize:"20px", alignContent:"center", boxShadow: "5"}}>
+      <Box sx={{ width:"40em", p:"2em", wordWrap: "break-word", bgcolor:"#D3ECF9", borderRadius:"1em", m:"2em auto", fontSize:"20px", alignContent:"center", boxShadow: "5"}}>
         <TextField
           type="text"
           id="outlined-basic"

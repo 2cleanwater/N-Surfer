@@ -1,5 +1,4 @@
 import instance from "@service/axiosInterceptor";
-import LoadingStore from "@store/LoadingStore";
 import { dateConverter } from "@service/dateConverter";
 
 export interface waveData {
@@ -8,6 +7,8 @@ export interface waveData {
 }
 
 export interface WaveStoreForm{
+  isWaveLoading: boolean;
+  setIsWaveLoading: (loading: boolean) => void;
   getWaveList: (nickname:string, startDate:Date, setValue:(waveData:Array<waveData>)=>void)=>void;
   calFirstDate: (todayDate:Date)=>Date;
   matchWaveForm: (userWaveList:Array<waveData>, startDate:Date)=>Array<waveData>;
@@ -15,7 +16,12 @@ export interface WaveStoreForm{
 
 const WaveStore = (): WaveStoreForm=>{
   return {
+    isWaveLoading: false,
+    setIsWaveLoading: function(loading: boolean){
+      this.isWaveLoading=loading;
+    },
     getWaveList: async function(nickname:string, startDate:Date, setValue:(waveData:Array<waveData>)=>void){
+      this.setIsWaveLoading(true);
       const firstDate = dateConverter({date:startDate,tag:"-"})
       await instance({
         method: "GET",
@@ -25,14 +31,13 @@ const WaveStore = (): WaveStoreForm=>{
         }
         })
         .then((res)=>{
-          LoadingStore()._IsLoading_True("waveList");
           setValue(this.matchWaveForm(res.data.waves,startDate)as Array<waveData>);
-
-          LoadingStore()._IsLoading_False("waveList");
+          this.setIsWaveLoading(false);
         })
         .catch((err)=>{
           console.log(err);
           window.alert(nickname + "의 Wave를 가져올 수 없습니다.");
+          this.setIsWaveLoading(false);
         });
     },
 
