@@ -39,7 +39,7 @@ const CardDetail = ({oceanData}:{oceanData:OceanData}) => {
           {oceanData.images[index]&&<Box component="img" sx={{borderRadius:"1em", boxShadow: 5, width:"40em", mt:"1em"}} alt='CardImg' 
           src={oceanData.images[index].imageUrl}></Box>}
         </div>))}
-      <Box sx={{ width:"40em", p:"2em", wordWrap: "break-word", backgroundColor:"#D3ECF9", borderRadius:"1em", m:"1em auto", fontSize:"20px", boxShadow: "5"}}>
+      <Box sx={{ width:"40em", p:"2em", wordWrap: "break-word", backgroundColor:"#D3ECF9", borderRadius:"1em", m:"1em auto", fontSize:"20px", boxShadow: "5",  whiteSpace:"pre"}}>
         {oceanData?.content ?? "내용이 없습니다."}</Box>
     </Box>
   )

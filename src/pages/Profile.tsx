@@ -11,10 +11,11 @@ import Loading from '@components/Loading';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { Box, IconButton, Tooltip } from '@mui/material';
+import { Box, Button, IconButton, Tooltip } from '@mui/material';
 import ListIcon from '@mui/icons-material/List';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SettingsIcon from '@mui/icons-material/Settings';
+import ReplyIcon from '@mui/icons-material/Reply';
 
 const Profile = () => {
   const value = useRootStore()!;
@@ -25,6 +26,8 @@ const Profile = () => {
   const [userOceanList, setUserOceanList] = useState<Array<OceanData>>([]);
   const [userData, setUserData]= useState<UserDataForm>({} as UserDataForm);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+
+  const [isUserHere, setIsUserHere]= useState<boolean>(false);
 
   // 추가버튼 css
   const addButton= {
@@ -62,7 +65,7 @@ const Profile = () => {
     position: "absolute",
     top:"6%",
     right:"4%",
-    zIndex:"1000"
+    zIndex:"12"
   }
 
   // userData 받아오기 ==================================================
@@ -76,9 +79,11 @@ const Profile = () => {
       }})
       .then((res)=>{
         setUserData(res.data as UserDataForm)
+        setIsUserHere(true);
       })
       .catch((err)=>{
         console.log(err);
+        setIsUserHere(false);
       })
   }
 
@@ -88,7 +93,7 @@ const Profile = () => {
   // },[searchParams, isEditing]);
   useEffect(()=>{
     getUserData(nickname);
-  },[]);
+  },[searchParams]);
 
 
   useEffect(()=>{
@@ -96,6 +101,8 @@ const Profile = () => {
   },[searchParams])
 
   return (
+    <Box sx={{display:"flex", justifyContent:"center"}}>
+    {isUserHere?
     <Box sx={{display:"flex", flexDirection:"column", justifyItems:"center", alignItems:"center"}}>
       {userData.nickname?
       <Box sx={{position:"relative", justifyItems:"center", alignItems:"center", display:"flex", flexDirection:"column",}}>
@@ -142,6 +149,15 @@ const Profile = () => {
           {[...Array(3)].map((_, index) => {return (<div key={index}>{userOceanList[index]&&<CardMini OceanData={userOceanList[index]}/>}</div>)})}
         </Box>
       }</>}
+    </Box>
+    :
+    <Box sx={{bgcolor:"waveBackground", width:"57em", height:"25em", alignItems:"center",borderRadius:"2em", p:"0.5em", mb:"3em",boxShadow: "5", display:"flex", flexDirection:"column", justifyContent:"center", justify:"center"}}>
+      <Box sx={{fontSize:"40px", fontWeight:"bold", color:"white", m:"1em"}}>이 유저는 존재하지 않습니다!</Box>
+      <Button sx={{bgcolor:"#2158A8", width:"10em", height:"3em", m:"1em",color:"white", fontSize:"20px", fontWeight:"bold",borderRadius:"1em", "&:hover":{bgcolor:"#1C496D"}}} onClick={()=>navigate("/card")}>
+        <ReplyIcon fontSize="medium" sx={{mr:"0.5em"}}/> 파도 목록
+      </Button>
+    </Box>
+    }
     </Box>
   )
 }
