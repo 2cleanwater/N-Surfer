@@ -10,12 +10,14 @@ import Loading from '@components/Loading';
 
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { observer } from 'mobx-react';
 
 import { Box, Button, IconButton, Tooltip } from '@mui/material';
 import ListIcon from '@mui/icons-material/List';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ReplyIcon from '@mui/icons-material/Reply';
+
 
 const Profile = () => {
   const value = useRootStore()!;
@@ -131,7 +133,7 @@ const Profile = () => {
           </IconButton>
         </Tooltip>
         }
-        <Tooltip title={<div style={{fontSize:"15px"}}>내 파도목록</div>}>
+        <Tooltip title={<div style={{fontSize:"15px"}}>{userData.nickname}의 파도목록</div>}>
           <IconButton size="large" onClick={()=>{navigate(`/card?nickname=${nickname}`)}} sx={listButton} >
             <ListIcon fontSize="large" />
           </IconButton>
@@ -162,4 +164,4 @@ const Profile = () => {
   )
 }
 
-export default Profile;
+export default observer(Profile);

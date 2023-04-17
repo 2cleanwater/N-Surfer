@@ -1,4 +1,5 @@
 import { Box } from '@mui/material'
+import { observer } from 'mobx-react';
 
 const Loading = () => {
   const loading:string= process.env.REACT_APP_LOADING!;
@@ -9,4 +10,4 @@ const Loading = () => {
   )
 }
 
-export default Loading
+export default observer(Loading)

@@ -3,8 +3,10 @@ import { labelColor, OceanData } from '@store/OceanStore';
 import { dateConverter } from '@service/dateConverter';
 
 import { useNavigate } from 'react-router-dom'
+import { observer } from 'mobx-react';
 
 import { Box } from '@mui/material'
+
 
 const CardMini = ({OceanData}:{OceanData:OceanData}) => {
   // css
@@ -62,4 +64,4 @@ const CardMini = ({OceanData}:{OceanData:OceanData}) => {
   )
 }
 
-export default CardMini
+export default observer(CardMini)

@@ -1,7 +1,10 @@
 import Navbar from '@components/Navbar'
 import NotFoundComponent from '@components/NotFoundComponent'
 
+import { observer } from 'mobx-react'
+
 import { Box } from '@mui/material'
+
 
 function NotFound() {
   return (
@@ -16,4 +19,4 @@ function NotFound() {
   )
 }
 
-export default NotFound
+export default observer(NotFound)

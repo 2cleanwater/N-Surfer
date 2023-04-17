@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { observer } from 'mobx-react';
 
 import { useRootStore } from '@provider/rootContext';
 
 import { Box, Button } from '@mui/material'
 import ReplyIcon from '@mui/icons-material/Reply';
+
 
 const CardDetailNull = () => {
   const value = useRootStore();
@@ -23,4 +25,4 @@ const CardDetailNull = () => {
   )
 }
 
-export default CardDetailNull
+export default observer(CardDetailNull)

@@ -3,7 +3,6 @@ import { observer } from 'mobx-react';
 
 import Navbar from '@components/Navbar'
 import Modal from '@components/Modal';
-import ModalLogin from '@components/ModalLogin';
 import { useRootStore } from '@provider/rootContext';
 
 import { Box } from '@mui/material';
@@ -14,9 +13,7 @@ const App = ()=>{
   return (
     <>
       <Navbar />
-      <Box sx={{}}>
-        <Outlet />
-      </Box>
+      <Outlet />
       {value.modalStore._IsModalOpen&&<Modal/>}
     </>
   )

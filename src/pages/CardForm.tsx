@@ -1,6 +1,9 @@
 import CardDetailAdd from '@components/CardDetailAdd'
 
+import { observer } from 'mobx-react'
+
 import { Box } from '@mui/material'
+
 
 const CardForm = () => {
   return (
@@ -10,4 +13,4 @@ const CardForm = () => {
   )
 }
 
-export default CardForm
+export default observer(CardForm)
