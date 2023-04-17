@@ -157,7 +157,7 @@ const Wave = ({nickname}:{nickname:string}) => {
                     }
                   }}>
                     {item.date ? (
-                        <WaveBox date={item.date} count={item.count} toggle={waveToggle} isClicked={isClicked(index)}/>
+                      <WaveBox date={item.date} count={item.count} toggle={waveToggle} isClicked={isClicked(index)}/>
                     ) : null}
                   </div>);
               })}

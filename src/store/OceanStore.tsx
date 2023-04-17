@@ -1,4 +1,5 @@
 import instance from "@service/axiosInterceptor";
+import ModalStore from "@store/ModalStore";
 
 export interface imageForm{
   imageId:string;
@@ -99,8 +100,6 @@ const OceanStore = (): OceanStoreForm => {
         .catch((err)=>{
           setValue({} as OceanData)
           this.setIsOceanLoading(false);
-          console.log(err);
-          this.setIsOceanLoading(false);
       })
     },
     postOcean: async function(formData:FormData, navigate:(link:string)=>void){
@@ -133,7 +132,7 @@ const OceanStore = (): OceanStoreForm => {
         url: oceanUrl,
         data: formData,
         headers:{
-          'Content-Type': 'application/json'
+          'Content-Type': 'multipart/form-data'
         }})
         .then((res)=>{
           window.alert("성공적으로 수정되었습니다.")

@@ -3,8 +3,10 @@ import { UserDataForm } from '@store/ProfileStore';
 import { useRootStore } from '@provider/rootContext';
 
 import  { useEffect, useState } from 'react'
+import { observer } from 'mobx-react';
 
 import { Box } from '@mui/material';
+
 
 const UserProfile = ({userData}:{userData:UserDataForm}) => {
   const value = useRootStore()!;
@@ -66,4 +68,4 @@ const UserProfile = ({userData}:{userData:UserDataForm}) => {
   )
 }
 
-export default UserProfile
+export default observer(UserProfile)

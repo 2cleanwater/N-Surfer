@@ -38,11 +38,12 @@ const EditProfile = ({ userData, setIsEditing, getUserData }:myProfileEditProps)
     inputName: string;
   }>({
     defaultValues:{
+      inputImg: [],
       inputName: userData.nickname
     }
   });
 
-  const { register, handleSubmit,formState, formState: { errors }, setValue, watch } = methods;
+  const { register, handleSubmit,formState, formState: { errors }, setValue, watch, reset } = methods;
 
   // submit 버튼 클릭 시 ===================================================
   const onSubmit = async(data:any)=>{
@@ -110,7 +111,10 @@ const EditProfile = ({ userData, setIsEditing, getUserData }:myProfileEditProps)
     }},[inputFile]);
 
   //이미지 업로드 취소 ===================================================
-  const resetFileInput = ():void => {setValue("inputImg", []);};
+  const resetFileInput = ():void => {
+    // setValue("inputImg", []);
+    reset({inputImg:[]});
+  };
   
   // 입력창 변경 감지
   useEffect(()=>{

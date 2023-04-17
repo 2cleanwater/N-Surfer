@@ -36,7 +36,6 @@ const WaveStore = (): WaveStoreForm=>{
         })
         .catch((err)=>{
           console.log(err);
-          window.alert(nickname + "의 Wave를 가져올 수 없습니다.");
           this.setIsWaveLoading(false);
         });
     },
