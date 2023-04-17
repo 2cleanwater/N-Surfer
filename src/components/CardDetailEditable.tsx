@@ -86,12 +86,9 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
       "content": data.inputContent,
       "deletedImages": deleteImgSrc
     }
-    
-    console.log(deleteImgSrc)
     const blob = new Blob([JSON.stringify(updateCard)], {type:"application/json"});
     formData.append("updateCard",blob);
     for(let i=0;i<data.inputImg.length;i++){
-      console.log(data.inputImg[i])
       data.inputImg[i]&&formData.append("imgFiles", data.inputImg[i]);
     }
     try {
