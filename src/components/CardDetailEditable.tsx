@@ -299,53 +299,6 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
           </Tooltip>
           }
         </Box>
-          // <Box key={index} 
-          //   sx={{width:"25em",height:"10em", m:"0.2em", borderRadius:"20px", border: userImgSrc[index]?"lightblue 5px solid":"lightblue 5px dashed", position: "relative", boxShadow: "5"}}>
-          //   {errors.inputImg&&<Box sx={{fontSize:"15px", position:"absolute", top:"105%",left:"8%"}}>{errors.inputImg[index]?.message}</Box>}
-          //   <Box sx={{ display: userImgSrc[index]?'none':"", position:"absolute",top:"50%", left:"50%", transform:"translate(-50%,-50%)" }}>
-              // <Tooltip title={<div style={{ fontSize:"15px" }}>이미지 업로드</div>}>
-              //   <IconButton component="label" size="large" sx={{color:"#0B6E99"}} >
-              //     {!userImgSrc[index]&&<FileUploadIcon sx={{}} fontSize="large"  />}
-              //     <input type="file" hidden className="profileImgInput" id= "profileImg" accept="image/png, image/jpeg, image/jpg"
-              //     {...register(`inputImg.${index}`, {
-              //       validate:{maxSize : (files:File) => {
-              //         if(!files||files.length<=0){return true}
-              //         else if(files.size>3 * 1024 * 1024){return "3MB 이하 파일만 업로드 가능"}
-              //         else{return true}
-              //       }},
-              //       onChange: (e) => {changeMultipleFiles(e, index); setValue(`inputImg.${index}`, e.target.files[0]);}
-              //     })} />
-              //   </IconButton>
-              // </Tooltip>
-          //   </Box>
-          //   {userImgSrc[index]&&
-          //   <Box sx={{}}>
-          //     <Box component="img" key={index} src={userImgSrc[index]} alt='UserImage' 
-          //       sx={{width:"7.5em",height:"10em", borderRadius:"15px", objectFit: "cover", objectPosition:"center", overflow: "hidden"}} />
-          //   </Box>}
-
-          //   <Tooltip title={<div style={{fontSize:"15px"}}>이미지 삭제</div>}>
-          //     <IconButton size="small" sx={{ position: "absolute", right: "0.5em", top: "0.5em", bgcolor:"gray", color:"white", 
-          //       "&:hover":{
-          //         bgcolor:"white",color:"gray",
-          //         transform: "scale(1.1)",
-          //         cursor : "pointer"
-          //       }}} onClick={() => {handleImgClear(index);}}>
-          //         <CloseIcon fontSize="small"/>
-          //     </IconButton>
-          //   </Tooltip>
-            
-          //   <Tooltip title={<div style={{fontSize:"15px"}}>이미지 복구</div>}>
-          //     <IconButton size="small" sx={{ position: "absolute", right: "3em", top: "0.5em", bgcolor:"#0B6E99", color:"white", 
-          //     "&:hover":{
-          //       bgcolor:"white",color:"#0B6E99",
-          //       transform: "scale(1.1)",
-          //       cursor : "pointer"
-          //       }}} onClick={() => {handleImgReset(index);}}>
-          //       <ReplayIcon fontSize="small"/>
-          //     </IconButton>
-          //   </Tooltip>
-          // </Box>
         ))}
       </Box>
 
