@@ -26,6 +26,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
 
   const oceanLabelList: Array<string> = oceanData.labels.map(item=>JSON.stringify(item));
   const oceanImgUrlList: Array<string> = oceanData.images.map(item => item.imageUrl);
+  const oceanImgIdList: Array<string> = oceanData.images.map(item => item.imageId);
 
   //라벨 기본 클릭 설정
   const labelResetData = ()=>{
@@ -36,6 +37,19 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
       }
     }
     return resetLabel
+  }
+
+  //라벨 비교용 함수
+  const labelFilledWithFalse = ()=>{
+    let falseLabel = Array(5);
+    for(let i=0;i<falseLabel.length;i++){ 
+      if(oceanLabelList.includes(JSON.stringify(wholeLabelList[i]))){
+        falseLabel[i]= JSON.stringify(wholeLabelList[i]);
+      }else{
+        falseLabel[i]= false;
+      }
+    }
+    return falseLabel
   }
 
   const [userImgSrc, setUserImgSrc] = useState<Array<string>>(oceanImgUrlList);
@@ -55,7 +69,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
       inputLabel: labelResetData()
     }
   });
-  const { register, handleSubmit, formState, formState: { isSubmitting, errors }, setValue, watch, reset, getValues } = methods;
+  const { register, handleSubmit, formState, formState: { errors }, setValue, watch, reset, getValues } = methods;
   
   const today = new Date().toLocaleDateString();
 
@@ -66,14 +80,19 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
     data.inputLabel.map((element:string)=>{
       if(element) dataLabel.push(JSON.parse(element));
     });
-    const postcard:object= {"title":data.inputTitle,"labels":dataLabel,"content":data.inputContent}
-    const blob = new Blob([JSON.stringify(postcard)], {type:"application/json"});
+    const updateCard:object= {
+      "title": data.inputTitle,
+      "labels": dataLabel,
+      "content": data.inputContent,
+      "deletedImages": deleteImgSrc
+    }
+    
+    console.log(deleteImgSrc)
+    const blob = new Blob([JSON.stringify(updateCard)], {type:"application/json"});
     formData.append("updateCard",blob);
     for(let i=0;i<data.inputImg.length;i++){
+      console.log(data.inputImg[i])
       data.inputImg[i]&&formData.append("imgFiles", data.inputImg[i]);
-    }
-    for(let i=0;i<deleteImgSrc.length;i++){
-      deleteImgSrc[i]&&formData.append("deletedImages", deleteImgSrc[i]);
     }
     try {
       value?.modalStore.openModal();
@@ -115,7 +134,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
 
     // 삭제 이미지 변경
     let changedDeleteImgSrc = [...deleteImgSrc];
-    changedDeleteImgSrc[index] = oceanImgUrlList[index];
+    changedDeleteImgSrc[index] = oceanImgIdList[index];
     setDeleteImgSrc([...changedDeleteImgSrc]);
   };
 
@@ -159,7 +178,17 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
 
   // 저장 체크 ===================================================
   const checkSave = ()=>{
-    if(Object.keys(formState.dirtyFields).length <= 0&&JSON.stringify(oceanImgUrlList)==JSON.stringify(userImgSrc)){
+    if(
+    //타이틀이 바꼈는지
+    watch("inputTitle")===oceanData.title
+    //컨텐츠가 바꼈는지
+    &&watch("inputContent")===oceanData.content
+    //라벨이 바꼈는지
+    &&JSON.stringify(labelFilledWithFalse())===JSON.stringify(watch("inputLabel"))
+    //이미지 Url이 카드 데이터 Url과 동일한지
+    &&JSON.stringify(oceanImgUrlList)==JSON.stringify(userImgSrc)
+    //삭제리스트 비어있는지
+    &&deleteImgSrc.every((value) => value === "")){
       window.confirm('변경된 내용이 없습니다.');
     }else{
       if (window.confirm('저장하시겠습니까?')){
@@ -227,30 +256,11 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
 
       <Box sx={{ width:"25em",wordWrap: "break-word", borderRadius:"1em", m:"0px auto", pt:"1em", fontSize:"30px", fontWeight:"bolder",color:"white",alignContent:"center", display:"flex", flexDirection:"row", justifyContent: "space-between"}}>
         {[...Array(3)].map((_, index)=>(
-          <Box key={index} sx={{width:"25em",height:"10em", m:"0.2em", borderRadius:"20px", border: userImgSrc[index]?"lightblue 5px solid":"lightblue 5px dashed", position: "relative", boxShadow: "5"}}>
-            {errors.inputImg&&<Box sx={{fontSize:"15px", position:"absolute", top:"105%",left:"8%"}}>{errors.inputImg[index]?.message}</Box>}
-            <Box sx={{ display: userImgSrc[index]?'none':"", position:"absolute",top:"50%", left:"50%", transform:"translate(-50%,-50%)" }}>
-              <Tooltip title={<div style={{ fontSize:"15px" }}>이미지 업로드</div>}>
-                <IconButton component="label" size="large" sx={{color:"#0B6E99"}} >
-                  {!userImgSrc[index]&&<FileUploadIcon sx={{}} fontSize="large"  />}
-                  <input type="file" hidden className="profileImgInput" id= "profileImg" accept="image/png, image/jpeg, image/jpg"
-                  {...register(`inputImg.${index}`, {
-                    validate:{maxSize : (files:File) => {
-                      if(!files||files.length<=0){return true}
-                      else if(files.size>3 * 1024 * 1024){return "3MB 이하 파일만 업로드 가능"}
-                      else{return true}
-                    }},
-                    onChange: (e) => {changeMultipleFiles(e, index); setValue(`inputImg.${index}`, e.target.files[0]);}
-                  })} />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            {userImgSrc[index]&&
-            <Box sx={{}}>
-              <Box component="img" key={index} src={userImgSrc[index]} alt='UserImage' 
-                sx={{width:"7.5em",height:"10em", borderRadius:"15px", objectFit: "cover", objectPosition:"center", overflow: "hidden"}} />
-            </Box>}
-
+          <Box key={index}
+          sx={{backgroundImage: userImgSrc[index]?`url(${userImgSrc[index]})`:"none",width:"25em",height:"10.1em", mx:"0.4em", borderRadius:"20px", border: userImgSrc[index]?" ":"lightblue 5px dashed", position: "relative", boxShadow: "5",backgroundSize: "cover", boxSizing: "border-box", backgroundPosition: "center", }}>
+          {errors.inputImg&&<Box sx={{fontSize:"15px", position:"absolute", top:"105%",left:"8%"}}>{errors.inputImg[index]?.message}</Box>}
+          {userImgSrc[index]?
+          <>
             <Tooltip title={<div style={{fontSize:"15px"}}>이미지 삭제</div>}>
               <IconButton size="small" sx={{ position: "absolute", right: "0.5em", top: "0.5em", bgcolor:"gray", color:"white", 
                 "&:hover":{
@@ -258,10 +268,9 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
                   transform: "scale(1.1)",
                   cursor : "pointer"
                 }}} onClick={() => {handleImgClear(index);}}>
-                  <CloseIcon fontSize="small"/>
+                <CloseIcon fontSize="small"/>
               </IconButton>
             </Tooltip>
-            
             <Tooltip title={<div style={{fontSize:"15px"}}>이미지 복구</div>}>
               <IconButton size="small" sx={{ position: "absolute", right: "3em", top: "0.5em", bgcolor:"#0B6E99", color:"white", 
               "&:hover":{
@@ -272,7 +281,24 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
                 <ReplayIcon fontSize="small"/>
               </IconButton>
             </Tooltip>
-          </Box>
+          </>
+          :
+          <Tooltip title={<div style={{ fontSize:"15px" }}>이미지 업로드</div>}>
+            <IconButton component="label" size="large" sx={{color:"#0B6E99", display: userImgSrc[index]?'none':"", position:"absolute",top:"50%", left:"50%", transform:"translate(-50%,-50%)" }} >
+              {!userImgSrc[index]&&<FileUploadIcon sx={{}} fontSize="large"  />}
+              <input type="file" hidden className="profileImgInput" id= "profileImg" accept="image/png, image/jpeg, image/jpg"
+              {...register(`inputImg.${index}`, {
+                validate:{maxSize : (files:File) => {
+                  if(!files||files.length<=0){return true}
+                  else if(files.size>3 * 1024 * 1024){return "3MB 이하 파일만 업로드 가능"}
+                  else{return true}
+                }},
+                onChange: (e) => {changeMultipleFiles(e, index); setValue(`inputImg.${index}`, e.target.files[0]);}
+              })} />
+            </IconButton>
+          </Tooltip>
+          }
+        </Box>
         ))}
       </Box>
 
@@ -295,7 +321,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
           })}/>
       </Box>
       <Tooltip title={<div style={{fontSize:"15px"}}>글 수정</div>}>
-        <IconButton type="submit" size="medium" disabled={isSubmitting} sx={{position:"absolute", top:"7em", right:"0.5em", color: "white", bgcolor:"#0F7B6C", 
+        <IconButton type="submit" size="medium" sx={{position:"absolute", top:"7em", right:"0.5em", color: "white", bgcolor:"#0F7B6C", 
         "&:hover":{
           color: "#0F7B6C", bgcolor:"white",
           transform: "scale(1.1)",
