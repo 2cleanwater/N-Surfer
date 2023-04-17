@@ -26,7 +26,8 @@ const CardDetailAdd = () => {
     inputContent: string;
   }>({
     defaultValues:{
-      inputImg:[],
+      inputImg:[undefined,undefined,undefined],
+      inputLabel:[],
       inputTitle: "",
       inputContent: ""
     }
@@ -96,15 +97,19 @@ const CardDetailAdd = () => {
 
   // 저장 체크 ===================================================
   const checkSave = ()=>{
-    if(Object.keys(formState.dirtyFields).length > 0){
+    if(
+      watch("inputTitle").length<=0
+      &&watch("inputContent").length<=0
+      &&userImgSrc.every((value) => value === ""))
+    {
+      window.confirm('작성된 내용이 없습니다.');
+    }
+    else{
       if (window.confirm('저장하시겠습니까?')){
-
         handleSubmit(onSubmit)();
       }else {
         return}
-    }else{
-      window.confirm('작성된 내용이 없습니다.');
-    }  
+    }
   }
 
   // 로딩이 끝나면 모달 닫기
@@ -166,10 +171,10 @@ const CardDetailAdd = () => {
       <Box sx={{ width:"27em",wordWrap: "break-word", borderRadius:"1em", m:"0px auto", pt:"1em", fontSize:"30px", fontWeight:"bolder",color:"white",alignContent:"center", display:"flex", flexDirection:"row", justifyContent: "space-between"}}>
         {[...Array(3)].map((_, index)=>(
           <Box key={index}
-            sx={{backgroundImage: userImgSrc[index]?`url(${userImgSrc[index]})`:"none",width:"25em",height:"10.1em", mx:"0.4em", borderRadius:"20px", border: userImgSrc[index]?" ":"lightblue 5px dashed", position: "relative", boxShadow: "5",backgroundSize: "cover", boxSizing: "border-box",
-            backgroundPosition: "center", }}>
+            sx={{backgroundImage: userImgSrc[index]?`url(${userImgSrc[index]})`:"none",width:"25em",height:"10.1em", mx:"0.4em", borderRadius:"20px", border: userImgSrc[index]?" ":"lightblue 5px dashed", position: "relative", boxShadow: "5",backgroundSize: "cover", boxSizing: "border-box", backgroundPosition: "center", }}>
             {errors.inputImg&&<Box sx={{fontSize:"15px", position:"absolute", top:"105%",left:"8%"}}>{errors.inputImg[index]?.message}</Box>}
             {userImgSrc[index]?
+            <Tooltip title={<div style={{fontSize:"15px"}}>업로드 취소</div>}>
               <IconButton size="small" sx={{ position: "absolute", right: "0.5em", top: "0.5em", bgcolor:"gray", color:"white", 
                 "&:hover":{
                   bgcolor:"white",color:"gray",
@@ -178,7 +183,9 @@ const CardDetailAdd = () => {
                 }}} onClick={() => {handleClear(index);}}>
                 <CloseIcon fontSize="small"/>
               </IconButton>
+            </Tooltip>
             :
+            <Tooltip title={<div style={{ fontSize:"15px" }}>이미지 업로드</div>}>
               <IconButton component="label" size="large" sx={{color:"#0B6E99", display: userImgSrc[index]?'none':"", position:"absolute",top:"50%", left:"50%", transform:"translate(-50%,-50%)" }} >
                 {!userImgSrc[index]&&<FileUploadIcon sx={{}} fontSize="large"  />}
                 <input type="file" hidden className="profileImgInput" id= "profileImg" accept="image/png, image/jpeg, image/jpg"
@@ -191,6 +198,7 @@ const CardDetailAdd = () => {
                   onChange: (e) => {changeMultipleFiles(e, index); setValue(`inputImg.${index}`, e.target.files[0]);}
                 })} />
               </IconButton>
+            </Tooltip>
             }
           </Box>
         ))}
