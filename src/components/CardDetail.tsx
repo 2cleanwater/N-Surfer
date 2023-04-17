@@ -11,10 +11,7 @@ import { useNavigate } from 'react-router-dom';
 const CardDetail = ({oceanData}:{oceanData:OceanData}) => {
   const value = useRootStore();
   const navigate = useNavigate();
-  useEffect(()=>{
-    !value?.oceanStore.isOceanLoading&&value?.modalStore.closeModal();
-  },[value?.oceanStore.isOceanLoading])
-  
+
   return (
     <Box sx={{bgcolor:"waveBackground", width:"57em", alignItems:"center",borderRadius:"2em", p:"0.5em", mb:"3em",boxShadow: "5"}}>
       <Box sx={{bgcolor:"#2158A8", borderRadius:"1em",width:"25em", p:"0.8em", py:"1.5em",wordBreak:"break-all",m: "1em auto", position:"relative", fontWeight:"bolder", fontSize:"30px", color: "white", display:"flex", flexDirection:"column" ,justifyContent:"center", alignItems:"center", boxShadow: "5"}}>
@@ -39,7 +36,7 @@ const CardDetail = ({oceanData}:{oceanData:OceanData}) => {
           {oceanData.images[index]&&<Box component="img" sx={{borderRadius:"1em", boxShadow: 5, width:"40em", mt:"1em"}} alt='CardImg' 
           src={oceanData.images[index].imageUrl}></Box>}
         </div>))}
-      <Box sx={{ width:"40em", p:"2em", wordWrap: "break-word", backgroundColor:"#D3ECF9", borderRadius:"1em", m:"1em auto", fontSize:"20px", boxShadow: "5",  whiteSpace:"pre"}}>
+      <Box sx={{ width:"40em", p:"2em", wordBreak: "break-all", backgroundColor:"#D3ECF9", borderRadius:"1em", m:"1em auto", fontSize:"20px", boxShadow: "5",  whiteSpace:"pre-line"}}>
         {oceanData?.content ?? "내용이 없습니다."}</Box>
     </Box>
   )

@@ -5,6 +5,7 @@ import { OceanData } from '@store/OceanStore';
 import CardDetailNull from '@components/CardDetailNull';
 
 import { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
 
 import { Box,  IconButton, Tooltip } from '@mui/material';
 import { notionToHtml } from '@service/notionToHtml';
@@ -25,6 +26,13 @@ function Card() {
     value?.oceanStore.getOcean(cardId, setOceanData);
   },[isEditing]);
 
+  useEffect(()=>{
+    !value?.oceanStore.isOceanLoading&&value?.modalStore.closeModal();
+    return () => {
+      value.modalStore.closeModal();
+    };
+  },[value?.oceanStore.isOceanLoading,oceanData]);
+
   const handleClickShare = () => {
     const htmlValue:string = notionToHtml(oceanData)
     const element = document.createElement('a');
@@ -35,7 +43,6 @@ function Card() {
     element.click();
     document.body.removeChild(element);
   };
-
   return (
     <Box sx={{alignContent:"center", alignItems:"center", justifyContent:"center", justifyItems:"center", textAlign:"center", display:"flex", position:"relative"}}>
       {value.modalStore._IsModalOpen&&
@@ -44,7 +51,7 @@ function Card() {
       <div>
         {oceanData.nickname==value?.profileStore.userData.nickname&&
         <Tooltip title={<div style={{fontSize:"15px"}}>설정</div>}>
-          <IconButton type="submit" size="medium" sx={{position:"absolute", top:"1em", right:"4.5em", color: "white", bgcolor:"#9B9A97", zIndex:"1000",
+          <IconButton type="submit" size="medium" sx={{position:"absolute", top:"1em", right:"4.5em", color: "white", bgcolor:"#9B9A97", zIndex:"10",
             "&:hover":{
               "@keyframes rotate": {
                 "100%": {
