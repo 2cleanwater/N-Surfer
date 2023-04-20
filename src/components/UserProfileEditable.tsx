@@ -25,9 +25,9 @@ const EditProfile = ({ userData, setIsEditing, getUserData }:myProfileEditProps)
   const navigate = useNavigate();
   const baseImg:string= process.env.REACT_APP_PROFILE_BASE_IMG!;
 
-  const [userImgSrc, setUserImgSrc] = useState<string>("");
+  const [userImg, setUserImg] = useState<string>(userData.imgUrl||baseImg);
+  const [imgSrc, setImgSrc] = useState<string>(userImg)
   const [isBasicImg, setIsBasicImg] = useState<string>("false");
-  const [dataChanged, setDataChanged] = useState<boolean>(false);
 
   const [todayWave, setTodayWave] = useState<number>(userData.todayWave||0)
   const [totalWave, setTotalWave] = useState<number>(userData.totalWave||0)
@@ -83,7 +83,8 @@ const EditProfile = ({ userData, setIsEditing, getUserData }:myProfileEditProps)
     watch("inputName")==userData.nickname&&
     (watch("inputImg")&&
     watch("inputImg").length==0)&&
-    isBasicImg==="false"){
+    userData.imgUrl===imgSrc
+    ){
       window.confirm('변경된 내용이 없습니다.');
     }else{
       if (window.confirm('저장하시겠습니까?')){
@@ -92,22 +93,39 @@ const EditProfile = ({ userData, setIsEditing, getUserData }:myProfileEditProps)
         return}
     }  
   }
-  // 이미지 프리뷰 ===================================================
-  let userImg: string|undefined = userData.imgUrl;
-  if(userImgSrc===""){userImg = userData.imgUrl||baseImg;}
-  else{userImg = userImgSrc;};
-
 
   //기본 이미지 체커
-  useEffect(()=>{
-    (userImg==baseImg)?setIsBasicImg("true"):setIsBasicImg("false")
-  },[userImg]);
+  const handleBaseImg= ()=>{
+    // if(isBasicImg==="true"){
+    if(imgSrc===baseImg){
+      console.log("이미 기본 이미지입니다.")
+    }
+    else{
+      //표현 이미지 기본으로 변경
+      setImgSrc(baseImg); 
+      //기본이미지임을 명시
+      setIsBasicImg("true");
+      //input 비우기
+      resetFileInput()
+    }
+  }
+
+  //최근 이미지 체커
+  const handleRecentImg= ()=>{
+    //표현 이미지 최근이미지로 변경
+    setImgSrc(userData.imgUrl||baseImg); 
+    //기본이미지 거짓
+    setIsBasicImg("false")
+    //input 비우기 
+    resetFileInput()
+  }
   
   //이미지를 URL 처리해서 userImgSrc에 저장 이미지 입력받을 때마다 리렌더링 ===================================================
   const inputFile = watch("inputImg");
   useEffect(()=>{
     if(inputFile && inputFile.length>0){
-      setUserImgSrc(URL.createObjectURL(inputFile[0]))
+      setImgSrc(URL.createObjectURL(inputFile[0]));
+      setIsBasicImg("false");
     }},[inputFile]);
 
   //이미지 업로드 취소 ===================================================
@@ -115,14 +133,6 @@ const EditProfile = ({ userData, setIsEditing, getUserData }:myProfileEditProps)
     // setValue("inputImg", []);
     reset({inputImg:[]});
   };
-  
-  // 입력창 변경 감지
-  useEffect(()=>{
-    if(watch("inputName")==userData.nickname&&(watch("inputImg")&&watch("inputImg").length==0)&&isBasicImg==="false"){
-      setDataChanged(false)
-    }else{
-      setDataChanged(true)}
-  },[watch("inputName"),watch("inputImg"),isBasicImg]);
 
   // 쓰로쓸링 디바운싱
   let timer: NodeJS.Timeout | number = 0;
@@ -144,14 +154,14 @@ const EditProfile = ({ userData, setIsEditing, getUserData }:myProfileEditProps)
   // 저장버튼 css
   const saveButton= {
     "&:hover":{
-      color: dataChanged?("#0F7B6C"):("gray"),
+      color: "#0F7B6C",
       transform: "scale(1.1)",
       cursor : "pointer"
     },
     position: "absolute",
     top:"3em",
     right:"1em",
-    color: dataChanged?("#0F7B6C"):("gray"),
+    color: "#0F7B6C",
   }
 
   // 탈퇴버튼 css
@@ -203,7 +213,7 @@ const EditProfile = ({ userData, setIsEditing, getUserData }:myProfileEditProps)
   }
   return (
     <Box sx={{ width: "60em", height: "30em", m:"1em" ,boxShadow: 3, borderRadius:"2em", alignItems:"center", justifyContent:"center",display:"flex", flexDirection:"row", backgroundColor:"#F5F5F7", position:"relative"}}>
-      <Box component="img" src={userImg} alt='UserImage' 
+      <Box component="img" src={imgSrc} alt='UserImage' 
       sx={{ objectFit: "cover", objectPosition:"center" ,borderRadius:"50%", width:"18em", height:"18em", overflow: "hidden", m:"4%"}}  />
       <Box sx={{position: "absolute",bottom:"5%",left:"5%"}}>
         <Tooltip title={<div style={{fontSize:"15px"}}>사진 업로드</div>}>
@@ -281,17 +291,16 @@ const EditProfile = ({ userData, setIsEditing, getUserData }:myProfileEditProps)
         </Tooltip>
         
         <Tooltip title={<div style={{fontSize:"15px"}}>프로필 사진 복구</div>}>
-          <IconButton size="medium" onClick={(e)=>{preventEvent(e); setUserImgSrc(""); resetFileInput()}} sx={originImgButton} >
+          <IconButton size="medium" onClick={(e)=>{preventEvent(e); handleRecentImg()}} sx={originImgButton} >
             <AccountBoxIcon fontSize="medium" />
           </IconButton>
         </Tooltip>
         
         <Tooltip title={<div style={{fontSize:"15px"}}>기본 이미지로 변경</div>}>
-          <IconButton size="medium" onClick={(e)=>{preventEvent(e); setUserImgSrc(baseImg); resetFileInput()}} sx={baseImgButton} >
+          <IconButton size="medium" onClick={(e)=>{preventEvent(e); handleBaseImg()}} sx={baseImgButton} >
             <DeleteForeverIcon fontSize="medium" />
           </IconButton>
         </Tooltip>
-        
 
         <Box sx={{position:"absolute", top:"5%", right:"20%", color:"red"}} >
           {errors.inputImg?<span>{errors.inputImg.message}</span>:
