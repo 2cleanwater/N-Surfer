@@ -37,9 +37,14 @@ const UserProfile = ({userData}:{userData:UserDataForm}) => {
             <Box sx={{m:"1em"}}>이메일 : </Box>
           </Box>
           <Box component="ul" sx={{listStyle:"none", p:"0", fontWeight:"bold", fontSize:"20px",}}>
-            <Box sx={{m:"1em"}}>{userData?.nickname}</Box>
-            <Box sx={{m:"1em"}}>{userData?.provider}</Box>
-            <Box sx={{m:"1em"}}>{userData?.userEmail}</Box>
+            <Box sx={{m:"1em",textShadow:"0px 0px 2px gray"}}>{userData?.nickname}</Box>
+            <Box sx={{m:"1em", 
+              textShadow:"0px 0px 2px black", 
+              color:userData.provider==="KAKAO"?"#f9e000":
+              userData.provider==="NAVER"?"#2DB400":
+              userData.provider==="GOOGLE"?"#4285F4":
+              userData.provider==="GITHUB"?"#292727":""}}>{userData?.provider}</Box>
+            <Box sx={{m:"1em",textShadow:"0px 0px 2px gray"}}>{userData?.userEmail}</Box>
           </Box>
         </Box>
 

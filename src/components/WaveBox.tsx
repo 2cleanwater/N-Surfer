@@ -8,95 +8,82 @@ interface waveBoxForm {
   isClicked:boolean
 }
 
-const colorCode = {
-  waveLv0: '#f0f5f7',
-  waveLv1: '#D3ECF9',
-  waveLv2: '#9CCCE8',
-  waveLv3: '#2E88C7',
-  waveLv4: '#2158A8',
-  waveLv5: '#232A5C'
-}
-
 const WaveBox = ({date,count,toggle,isClicked}:waveBoxForm) => {
-  const waveStyle = {
-    m:"0.2em",
-    overflow: "hidden",
-    border: isClicked?"2px solid #4B89DC":"2px solid transparent",
-    bgcolor: isClicked?'lightblue':'',
-    borderRadius: "8px",
+  const waveBoxStyles = {
     width: "4em",
-    height: "3em",
-    boxShadow: 3,
+    height: "4em",
+    position: "relative",
+    m:"0.2em",
+    borderRadius: "0.5em",
+    border: isClicked?"2px solid #4B89DC":"2px solid #E7BD73",
+    bgcolor: isClicked?'lightblue':'',
     "&:hover": {
       border: "2px solid green",
       bgcolor: 'lightblue'
     },
+    boxShadow: isClicked?count>12?"0 0 30px 10px #ffa500":"0 0 50px 5px #4b48e0;":3,
+    overflow: "hidden",
+    backgroundImage:
+      count===0?"linear-gradient(to top, #D6EAF8 0%, #F4FAFB 100%)":
+      count>0&&count<=4?"linear-gradient(to top, #9DC9E9 0%, #C3E3F6 100%)":
+      count>4&&count<=8?"linear-gradient(to top, #52B4D8 0%, #9CCCE8 100%)":
+      count>8&&count<=12?"linear-gradient(to top, #20638F 0%, #2E88C7 100%)":
+      count>12?"linear-gradient(to top, #014B60 0%, #01234C 100%)":""
   }
-  
-  const StyledSvg = styled("svg")({
-    "@keyframes shift": {
-      "100%": {
-        transform: "translateX(-50%)"
+
+  const waveStyles = {
+    width: "6em",
+    height: "6em",
+    position: "absolute",
+    top: "-25%",
+    left: "-0%",
+    marginLeft: "-3em",
+    marginTop: "-3em",
+    borderRadius: "35%",
+    background: "rgba(255, 255, 255)",
+    animation: toggle?"":
+    count===0?"wave 10s infinite linear":
+    count>0&&count<=4?"wave 9s infinite linear":
+    count>4&&count<=8?"wave 7s infinite linear":
+    count>8&&count<=12?"wave 5s infinite linear":
+    count>12?"wave 3s infinite linear":""
+  }
+
+  const waveStyles2 = {
+    width: "6em",
+    height: "6em",
+    position: "absolute",
+    top: "-25%",
+    left: "100%",
+    marginLeft: "-3em",
+    marginTop: "-3em",
+    borderRadius: "35%",
+    background: "rgba(255, 255, 255)",
+    animation: toggle?"":
+    count===0?"wave 10s infinite linear":
+    count>0&&count<=4?"wave 9s infinite linear":
+    count>4&&count<=8?"wave 7s infinite linear":
+    count>8&&count<=12?"wave 5s infinite linear":
+    count>12?"wave 3s infinite linear":""
+  }
+
+  const StyledWave = styled("div")({
+    "@keyframes wave": {
+      from: {
+        transform: "rotate(0deg)",
       },
-    },
-    position: "relative",
-    bottom: "0",
-    // animation: toggle?"":"shift 1.5s linear infinite"
+      to: {
+        transform: "rotate(360deg)",
+      },
+    }
   });
 
   return (
     <Tooltip title={<div style={{ color: "lightblue", fontSize:"20px" }}>{dateConverter({dateString:date,tag:"korean"})+ ": " + count +"번"} </div>} sx={{m:"2px"}}>
-      <div>
-      {count===0?(
-          <Box sx={waveStyle}>
-            <StyledSvg width="600" height="50px" sx={{animation: toggle?"":"shift 2.5s linear infinite"}} fill={colorCode.waveLv0} viewBox="0 0 120 10">
-            <path d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
-            <path transform="translate(60)" d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
-            </StyledSvg>
-          </Box>
-
-        ):null}
-      {count>0&&count<=3?(
-          <Box sx={waveStyle}>
-            <StyledSvg width="600" height="50px" sx={{animation: toggle?"":"shift 2.3s linear infinite"}}  fill={colorCode.waveLv1} viewBox="0 0 120 10">
-            <path d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
-            <path transform="translate(60)" d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
-            </StyledSvg>
-          </Box>
-        ):null}
-      {count>3&&count<=6?(
-          <Box sx={waveStyle}>
-            <StyledSvg width="600" height="50px" sx={{animation: toggle?"":"shift 2.1s linear infinite"}}  fill={colorCode.waveLv2} viewBox="0 0 120 10">
-            <path d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
-            <path transform="translate(60)" d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
-            </StyledSvg>
-          </Box>
-        ):null}
-      {count>6&&count<=9?(
-          <Box sx={waveStyle}>
-            <StyledSvg width="600" height="50px" sx={{animation: toggle?"":"shift 1.8s linear infinite"}}  fill={colorCode.waveLv3} viewBox="0 0 120 10">
-            <path d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
-            <path transform="translate(60)" d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
-            </StyledSvg>
-          </Box>
-        ):null}
-      {count>9&&count<=12?(
-          <Box sx={waveStyle}>
-            <StyledSvg width="600" height="50px" sx={{animation: toggle?"":"shift 1.5s linear infinite"}}  fill={colorCode.waveLv4} viewBox="0 0 120 10">
-            <path d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
-            <path transform="translate(60)" d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
-            </StyledSvg>
-          </Box>
-        ):null}
-      {count>12?(
-          <Box sx={waveStyle}>
-            <StyledSvg width="600" height="50px" sx={{animation: toggle?"":"shift 1s linear infinite"}}  fill={colorCode.waveLv5} viewBox="0 0 120 10">
-            <path d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
-            <path transform="translate(60)" d="M0,5 C20,-10 40,20 60,5 v5 H0"/>
-            </StyledSvg>
-          </Box>
-        ):null}
-      </div>
+      <Box sx={waveBoxStyles}>
+        <StyledWave sx={waveStyles}/>
+        <StyledWave sx={waveStyles2}/>
+      </Box>
     </Tooltip>
   );
 }
