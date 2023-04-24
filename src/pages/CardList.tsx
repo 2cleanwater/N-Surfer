@@ -1,6 +1,6 @@
-import CardMini from '@components/CardMini'
+import CardMini from '@components/cardList/CardMini'
 import { OceanData, wholeLabelList } from '@store/OceanStore'
-import Loading from '@components/Loading'
+import Loading from '@components/utils/Loading'
 import { useRootStore } from '@provider/rootContext'
 
 import { useEffect, useState } from 'react'
@@ -12,8 +12,14 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import SearchIcon from '@mui/icons-material/Search';
+import Aos from 'aos'
 
 const CardList =() => {
+  useEffect(()=>{
+    Aos.init();
+  })
+
+
   const value = useRootStore()!;
   const navigate = useNavigate();
 
@@ -52,6 +58,11 @@ const CardList =() => {
   },[searchParams])
 
   useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: '0px 0px 600px 0px', // add 200px margin at the bottom
+      threshold: 0.5,
+    };
     let observer: IntersectionObserver;
     if (target) {
       observer = new IntersectionObserver(async ([entry]) => {
@@ -68,9 +79,7 @@ const CardList =() => {
           });
           setIsLoaded(false);
         }
-      }, {
-        threshold: 0.5,
-      });
+      }, options);
   
       observer.observe(target);
     }
@@ -172,7 +181,7 @@ const CardList =() => {
               {[...Array(3)].map((_, colIndex) => {
                 const index = rowIndex*3 + colIndex;
                 return (
-                <Box key={`${colIndex}-${rowIndex}`} sx={{ width: "100%", height: index<oceanList.length?"100%":"0%", mt:index<oceanList.length?"80px":"0%"}}>
+                <Box data-aos="fade-up" data-aos-delay={((index % 9) + 1)*100} data-aos-duration="1000" data-aos-easing="easy-in-out" data-aos-once="true" key={`${colIndex}-${rowIndex}`} sx={{ width: "100%", height: index<oceanList.length?"100%":"0%", mt:index<oceanList.length?"80px":"0%"}}>
                   {index<oceanList.length?<CardMini OceanData={oceanList[index]}/>:<></>}
                 </Box>
                 );
