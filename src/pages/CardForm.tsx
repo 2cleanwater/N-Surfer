@@ -1,4 +1,4 @@
-import CardDetailAdd from '@components/CardDetailAdd'
+import CardDetailAdd from '@components/cardDetail/CardDetailAdd'
 
 import { observer } from 'mobx-react'
 

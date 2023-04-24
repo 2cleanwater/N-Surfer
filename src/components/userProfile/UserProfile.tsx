@@ -1,4 +1,4 @@
-import InteractiveWave from '@components/InteractiveWave'
+import InteractiveWave from '@components/utils/InteractiveWave'
 import { UserDataForm } from '@store/ProfileStore';
 import { useRootStore } from '@provider/rootContext';
 

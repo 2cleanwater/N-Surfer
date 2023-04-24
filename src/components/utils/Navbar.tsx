@@ -64,9 +64,9 @@ const Navbar = ()=>{
         sx={{width:"5em",height:"5em",ml:"3em"}}
         src={nSurferIcon} alt="logo"></Box>
         <Box component="h1"
-        sx={{m: "20px", fontSize:"3em", color: "#0067a3", textShadow:"2px 2px 2px gray", "&:hover": {
-          transform: "scale(1.1)"
-        }}}>
+        sx={{m: "20px", fontSize:"3em", color: "#0067a3", textShadow:"2px 2px 2px gray", 
+        // "&:hover": {transform: "scale(1.1)"}
+        }}>
           N-Surfer</Box>
       </Box>
 

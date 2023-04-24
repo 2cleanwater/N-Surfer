@@ -1,4 +1,4 @@
-import InteractiveWave from '@components/InteractiveWave';
+import InteractiveWave from '@components/utils/InteractiveWave';
 import { labelColor, OceanData } from '@store/OceanStore';
 import { dateConverter } from '@service/dateConverter';
 
@@ -28,7 +28,7 @@ const CardMini = ({OceanData}:{OceanData:OceanData}) => {
   
   return (
     <Box sx={mainBox} onClick={()=>{navigate(`/card/${OceanData.cardId}`)}}>
-      <Box component="img" src={bottle} sx={{zIndex:"-100", position:"absolute", width:"17em", top:"37%", left:"50%", transform:"translate(-50%,-50%)"}}/>
+      <Box component="img" src={bottle} sx={{zIndex:"-100", position:"absolute", width:"17em", top:"37%", left:"50%", transform:"translate(-50%,-50%)", filter: "drop-shadow(-10px 15px 5px gray)"}}/>
       <Box sx={{position:"absolute", zIndex:"-1"}}> 
         <InteractiveWave width={240} height={300} color="#F9F5F5" percent={1.8}/>
       </Box>

@@ -1,12 +1,12 @@
-import Wave from '@components/Wave';
-import UserProfile from '@components/UserProfile';
+import Wave from '@components/waveBox/Wave';
+import UserProfile from '@components/userProfile/UserProfile';
 import { useRootStore } from '@provider/rootContext';
-import EditProfile from '@components/UserProfileEditable';
+import EditProfile from '@components/userProfile/UserProfileEditable';
 import { UserDataForm } from '@store/ProfileStore';
 import { OceanData } from '@store/OceanStore';
 import instance from '@service/axiosInterceptor';
-import CardMini from '@components/CardMini';
-import Loading from '@components/Loading';
+import CardMini from '@components/cardList/CardMini';
+import Loading from '@components/utils/Loading';
 
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';

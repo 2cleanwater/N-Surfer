@@ -1,7 +1,7 @@
 import { useRootStore } from '@provider/rootContext';
-import WaveBox from '@components/WaveBox';
+import WaveBox from '@components/waveBox/WaveBox';
 import { waveData } from '@store/WaveStore';
-import Loading from '@components/Loading';
+import Loading from '@components/utils/Loading';
 import { dateConverter } from '@service/dateConverter';
 
 import { useEffect, useState } from 'react';
@@ -24,6 +24,10 @@ interface hoverDate {
   date: string,
   number: number
 }
+
+const BlueCss = styled("span")({
+  color:"#0679C0",
+})
 
 const Wave = ({nickname}:{nickname:string}) => {
   const value = useRootStore()!;
@@ -91,7 +95,7 @@ const Wave = ({nickname}:{nickname:string}) => {
       }}>
       <Box sx={{display:"flex", justifyContent: "space-between", pb:"1em"}}>
         <Box sx={{textAlign:"left",color:"white", pl:"1.5em", pt:"1em", fontSize:"2em", fontWeight:"Bold", textShadow:"2px 2px 2px gray"}}>
-          "{nickname}" 님의 파도</Box>
+          "<BlueCss>{nickname}</BlueCss>" 님의 파도</Box>
         <Box id="singleItemValue" sx={{width:"15em", height:"5em", display:"flex", flexDirection:"row", justifyContent: "space-between", alignItems: "center", p:"0.5em", mr:"1em", bgcolor:"#F2E0C9",borderRadius: "30px",boxShadow: 3}}>
           {hoverData.date?
           (<Box sx={{fontWeight:"bold", color:"#0F8DBF", pl:"1em", textAlign:"center",ml:"1em"}}>
@@ -114,7 +118,7 @@ const Wave = ({nickname}:{nickname:string}) => {
 
       <Box sx={{py:"1em",px:"8.4em",fontSize:"15px", color:"#0067a3", textShadow:"1px 1px 2px gray", display:"flex", justifyContent: "space-between"}}>
         {[...Array(10)].map((_, index) => (
-          <Box>{waveList.length>0?slashFormattedDate(waveList[index*7].date):""}</Box>
+          <Box key={index}>{waveList.length>0?slashFormattedDate(waveList[index*7].date):""}</Box>
         ))}
       </Box>
 

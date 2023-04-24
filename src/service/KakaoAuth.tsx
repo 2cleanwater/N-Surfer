@@ -1,4 +1,4 @@
-import Loading  from '@components/Loading';
+import Loading  from '@components/utils/Loading';
 import instance from '@service/axiosInterceptor';
 
 import { useNavigate } from 'react-router-dom';
