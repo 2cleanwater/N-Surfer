@@ -1,45 +1,52 @@
-import CardMini from '@components/CardMini';
-import Wave from '@components/Wave';
+import CardMini from '@/components/cardList/CardMini';
+import Wave from '@components/waveBox/Wave';
 import { useRootStore } from '@provider/rootContext';
 import { OceanData } from '@store/OceanStore';
+import Loading from '@components/utils/Loading';
+import MainTitle from '@components/home/MainTitle';
+import ExplainText from '@components/home/ExplainText';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { observer } from 'mobx-react';
+import AOS from 'aos';
+import "aos/dist/aos.css";
 
-import { Box } from '@mui/material';
-import Loading from '@components/Loading';
+import { Box, AppBar, Toolbar, Typography, Button } from '@mui/material';
+import ExplainPost from '@components/home/ExplainPost';
+import ExplainDaily from '@components/home/ExplainDaily';
+import ExplainComm from '@components/home/ExplainComm';
+import ExplainShare from '@components/home/ExplainShare';
+import ExplainEnding from '@components/home/ExplainEnding';
+
 
 const Home = () => {
-  const value = useRootStore()!;
-  const isLogin = value.authStore.isLogin;
-  const [recentList, setRecentList] = useState<Array<OceanData>>([]);
-
-  const mainImg:string= process.env.REACT_APP_MAINIMG!;
-
-  // sever data =============================================
   useEffect(()=>{
-    value.oceanStore.getOceanList({numOfCards:3,setValue:setRecentList});
-  },[value.oceanStore]);
+    AOS.init();
+  })
 
+  const myRef= useRef<HTMLDivElement>(null);
+
+  const handleButtonClick = () => {
+    myRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  };
   return (
     <Box sx={{position: "relative", border:"1px black ", display:"flex", flexDirection:"column",justifyContent: "center", alignItems: "center"}}>
-      {isLogin?
-      (value.profileStore.userData.nickname&&<Wave nickname={value.profileStore.userData.nickname!}/>):
-      (<Box component="img" src={mainImg} alt='HomeIMG'
-      sx={{ width:"55em", borderRadius:"3em", boxShadow: 3,my:"3em"}}/>)}
-      <Box sx={{width:"35em", borderRadius:"1em", boxShadow: 3, backgroundColor:"#0067a3", m:"1.5em", p:"0.5em", pl:"1.5em", fontSize:"25px", fontWeight:"bold", color:"white"}}>
-        최근 작성된 파도</Box>
-      {value.oceanStore.isOceanListLoading?
-      <Box sx={{width:"100%"}}><Loading/></Box>:
-      <>{recentList.length<=0?
-        <Box sx={{display:'flex', flexDirection:"column", justifyContent: "center", alignItems: "center",my:"2em",height:"10em"}}>
-          <Box sx={{fontSize:"40px", color:"#0F7B6C"}}>최근 작성된 파도가 없습니다!</Box>
-          <Box sx={{fontSize:"25px", color:"#0F7B6C"}}>글을 작성하여 파도를 추가해보세요.</Box>
-        </Box>:
-        <Box sx={{display:'flex',justifyContent: "center", alignItems: "center",my:"6em"}}>
-          {[...Array(3)].map((_, index) => {return (<div key={index}>{recentList[index]&&<CardMini OceanData={recentList[index]}/>}</div>)})}
-        </Box>
-      }</>}
+      <MainTitle onButtonClick={handleButtonClick}/>
+      <Box sx={{border:"1px solid gray", width:"100%"}}/>
+      <ExplainText/>
+      <Box sx={{border:"1px solid gray", width:"100%"}}/>
+      <ExplainPost/>
+      <Box ref={myRef} sx={{border:"1px solid gray", width:"100%"}}/>
+      <ExplainDaily/>
+      <Box sx={{border:"1px solid gray", width:"100%"}}/>
+      <ExplainComm/>
+      <Box sx={{border:"1px solid gray", width:"100%"}}/>
+      <ExplainShare/>
+      <Box sx={{border:"1px solid gray", width:"100%"}}/>
+      <ExplainEnding/>
     </Box>
   )
 }

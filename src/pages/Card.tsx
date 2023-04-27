@@ -1,11 +1,10 @@
-import CardDetail from '@components/CardDetail'
-import CardDetailEditable from '@components/CardDetailEditable';
+import CardDetail from '@components/cardDetail/CardDetail'
+import CardDetailEditable from '@components/cardDetail/CardDetailEditable';
 import { useRootStore } from '@provider/rootContext';
 import { OceanData } from '@store/OceanStore';
-import CardDetailNull from '@components/CardDetailNull';
+import CardDetailNull from '@components/cardDetail/CardDetailNull';
 
 import { useEffect, useState } from 'react';
-import { observer } from 'mobx-react';
 
 import { Box,  IconButton, Tooltip } from '@mui/material';
 import { notionToHtml } from '@service/notionToHtml';

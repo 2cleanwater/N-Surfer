@@ -1,5 +1,5 @@
 import { useRootStore } from '@provider/rootContext';
-import InteractiveWave from '@components/InteractiveWave'
+import InteractiveWave from '@components/utils/InteractiveWave'
 import {UserDataForm} from '@store/ProfileStore'
 
 import React, { useEffect, useState } from 'react'

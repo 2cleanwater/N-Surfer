@@ -1,5 +1,5 @@
-import Navbar from '@components/Navbar'
-import NotFoundComponent from '@components/NotFoundComponent'
+import Navbar from '@components/utils/Navbar'
+import NotFoundComponent from '@components/utils/NotFoundComponent'
 
 import { observer } from 'mobx-react'
 
