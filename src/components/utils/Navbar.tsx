@@ -53,7 +53,6 @@ const Navbar = ()=>{
         navigate("/");
     }else return}
 
-
   return (
     <Box 
     sx={{width: "100%", height: "230px", textAlign: "center", position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
