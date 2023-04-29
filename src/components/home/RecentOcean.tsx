@@ -39,8 +39,8 @@ const RecentOcean = () => {
   return (
     <Box sx={{position: "relative", border:"1px black ", display:"flex", flexDirection:"column",justifyContent: "center", alignItems: "center"}}>
       {value.oceanStore.isOceanListLoading?
-      <Box sx={{width:"100%"}}><Loading/></Box>:
-      <Box sx={{display:'flex',justifyContent: "center", alignItems: "center",my:"6em"}}>
+      <Box sx={{width:"92%"}}><Loading/></Box>:
+      <Box sx={{display:'flex',justifyContent: "center", alignItems: "center",mt:"5em"}}>
         {[...Array(3)].map((_, index) => {return (<WaveBoxCss data-aos="fade-left" data-aos-anchor-placement="top-bottom" data-aos-delay={index*200+800} data-aos-duration="1000" data-aos-easing="easy-in-out" data-aos-once="true" key={index}>{recentList[index]&&<CardMini OceanData={recentList[index]}/>}</WaveBoxCss>)})}
       </Box>
       // <>{recentList.length<=0?

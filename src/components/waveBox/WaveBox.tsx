@@ -10,8 +10,8 @@ interface waveBoxForm {
 
 const WaveBox = ({date,count,toggle,isClicked}:waveBoxForm) => {
   const waveBoxStyles = {
-    width: "4em",
-    height: "4em",
+    width: "3.5em",
+    height: "3.5em",
     position: "relative",
     m:"0.2em",
     borderRadius: "0.5em",
@@ -32,8 +32,8 @@ const WaveBox = ({date,count,toggle,isClicked}:waveBoxForm) => {
   }
 
   const waveStyles = {
-    width: "6em",
-    height: "6em",
+    width: "5.5em",
+    height: "5.5em",
     position: "absolute",
     top: "-25%",
     left: "-0%",
@@ -50,8 +50,8 @@ const WaveBox = ({date,count,toggle,isClicked}:waveBoxForm) => {
   }
 
   const waveStyles2 = {
-    width: "6em",
-    height: "6em",
+    width: "5.5em",
+    height: "5.5em",
     position: "absolute",
     top: "-25%",
     left: "100%",
@@ -79,7 +79,7 @@ const WaveBox = ({date,count,toggle,isClicked}:waveBoxForm) => {
   });
 
   return (
-    <Tooltip title={<div style={{ color: "lightblue", fontSize:"20px" }}>{dateConverter({dateString:date,tag:"korean"})+ ": " + count +"번"} </div>} sx={{m:"2px"}}>
+    <Tooltip placement="top" title={<div style={{ color: "lightblue", fontSize:"15px" }}>{dateConverter({dateString:date,tag:"korean"})+ ": " + count +"번"} </div>} sx={{m:"2px"}}>
       <Box sx={waveBoxStyles}>
         <StyledWave sx={waveStyles}/>
         <StyledWave sx={waveStyles2}/>
