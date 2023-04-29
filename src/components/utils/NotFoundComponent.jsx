@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
+
 
 const NotFoundComponent = () => {
-
+  
   const [counter, setCounter] = useState(0);
   const canvasRef = useRef(null);
 
@@ -35,7 +36,7 @@ const NotFoundComponent = () => {
     const randomBetween = (min, max) => ~~((Math.random() * (max - min + 1)) + min);
     
     const onResize = () => {
-      // w = window.innerWidth;
+
       w = 1120;
       h = window.innerHeight;
 
@@ -301,14 +302,14 @@ const NotFoundComponent = () => {
 
     }, []);
 
-  
+
   return (
-    <Box sx={{background:"linear-gradient(#7acbdb, #232a5c)", position:"relative", zIndex:"0"}}>
+    <Box sx={{background:"linear-gradient(#7acbdb, #232a5c)", position:"relative", zIndex:"1"}}>
       <Box sx={{position:"absolute", top:"15%", left:"50%", transform:"translate(-50%,-50%)", zIndex:"-1"}}>
         <Box sx={{textAlign:"center", color:"white", fontSize:"200px"}}>4 0 4</Box>
         <Box sx={{textAlign:"center", color:"white", fontSize:"50px"}}>NOT FOUND</Box>
       </Box>
-      <canvas id="canvas" className="canvas js-canvas" ref={canvasRef} width="500" height="500" zindex="3"></canvas>
+      <canvas id="canvas" className="canvas js-canvas" ref={canvasRef} width="500" height="500"></canvas>
     </Box>
   )
 }

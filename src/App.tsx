@@ -22,8 +22,9 @@ const App = ()=>{
       <Navbar />
       <Outlet />
       {value.modalStore._IsModalOpen&&<Modal/>}
-      <Fab sx={{position:"fixed", right:"3em", bottom:"3em"}} size="medium" color="inherit" aria-label="add">
-        <UpIcon onClick={handleTopButtonClick} />
+      <Fab sx={{position:"fixed", right:"3em", bottom:"3em"}} size="medium" color="inherit" aria-label="add"
+      onClick={handleTopButtonClick}>
+        <UpIcon  />
       </Fab>
     </>
   )
