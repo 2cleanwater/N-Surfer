@@ -164,7 +164,7 @@ const Wave = ({nickname}:{nickname:string}) => {
                   if (mapIndex === index) item = { date, count };
                 });
                 return (
-                  <div key={`${colIndex}-${rowIndex}`} style={{ width: "100%"}} onClick={()=>{
+                  <div key={`${colIndex}-${rowIndex}`} style={{ width: "100%" }} onClick={()=>{
                     if(hoverIndex===index) {
                       setHoverData({date:"",number:0});
                       setHoverIndex(70);

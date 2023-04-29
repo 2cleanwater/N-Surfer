@@ -55,7 +55,7 @@ const WaveStore = (): WaveStoreForm=>{
       const today = new Date();
       for(let i=0;i<70;i++){
         const isDateExist:number=userWaveList.findIndex(wave=>wave.date === dateConverter({date:timeline,tag:""}));
-        if(timeline.getTime()<today.getTime()){
+        if(timeline.getTime()<=today.getTime()){
           if(isDateExist===-1){
             waveForm.push({date:dateConverter({date:timeline,tag:""}),count:0});
           }

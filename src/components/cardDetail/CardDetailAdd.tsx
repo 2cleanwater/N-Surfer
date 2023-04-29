@@ -17,6 +17,7 @@ const CardDetailAdd = () => {
   const navigate = useNavigate();
   const wholeLabels:Array<label> = wholeLabelList;
   const [userImgSrc, setUserImgSrc] = useState<Array<string>>(["","",""]);
+  const profileBaseImg:string= process.env.REACT_APP_PROFILE_BASE_IMG!;
 
   // useForm 선언 ===================================================
   const methods = useForm<{
@@ -151,8 +152,11 @@ const CardDetailAdd = () => {
             onChange: (e) => debounce(()=>setValue("inputTitle", e.target.value)),
             required:"제목을 입력해주세요"        
           })}/>
-        <Box sx={{pr:"2em", color:"lightblue",fontWeight:"bold",fontSize:"20px" ,textAlign:"right", position:"absolute", bottom:"1em", right:"0"}}>
-          by. {value?.profileStore.userData.nickname} </Box>
+        <Box sx={{pr:"2em", color:"lightblue",fontWeight:"bold",fontSize:"20px" ,textAlign:"right", position:"absolute", bottom:"1em", right:"0",display:"flex", alignItems:"center",}}>
+          {value?.profileStore.userData.nickname}
+          <Box component="img" sx={{ml:"0.5em",width: "1.5em", height: "1.5em", objectFit:"cover",objectPosition:"center" ,borderRadius: "50%"}} alt="profile"
+          src={value?.profileStore.userData.imgUrl?value?.profileStore.userData.imgUrl:profileBaseImg} />
+        </Box>
       </Box>
 
       <Box sx={{width:"50em", height:"5em", bgcolor:"#2E88C7", borderRadius:"1em",display:"flex", m: "0px auto", mb:"1em", justifyContent: "space-between", alignItems:"center", boxShadow: "5" }}>

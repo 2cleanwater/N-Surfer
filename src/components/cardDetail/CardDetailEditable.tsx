@@ -235,7 +235,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
             required:"제목을 입력해주세요"        
           })}/>
         <Box sx={{pr:"2em", color:"lightblue",fontWeight:"bold",fontSize:"20px" ,textAlign:"right", position:"absolute", bottom:"1em", right:"0"}}>
-          by. {value?.profileStore.userData.nickname} </Box>
+          {value?.profileStore.userData.nickname} </Box>
       </Box>
 
       <Box sx={{width:"50em", height:"5em", bgcolor:"#2E88C7", borderRadius:"1em",display:"flex", m: "0px auto", mb:"1em", justifyContent: "space-between", alignItems:"center", boxShadow: "5" }}>
@@ -318,7 +318,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
           })}/>
       </Box>
       <Tooltip title={<div style={{fontSize:"15px"}}>글 수정</div>}>
-        <IconButton type="submit" size="medium" sx={{position:"absolute", top:"7em", right:"0.5em", color: "white", bgcolor:"#0F7B6C", 
+        <IconButton type="submit" size="medium" sx={{position:"absolute", top:"4em", right:"0.5em", color: "white", bgcolor:"#0F7B6C", 
         "&:hover":{
           color: "#0F7B6C", bgcolor:"white",
           transform: "scale(1.1)",
@@ -329,7 +329,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
       </Tooltip>
       
       <Tooltip title={<div style={{fontSize:"15px"}}>글 삭제</div>}>
-        <IconButton size="medium" sx={{position:"absolute", top:"10em", right:"0.5em", color: "white", bgcolor:"#E03E3E", 
+        <IconButton size="medium" sx={{position:"absolute", top:"7em", right:"0.5em", color: "white", bgcolor:"#E03E3E", 
         "&:hover":{
           color: "#E03E3E", bgcolor:"white",
           transform: "scale(1.1)",
