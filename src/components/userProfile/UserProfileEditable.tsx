@@ -216,7 +216,7 @@ const EditProfile = ({ userData, setIsEditing, getUserData }:myProfileEditProps)
       <Box component="img" src={imgSrc} alt='UserImage' 
       sx={{ objectFit: "cover", objectPosition:"center" ,borderRadius:"50%", width:"18em", height:"18em", overflow: "hidden", m:"4%"}}  />
       <Box sx={{position: "absolute",bottom:"5%",left:"5%"}}>
-        <Tooltip title={<div style={{fontSize:"15px"}}>사진 업로드</div>}>
+        <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>사진 업로드</div>}>
           <IconButton component="label" size="medium" sx={uploadImgButton} >
             <FileUploadIcon fontSize="medium"  />
             <input type="file" hidden className="profileImgInput" id= "profileImg" accept="image/png, image/jpeg, image/jpg"
@@ -278,25 +278,25 @@ const EditProfile = ({ userData, setIsEditing, getUserData }:myProfileEditProps)
           </Box>
         </Box>
         
-        <Tooltip title={<div style={{fontSize:"15px"}}>프로필 저장</div>}>
+        <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>프로필 저장</div>}>
           <IconButton size="medium" type="submit" onClick={(e)=>{preventEvent(e); checkSave();}} sx={saveButton} >
             <SaveIcon fontSize="medium" />
           </IconButton>
         </Tooltip>
         
-        <Tooltip title={<div style={{fontSize:"15px"}}>회원 탈퇴</div>}>
+        <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>회원 탈퇴</div>}>
           <IconButton size="medium" onClick={(e)=>{preventEvent(e); throttle(checkDeleteUser);}} sx={deleteButton} >
             <PersonRemoveAlt1Icon fontSize="medium" />
           </IconButton>
         </Tooltip>
         
-        <Tooltip title={<div style={{fontSize:"15px"}}>프로필 사진 복구</div>}>
+        <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>프로필 사진 복구</div>}>
           <IconButton size="medium" onClick={(e)=>{preventEvent(e); handleRecentImg()}} sx={originImgButton} >
             <AccountBoxIcon fontSize="medium" />
           </IconButton>
         </Tooltip>
         
-        <Tooltip title={<div style={{fontSize:"15px"}}>기본 이미지로 변경</div>}>
+        <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>기본 이미지로 변경</div>}>
           <IconButton size="medium" onClick={(e)=>{preventEvent(e); handleBaseImg()}} sx={baseImgButton} >
             <DeleteForeverIcon fontSize="medium" />
           </IconButton>

@@ -81,7 +81,7 @@ const WaveDummy = () => {
       bgcolor:"waveBackground",
       justifyContent:"center",
       alignContent: "center",
-      width: "60em",
+      width: "55em",
       borderRadius:"2em",
       pt:"1em",
       pb:"1em",
@@ -98,7 +98,7 @@ const WaveDummy = () => {
               {hoverData.number} 번</Box>
           </Box>):
           (<div></div>)}
-          <Tooltip title={<div style={{fontSize:"15px"}}>파도 멈추기</div>}>
+          <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>파도 멈추기</div>}>
             <Box component="img" id="waveToggle"
             sx={{width:"3em", height:"3em", justifyContent:"center",alignContent: "center",borderRadius:"2em", bgcolor: waveToggle?"DarkBlue":"White", 
             "&:hover": {
@@ -110,7 +110,7 @@ const WaveDummy = () => {
         </Box>
       </Box>
 
-      <Box sx={{py:"1em",px:"8.4em",fontSize:"15px", color:"#0067a3", textShadow:"1px 1px 2px gray", display:"flex", justifyContent: "space-between"}}>
+      <Box sx={{py:"1em",pl:"9.3em",pr:"7em",fontSize:"15px", color:"#0067a3", textShadow:"1px 1px 2px gray", display:"flex", justifyContent: "space-between"}}>
         {[...Array(10)].map((_, index) => (
           <Box key={index}>{waveList.length>0?slashFormattedDate(waveList[index*7].date):""}</Box>
         ))}
@@ -137,7 +137,7 @@ const WaveDummy = () => {
       </IconButton>
 
       <Box sx={{display:"flex",justifyContent:"center", alignContent: "center"}}>
-        <Box component="ul" sx={{display:"flex", flexDirection:"column", listStyleType: "none", textAlign:"center", p: "0px", m:"0px", pr:"1em", justifyContent: "center", alignItems: "center"}} >
+        <Box component="ul" sx={{display:"flex", flexDirection:"column", listStyleType: "none", textAlign:"center", p: "0px", m:"0px", pr:"0.1em", justifyContent: "center", alignItems: "center"}} >
           <DayList>SUN</DayList>
           <DayList>MON</DayList>
           <DayList>TUE</DayList>
@@ -175,17 +175,8 @@ const WaveDummy = () => {
             </div>
           ))}
           </Box>}
-          <Box component="ul" sx={{display:"flex", flexDirection:"column", listStyleType: "none", textAlign:"center", p: "0px", m:"0px", pl:"1em", justifyContent: "center", alignItems: "center"}} >
-            <DayList>SUN</DayList>
-            <DayList>MON</DayList>
-            <DayList>TUE</DayList>
-            <DayList>WED</DayList>
-            <DayList>THU</DayList>
-            <DayList>FRI</DayList>
-            <DayList>SAT</DayList>
-        </Box>
       </Box>
-      <Box sx={{display:"flex", justifyContent: "flex-end", alignItems: "center", textAlign:"center", mr:"2em", my:"1em"}}>
+      <Box sx={{display:"flex", justifyContent: "flex-end", alignItems: "center", textAlign:"center", mr:"2em", mt:"1.5em",mb:"0.5em"}}>
         Less
         <Box sx={{width:"1em",height:"1em",m:"0.1em", bgcolor:"#F4FAFB"}}></Box>
         <Box sx={{width:"1em",height:"1em",m:"0.1em",  bgcolor:"#C3E3F6"}}></Box>

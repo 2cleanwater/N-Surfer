@@ -86,7 +86,7 @@ function Card() {
       {oceanData.title? 
       <div>
         {oceanData.user.username==value?.profileStore.userData.nickname&&
-        <Tooltip title={<div style={{fontSize:"15px"}}>설정</div>}>
+        <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>설정</div>}>
           <IconButton type="submit" size="medium" sx={{position:"absolute", top:"1em", right:"4.5em", color: "white", bgcolor:"#9B9A97", zIndex:"10",
             "&:hover":{
               "@keyframes rotate": {
@@ -106,7 +106,7 @@ function Card() {
 
         {!isEditing&&
           <div>
-            <Tooltip title={<div style={{fontSize:"15px", wordWrap: "normal", width:"14em" }}>저장된 HTML파일을 노션에서 "가져오기"해서 추가해보세요!</div>}>
+            <Tooltip placement="top" title={<div style={{fontSize:"15px", wordWrap: "normal", width:"14em" }}>저장된 HTML파일을 노션에서 "가져오기"해서 추가해보세요!</div>}>
               <IconButton type="submit" size="medium" sx={{position:"absolute", top:"4em", right:"4.5em", color: "white", bgcolor:"#0B6E99", zIndex:"11",
               "&:hover":{
                   transform: "scale(1.1)",

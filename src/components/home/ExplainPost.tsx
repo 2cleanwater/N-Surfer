@@ -150,7 +150,7 @@ const ExplainPost = () => {
     <ExplainPostCss>
       <Box data-aos="fade-up" data-aos-delay="200" data-aos-anchor-placement="top-bottom" data-aos-duration="1000" data-aos-easing="easy-in-out" data-aos-once="true" sx={{position:"relative"}}>
         <ExplainPostTitleCss>포스트</ExplainPostTitleCss>
-        <ExplainPostSubTitleCss>짧은 글과 사진으로 이뤄진 <br></br>팁과 노하우</ExplainPostSubTitleCss>
+        <ExplainPostSubTitleCss>짧은 글과 사진으로 <br></br>이뤄진 팁과 노하우</ExplainPostSubTitleCss>
       </Box>
       <Box>
         <ExplainPostImg01Css data-aos="fade-up" data-aos-delay="1000"  data-aos-anchor-placement="top-bottom" data-aos-duration="1000" data-aos-easing="easy-in-out" data-aos-once="true" src={imgExplainPost01} alt='imgExplainPost01'/>

@@ -4,7 +4,7 @@ import RecentOcean from './RecentOcean';
 const ExplainCommCss = styled("div")({
   position:"relative", 
   width:"92%",
-  marginTop:"10em",
+  marginTop:"8em",
   marginBottom:"8em"
 })
 
