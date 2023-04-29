@@ -80,7 +80,7 @@ function Card() {
     element.click();
     document.body.removeChild(element);
   };
-  
+
   return (
     <Box sx={{alignContent:"center", alignItems:"center", justifyContent:"center", justifyItems:"center", textAlign:"center", display:"flex", position:"relative"}}>
       {oceanData.title? 
@@ -137,7 +137,7 @@ function Card() {
         {isEditing?
           (<CardDetailEditable oceanData={oceanData} setIsEditing={setIsEditing}/>):
           (<CardDetail oceanData={oceanData}/>)}
-        <CardReply/>
+        {/* <CardReply/> */}
       </div>:
       <>
       {value.modalStore._IsModalOpen?<CardDetailNull/>:<></>}
