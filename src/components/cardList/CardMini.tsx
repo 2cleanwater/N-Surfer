@@ -52,19 +52,18 @@ const CardMini = ({OceanData}:{OceanData:OceanData}) => {
 
       <Box className="nickname&bookmark" sx={{width:"100%", display:"flex", justifyContent: "space-between", alignItems:"center"}}>
         <Box sx={{fontSize:"14px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontWeight:"400", textAlign:"left",display:"flex", alignItems:"center",justifySelf:"left"}}
-        onClick={(e)=>{e.stopPropagation();navigate(`/user/profile?nickname=${OceanData.nickname}`)}}
+        onClick={(e)=>{e.stopPropagation();navigate(`/user/profile?nickname=${OceanData.user.username}`)}}
         >
           <Box component="img" sx={{ml:"0.7em", mr:"0.5em",width: "2em", height: "2em", objectFit:"cover",objectPosition:"center" ,borderRadius: "50%"}} alt="profile"
-          src={profileBaseImg} />
-          {/* src={oceanData.userProfileImg?oceanData.userProfileImg:profileBaseImg} /> */}
-          {OceanData.nickname}
+          src={OceanData.user.userProfileUrl?OceanData.user.userProfileUrl:profileBaseImg} />
+          {OceanData.user.username}
         </Box>
-        <Checkbox
+        {/* <Checkbox
           sx={{fontSize:"1.5em", }}
           icon={<BookmarkBorderIcon />}
           checkedIcon={<BookmarkIcon sx={{color:"#008000"}}/>}
           onClick={(e)=>{e.stopPropagation();}}
-        />
+        /> */}
       </Box>
 
       <Box className="label" sx={{position:"absolute",left:"5%",top:"0em", display:"flex"}}>
@@ -89,14 +88,15 @@ const CardMini = ({OceanData}:{OceanData:OceanData}) => {
       justifyContent: "stretch"
       }}>
         <Box sx={{ justifySelf: "start", display:"flex",alignItems:"center" }}>
-          <VisibilityIcon sx={{mr:"0.3em", fontSize:"3em"}}/> 12,345
+          <VisibilityIcon sx={{mr:"0.3em", fontSize:"3em"}}/>
+          {OceanData?.views.toLocaleString('ko-KR') ?? "Unknown"}
         </Box>
-        {/* {oceanData?.nickname.toLocaleString('ko-KR') ?? "Unknown"} */}
         <Box sx={{justifySelf:"center",display:"flex",alignItems:"center"}}>
-          <Favorite sx={{mr:"0.3em", fontSize:"3em", color:"#FB3958"}}/> 12,345
+          {/* <Favorite sx={{mr:"0.3em", fontSize:"3em", color:"#FB3958"}}/>
+          {OceanData?.likes.toLocaleString('ko-KR') ?? "Unknown"} */}
         </Box>
         <Box sx={{justifySelf:"right",display:"flex",alignItems:"center"}}>
-          <ChatBubbleOutlineIcon sx={{mr:"0.3em", fontSize:"3em"}}/> 12
+          {/* <ChatBubbleOutlineIcon sx={{mr:"0.3em", fontSize:"3em"}}/> 12 */}
         </Box>
       </Box>
     </Box>

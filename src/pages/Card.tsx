@@ -17,8 +17,6 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import styled from '@emotion/styled';
 
-
-
 const HeartCSS= styled(Checkbox)({
   position:"absolute", 
   top:"10.5em", 
@@ -56,7 +54,7 @@ function Card() {
   const [oceanData,setOceanData]= useState<OceanData>({} as OceanData);
   const [isEditing, setIsEditing]= useState<boolean>(false);
   const [isLiked, setIsLiked]= useState<boolean>(false);
-  const [likedNumber, setLikedNumber]= useState<number>(19); 
+  const [likedNumber, setLikedNumber]= useState<number>(99); 
   const [isBookMarked, setIsBookMarked]= useState<boolean>(false);
 
   // server data
@@ -82,11 +80,12 @@ function Card() {
     element.click();
     document.body.removeChild(element);
   };
+  
   return (
     <Box sx={{alignContent:"center", alignItems:"center", justifyContent:"center", justifyItems:"center", textAlign:"center", display:"flex", position:"relative"}}>
       {oceanData.title? 
       <div>
-        {oceanData.nickname==value?.profileStore.userData.nickname&&
+        {oceanData.user.username==value?.profileStore.userData.nickname&&
         <Tooltip title={<div style={{fontSize:"15px"}}>설정</div>}>
           <IconButton type="submit" size="medium" sx={{position:"absolute", top:"1em", right:"4.5em", color: "white", bgcolor:"#9B9A97", zIndex:"10",
             "&:hover":{
@@ -120,7 +119,7 @@ function Card() {
               </IconButton>
             </Tooltip>
             
-            <Badge badgeContent={likedNumber} color="primary"  sx={{position:"absolute", top:"10.5em", right:"7.1em", color: "white", zIndex:"11"}}/>
+            {/* <Badge badgeContent={likedNumber} color="primary"  sx={{position:"absolute", top:"10.5em", right:"7.1em", color: "white", zIndex:"11"}}/>
             <HeartCSS
             sx={{position:"absolute", top:"10.5em", right:"6.7em", color: "white", zIndex:"11"}}
             checked={isLiked}
@@ -131,7 +130,7 @@ function Card() {
               sx={{position:"absolute", top:"14.5em", right:"6.7em", color: "white", zIndex:"11"}}
               icon={<BookmarkBorderIcon sx={{fontSize:"2em"}}/>}
               checkedIcon={<BookmarkIcon sx={{color:"#008000", fontSize:"2em"}}/>}
-            />
+            /> */}
           </div>
         }
 

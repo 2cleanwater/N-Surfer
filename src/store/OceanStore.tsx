@@ -1,6 +1,11 @@
 import instance from "@service/axiosInterceptor";
 import ModalStore from "@store/ModalStore";
 
+interface user{
+  username:string,
+  userProfileUrl:string
+}
+
 export interface imageForm{
   imageId:string;
   imageUrl:string
@@ -45,11 +50,13 @@ export const labelColor = (color:string) => {
 
 export interface OceanData{
   cardId: string;
-  nickname?: string;
+  user: user;
   title?: string;
-  labels: Array<label>;
   content?: string;
   createDate?: string;
+  likes: number;
+  views: number;
+  labels: Array<label>;
   images: Array<imageForm>;
 }
 
