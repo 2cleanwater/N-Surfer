@@ -58,12 +58,12 @@ const CardMini = ({OceanData}:{OceanData:OceanData}) => {
           src={OceanData.user.userProfileUrl?OceanData.user.userProfileUrl:profileBaseImg} />
           {OceanData.user.username}
         </Box>
-        {/* <Checkbox
+        <Checkbox
           sx={{fontSize:"1.5em", }}
           icon={<BookmarkBorderIcon />}
           checkedIcon={<BookmarkIcon sx={{color:"#008000"}}/>}
-          onClick={(e)=>{e.stopPropagation();}}
-        /> */}
+          onClick={(e)=>{e.stopPropagation();window.alert("준비 중인 기능입니다!")}}
+        />
       </Box>
 
       <Box className="label" sx={{position:"absolute",left:"5%",top:"0em", display:"flex"}}>
