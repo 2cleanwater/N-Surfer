@@ -33,19 +33,19 @@ const Home = () => {
     });
   };
   return (
-    <Box sx={{position: "relative", border:"1px black ", display:"flex", flexDirection:"column",justifyContent: "center", alignItems: "center"}}>
+    <Box sx={{position: "relative", width:"92%", margin:"auto", border:"1px black ", display:"flex", flexDirection:"column",justifyContent: "center", alignItems: "center"}}>
       <MainTitle onButtonClick={handleButtonClick}/>
-      <Box sx={{border:"1px solid gray", width:"100%"}}/>
+      <Box sx={{border:"1px solid gray", width:"92%"}}/>
       <ExplainText/>
-      <Box sx={{border:"1px solid gray", width:"100%"}}/>
+      <Box sx={{border:"1px solid gray", width:"92%"}}/>
       <ExplainPost/>
-      <Box ref={myRef} sx={{border:"1px solid gray", width:"100%"}}/>
+      <Box ref={myRef} sx={{border:"1px solid gray", width:"92%"}}/>
       <ExplainDaily/>
-      <Box sx={{border:"1px solid gray", width:"100%"}}/>
+      <Box sx={{border:"1px solid gray", width:"92%"}}/>
       <ExplainComm/>
-      <Box sx={{border:"1px solid gray", width:"100%"}}/>
+      <Box sx={{border:"1px solid gray", width:"92%"}}/>
       <ExplainShare/>
-      <Box sx={{border:"1px solid gray", width:"100%"}}/>
+      <Box sx={{border:"1px solid gray", width:"92%"}}/>
       <ExplainEnding/>
     </Box>
   )

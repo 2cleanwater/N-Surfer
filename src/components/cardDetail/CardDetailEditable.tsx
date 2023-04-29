@@ -258,7 +258,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
           {errors.inputImg&&<Box sx={{fontSize:"15px", position:"absolute", top:"105%",left:"8%"}}>{errors.inputImg[index]?.message}</Box>}
           {userImgSrc[index]?
           <>
-            <Tooltip title={<div style={{fontSize:"15px"}}>이미지 삭제</div>}>
+            <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>이미지 삭제</div>}>
               <IconButton size="small" sx={{ position: "absolute", right: "0.5em", top: "0.5em", bgcolor:"gray", color:"white", 
                 "&:hover":{
                   bgcolor:"white",color:"gray",
@@ -268,7 +268,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
                 <CloseIcon fontSize="small"/>
               </IconButton>
             </Tooltip>
-            <Tooltip title={<div style={{fontSize:"15px"}}>이미지 복구</div>}>
+            <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>이미지 복구</div>}>
               <IconButton size="small" sx={{ position: "absolute", right: "3em", top: "0.5em", bgcolor:"#0B6E99", color:"white", 
               "&:hover":{
                 bgcolor:"white",color:"#0B6E99",
@@ -280,7 +280,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
             </Tooltip>
           </>
           :
-          <Tooltip title={<div style={{ fontSize:"15px" }}>이미지 업로드</div>}>
+          <Tooltip placement="top" title={<div style={{ fontSize:"15px" }}>이미지 업로드</div>}>
             <IconButton component="label" size="large" sx={{color:"#0B6E99", display: userImgSrc[index]?'none':"", position:"absolute",top:"50%", left:"50%", transform:"translate(-50%,-50%)" }} >
               {!userImgSrc[index]&&<FileUploadIcon sx={{}} fontSize="large"  />}
               <input type="file" hidden className="profileImgInput" id= "profileImg" accept="image/png, image/jpeg, image/jpg"
@@ -317,7 +317,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
             required:"내용을 입력해주세요" 
           })}/>
       </Box>
-      <Tooltip title={<div style={{fontSize:"15px"}}>글 수정</div>}>
+      <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>글 수정</div>}>
         <IconButton type="submit" size="medium" sx={{position:"absolute", top:"4em", right:"0.5em", color: "white", bgcolor:"#0F7B6C", 
         "&:hover":{
           color: "#0F7B6C", bgcolor:"white",
@@ -328,7 +328,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
         </IconButton>
       </Tooltip>
       
-      <Tooltip title={<div style={{fontSize:"15px"}}>글 삭제</div>}>
+      <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>글 삭제</div>}>
         <IconButton size="medium" sx={{position:"absolute", top:"7em", right:"0.5em", color: "white", bgcolor:"#E03E3E", 
         "&:hover":{
           color: "#E03E3E", bgcolor:"white",

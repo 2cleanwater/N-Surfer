@@ -11,7 +11,7 @@ body {
   background-repeat: no-repeat, repeat-y;
   background-position: center top, center top;
   background-attachment: fixed ;
-  background-size: 100%,100%;
+  background-size: 70em,70em;
   width: 70em;
   -webkit-user-select:none;
   -moz-user-select:none;

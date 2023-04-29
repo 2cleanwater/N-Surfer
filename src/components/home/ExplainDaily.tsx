@@ -8,8 +8,8 @@ const ExplainDailyCss = styled("div")({
   position:"relative", 
   height: "70em", 
   width:"92%",
-  marginTop:"7em",
-  marginBottom:"7em"
+  marginTop:"5em",
+  marginBottom:"5em"
 })
 
 const ExplainDailyTitleCss = styled("div")({

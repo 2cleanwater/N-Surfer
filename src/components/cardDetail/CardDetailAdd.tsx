@@ -178,7 +178,7 @@ const CardDetailAdd = () => {
             sx={{backgroundImage: userImgSrc[index]?`url(${userImgSrc[index]})`:"none",width:"25em",height:"10.1em", mx:"0.4em", borderRadius:"20px", border: userImgSrc[index]?" ":"lightblue 5px dashed", position: "relative", boxShadow: "5",backgroundSize: "cover", boxSizing: "border-box", backgroundPosition: "center", }}>
             {errors.inputImg&&<Box sx={{fontSize:"15px", position:"absolute", top:"105%",left:"8%"}}>{errors.inputImg[index]?.message}</Box>}
             {userImgSrc[index]?
-            <Tooltip title={<div style={{fontSize:"15px"}}>업로드 취소</div>}>
+            <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>업로드 취소</div>}>
               <IconButton size="small" sx={{ position: "absolute", right: "0.5em", top: "0.5em", bgcolor:"gray", color:"white", 
                 "&:hover":{
                   bgcolor:"white",color:"gray",
@@ -189,7 +189,7 @@ const CardDetailAdd = () => {
               </IconButton>
             </Tooltip>
             :
-            <Tooltip title={<div style={{ fontSize:"15px" }}>이미지 업로드</div>}>
+            <Tooltip placement="top" title={<div style={{ fontSize:"15px" }}>이미지 업로드</div>}>
               <IconButton component="label" size="large" sx={{color:"#0B6E99", display: userImgSrc[index]?'none':"", position:"absolute",top:"50%", left:"50%", transform:"translate(-50%,-50%)" }} >
                 {!userImgSrc[index]&&<FileUploadIcon sx={{}} fontSize="large"  />}
                 <input type="file" hidden className="profileImgInput" id= "profileImg" accept="image/png, image/jpeg, image/jpg"
@@ -227,7 +227,7 @@ const CardDetailAdd = () => {
           })}/>
       </Box>
 
-      <Tooltip title={<div style={{fontSize:"15px"}}>글 저장</div>}>
+      <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>글 저장</div>}>
         <IconButton size="medium" sx={{position:"absolute", top:"7em", right:"0.5em", color: "white", bgcolor:"#0F7B6C", 
         "&:hover":{
           color: "#0F7B6C", bgcolor:"white",
@@ -240,7 +240,7 @@ const CardDetailAdd = () => {
         </IconButton>
       </Tooltip>
       
-      <Tooltip title={<div style={{fontSize:"15px"}}>작성 취소</div>}>
+      <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>작성 취소</div>}>
         <IconButton size="medium" sx={{position:"absolute", top:"10em", right:"0.5em", color: "white", bgcolor:"#E03E3E", 
         "&:hover":{
           color: "#E03E3E", bgcolor:"white",
