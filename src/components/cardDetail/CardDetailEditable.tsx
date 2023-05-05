@@ -217,8 +217,8 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
   },[value?.oceanStore.isOceanLoading])
 
   return (
-    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{bgcolor:"waveBackground", width:"57em", alignItems:"center",borderRadius:"2em", p:"0.5em", mb:"3em",position:"relative", boxShadow: "5"}}>
-      <Box sx={{bgcolor:"#2158A8", borderRadius:"1em",width:"25em", p:"0.8em",py:"1.5em", wordBreak:"break-all",m: "1em auto", position:"relative", fontWeight:"bolder", fontSize:"30px", color: "white", display:"flex", flexDirection:"column" ,justifyContent:"center", alignItems:"center", boxShadow: "5"}}>
+    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{bgcolor:"waveBackground", alignItems:"center",borderRadius:"1em", p:"0.5em", mb:"2em",position:"relative", boxShadow: "5"}}>
+      <Box sx={{ width:"85%", bgcolor:"#2158A8", borderRadius:"0.5em", py:"1.5em", wordBreak:"break-all",m: "1em auto", position:"relative", fontWeight:"bolder", fontSize:"30px", color: "white", display:"flex", flexDirection:"column" ,justifyContent:"center", alignItems:"center", boxShadow: "5"}}>
         <TextField
           type="text"
           id="outlined-basic"
@@ -229,7 +229,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
           error={watch("inputTitle").length>50||watch("inputTitle").length==0 ?true:false}
           helperText={watch("inputTitle").length==0? '제목을 적어주세요.' : watch("inputTitle").length>500 ? '제목은 50글자를 넘을 수 없습니다.' : ''}
           inputProps={{style: {minHeight:"50px", fontWeight:"bolder", fontSize:"30px", color: "white", textAlign:"center", lineHeight: '1.5'}}}
-          sx={{width:"23em"}}
+          sx={{width:"90%"}}
           {...register("inputTitle", {
             onChange: (e) => debounce(()=>setValue("inputTitle", e.target.value)),
             required:"제목을 입력해주세요"        
@@ -238,7 +238,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
           {value?.profileStore.userData.nickname} </Box>
       </Box>
 
-      <Box sx={{width:"50em", height:"5em", bgcolor:"#2E88C7", borderRadius:"1em",display:"flex", m: "0px auto", mb:"1em", justifyContent: "space-between", alignItems:"center", boxShadow: "5" }}>
+      <Box sx={{width:"85%", height:"5em", bgcolor:"#2E88C7", borderRadius:"1em",display:"flex", m: "0px auto", mb:"1em", justifyContent: "space-between", alignItems:"center", boxShadow: "5" }}>
         <Box sx={{display:"flex",  m:"0.5em"}}>
           {wholeLabels.map((element, index)=>(
             <FormControlLabel key={index} control={<Checkbox value={JSON.stringify(element)} {...register(`inputLabel.${index}`,{onChange:(e) => {}})} sx={{display:"none"}}/>}
@@ -251,7 +251,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
         </Box>
       </Box>
 
-      <Box sx={{ width:"25em",wordWrap: "break-word", borderRadius:"1em", m:"0px auto", pt:"1em", fontSize:"30px", fontWeight:"bolder",color:"white",alignContent:"center", display:"flex", flexDirection:"row", justifyContent: "space-between"}}>
+      <Box sx={{ width:"85%",wordWrap: "break-word", borderRadius:"1em", m:"0px auto", pt:"1em", fontSize:"30px", fontWeight:"bolder",color:"white",alignContent:"center", display:"flex", flexDirection:"row", justifyContent: "space-between"}}>
         {[...Array(3)].map((_, index)=>(
           <Box key={index}
           sx={{backgroundImage: userImgSrc[index]?`url(${userImgSrc[index]})`:"none",width:"25em",height:"10.1em", mx:"0.4em", borderRadius:"20px", border: userImgSrc[index]?" ":"lightblue 5px dashed", position: "relative", boxShadow: "5",backgroundSize: "cover", boxSizing: "border-box", backgroundPosition: "center", }}>
@@ -299,7 +299,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
         ))}
       </Box>
 
-      <Box sx={{ width:"40em", p:"2em", wordWrap: "break-word", bgcolor:"#D3ECF9", borderRadius:"1em", m:"1em auto", fontSize:"20px", alignContent:"center", boxShadow: "5"}}>
+      <Box sx={{ width:"80%", p:"2em", wordWrap: "break-word", bgcolor:"#D3ECF9", borderRadius:"1em", m:"2em auto", fontSize:"20px", alignContent:"center", boxShadow: "5"}}>
         <TextField
           type="text"
           id="outlined-basic"
@@ -310,15 +310,16 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
           rows={6}
           error={watch("inputContent").length==0 ?true:false}
           helperText={watch("inputContent").length==0? '내용을 적어주세요.' :''}
-          sx={{width:"40em"}}
+          sx={{width:"100%"}}
           inputProps={{style: {fontSize: 20}}}
           {...register("inputContent", {
             onChange: (e) => debounce(()=>setValue("inputContent", e.target.value)),
             required:"내용을 입력해주세요" 
           })}/>
       </Box>
+
       <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>글 수정</div>}>
-        <IconButton type="submit" size="medium" sx={{position:"absolute", top:"4em", right:"0.5em", color: "white", bgcolor:"#0F7B6C", 
+        <IconButton type="submit" size="medium" sx={{position:"absolute", top:"5em", right:"1em", color: "white", bgcolor:"#0F7B6C", 
         "&:hover":{
           color: "#0F7B6C", bgcolor:"white",
           transform: "scale(1.1)",
@@ -329,7 +330,7 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
       </Tooltip>
       
       <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>글 삭제</div>}>
-        <IconButton size="medium" sx={{position:"absolute", top:"7em", right:"0.5em", color: "white", bgcolor:"#E03E3E", 
+        <IconButton size="medium" sx={{position:"absolute", top:"9em", right:"1em", color: "white", bgcolor:"#E03E3E", 
         "&:hover":{
           color: "#E03E3E", bgcolor:"white",
           transform: "scale(1.1)",
