@@ -92,11 +92,12 @@ const CardMini = ({OceanData}:{OceanData:OceanData}) => {
           {OceanData?.views.toLocaleString('ko-KR') ?? "Unknown"}
         </Box>
         <Box sx={{justifySelf:"center",display:"flex",alignItems:"center"}}>
-          {/* <Favorite sx={{mr:"0.3em", fontSize:"3em", color:"#FB3958"}}/>
-          {OceanData?.likes.toLocaleString('ko-KR') ?? "Unknown"} */}
+          <Favorite sx={{mr:"0.3em", fontSize:"3em", color:"#FB3958"}}/>
+          {OceanData?.likes.toLocaleString('ko-KR') ?? "Unknown"}
         </Box>
         <Box sx={{justifySelf:"right",display:"flex",alignItems:"center"}}>
-          {/* <ChatBubbleOutlineIcon sx={{mr:"0.3em", fontSize:"3em"}}/> 12 */}
+          <ChatBubbleOutlineIcon sx={{mr:"0.3em", fontSize:"3em"}}/>
+          {OceanData.replies?OceanData.replies:0}
         </Box>
       </Box>
     </Box>
