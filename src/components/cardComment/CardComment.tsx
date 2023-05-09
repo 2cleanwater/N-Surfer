@@ -52,7 +52,9 @@ const HeartCSS= styled(Checkbox)({
 
 const profileBaseImg:string= process.env.REACT_APP_PROFILE_BASE_IMG!;
 
-const CardComment = ({cardId, commentItem, handleMoveScrollClick, setReplyingComment}:{cardId:string, commentItem:CommentForm, handleMoveScrollClick:()=>void, setReplyingComment:(commentData:commentDataForm)=>void }) => {
+const CardComment = (
+  {cardId, commentItem, editingCommentId, parentCommentId, handleMoveScrollClick, setReplyingComment, setCommentList}:
+  {cardId:string, commentItem:CommentForm, editingCommentId:number, parentCommentId:number, handleMoveScrollClick:()=>void, setReplyingComment:(commentData:commentDataForm)=>void, setCommentList:(commentArray:Array<CommentForm>)=>void }) => {
   const value= useRootStore();
   const [isLiked, setIsLiked]= useState<boolean>(commentItem.isLiked?commentItem.isLiked:false);
   const [likedNumber, setLikedNumber]= useState<number>(commentItem.likes); 
@@ -72,14 +74,14 @@ const CardComment = ({cardId, commentItem, handleMoveScrollClick, setReplyingCom
   // 삭제 체크 ===================================================
   const checkDelete = ()=>{
     if (window.confirm('댓글을 삭제하시겠습니까?')){
-        value?.commentStore.deleteComments(cardId,commentItem.id);
+        value?.commentStore.deleteComments(cardId, commentItem.id, setCommentList);
     }else {
       return
     }
   }
-  console.log(typeof(commentItem.createdAt))
+  
   return (
-    <Box sx={{display:"flex", justifyContent:"center", borderRadius:"1em",  py:"1em","&:hover":{backgroundColor:"#e0e0d3"}}}>
+    <Box sx={{display:"flex", justifyContent:"center", borderRadius:"1em",  py:"1em","&:hover":{backgroundColor:"#e0e0d3"}, bgcolor:(editingCommentId===commentItem.id)?"#e0e0d3":""}}>
       <Box sx={{flexShrink: 0, width:"6em", display:"flex", justifyContent:"center"}}>
         <CommentUserImg alt="profile"
         src={commentItem.user.thumbnailImageUrl?commentItem.user.thumbnailImageUrl:profileBaseImg} />
@@ -95,7 +97,7 @@ const CardComment = ({cardId, commentItem, handleMoveScrollClick, setReplyingCom
           <Box sx={{"&:hover":{scale:"1.1"},cursor:"pointer", mr:"0.5em"}} 
           onClick={()=>{
             handleMoveScrollClick(); 
-            setReplyingComment({method:"POST", comment:"", selfCommentId:0, parentCardCommentId:commentItem.id, parentCardCommentNickname:commentItem.user.nickname})
+            setReplyingComment({method:"POST", comment:"", selfCommentId:0, parentCardCommentId:parentCommentId, parentCardCommentNickname:commentItem.user.nickname})
             }}>답글달기</Box>
           {value?.profileStore.userData.nickname===commentItem.user.nickname&&
             <>

@@ -89,15 +89,15 @@ const CardMini = ({OceanData}:{OceanData:OceanData}) => {
       }}>
         <Box sx={{ justifySelf: "start", display:"flex",alignItems:"center" }}>
           <VisibilityIcon sx={{mr:"0.3em", fontSize:"3em"}}/>
-          {OceanData?.views.toLocaleString('ko-KR') ?? "Unknown"}
+          <Box sx={{fontSize:"2.5em"}}>{OceanData?.views.toLocaleString('ko-KR') ?? "Unknown"}</Box>
         </Box>
         <Box sx={{justifySelf:"center",display:"flex",alignItems:"center"}}>
           <Favorite sx={{mr:"0.3em", fontSize:"3em", color:"#FB3958"}}/>
-          {OceanData?.likes.toLocaleString('ko-KR') ?? "Unknown"}
+          <Box sx={{fontSize:"2.5em"}}>{OceanData?.likes.toLocaleString('ko-KR') ?? "Unknown"}</Box>
         </Box>
         <Box sx={{justifySelf:"right",display:"flex",alignItems:"center"}}>
           <ChatBubbleOutlineIcon sx={{mr:"0.3em", fontSize:"3em"}}/>
-          {OceanData.replies?OceanData.replies:0}
+          <Box sx={{fontSize:"2.5em"}}>{OceanData.replies?OceanData.replies:0}</Box>
         </Box>
       </Box>
     </Box>

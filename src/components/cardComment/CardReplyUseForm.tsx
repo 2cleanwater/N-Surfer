@@ -28,7 +28,7 @@ const preventEvent = (e:React.MouseEvent) =>{e.preventDefault();};
 // 쓰로쓸링 디바운싱
 let timer: NodeJS.Timeout | number = 0;
 const throttle = (func:Function): void => {
-  if (timer) {return console.log(timer);}  
+  if (timer) {return}  
   timer = setTimeout(() => {
     func()
     timer = 0;
@@ -75,12 +75,11 @@ const CardReplyUseForm = ({cardId, commentForm, setReplyingComment, setCommentLi
     } catch(err) {
       console.log(err);
     }
+    setReplyingComment({comment:"", selfCommentId:0, parentCardCommentId:0, parentCardCommentNickname:""});
   };
 
   // 저장 체크 ===================================================
   const checkSave = ()=>{
-    console.log(commentForm.comment)
-    console.log(watch("inputContent"))
     if(
     //컨텐츠가 바꼈는지
     watch("inputContent")==commentForm.comment){
@@ -91,7 +90,7 @@ const CardReplyUseForm = ({cardId, commentForm, setReplyingComment, setCommentLi
   }
 
   return (
-    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{display:"flex", justifyContent:"center", mx:"2em", py:"1em", borderRadius:"1em", "&:hover":{backgroundColor:"#e0e0d3"}}}>
+    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{display:"flex", justifyContent:"center", mx:"2em", py:"1em", borderRadius:"1em"}}>
       <Box sx={{flexShrink: 0, width:"6em", display:"flex", justifyContent:"center"}}>
         <CommentUserImg alt="profile"
         src={value?.profileStore.userData.imgUrl?value?.profileStore.userData.imgUrl:profileBaseImg} />
@@ -105,15 +104,12 @@ const CardReplyUseForm = ({cardId, commentForm, setReplyingComment, setCommentLi
           multiline
           rows={3}
           error={watch("inputContent").length==0 ?true:false}
-          helperText={watch("inputContent").length==0? '내용을 적어주세요.' :''}
           sx={{width:"100%"}}
           inputProps={{style: {fontSize: 20}}}
           {...register("inputContent", {
             onChange: _.debounce((e) => {
               setValue("inputContent", e.target.value)
-              console.log(getValues("inputContent"))
             }, 1000),
-            required:"내용을 입력해주세요" 
           })}/>
         {commentForm.parentCardCommentNickname?<Box sx={{fontSize:"1em", ml:"0.5em"}}>{commentForm.parentCardCommentNickname} 에게 답글 다는 중...</Box>:<Box></Box>}
         {commentForm.selfCommentId?<Box sx={{fontSize:"1em", ml:"0.5em"}}>내 댓글 수정하는 중...</Box>:<Box></Box>}
@@ -128,8 +124,8 @@ const CardReplyUseForm = ({cardId, commentForm, setReplyingComment, setCommentLi
           }}} 
           onClick={(e)=>(
             preventEvent(e),
-            checkSave()
-            // throttle(checkSave)
+            // checkSave()
+            throttle(checkSave)
             )}>
             <SendIcon fontSize="small" />
           </IconButton>

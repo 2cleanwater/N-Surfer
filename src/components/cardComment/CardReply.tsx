@@ -91,12 +91,12 @@ const CardReply = ({cardId}:{cardId:string}) => {
 
   return (
     <CardReplyCss>
-      {commentList.length&&commentList.map((commentItem,commentIndex)=>{
-        return <Box key={commentIndex} sx={{ mr:"2em",ml:"2em",}}>
-          <CardComment cardId={cardId} commentItem={commentItem} handleMoveScrollClick={handleMoveScrollClick} setReplyingComment={setReplyingComment}></CardComment>
+      {commentList.length>0&&commentList.map((commentItem,commentIndex)=>{
+        return <Box key={commentIndex} sx={{ mr:"2em",ml:"2em"}}>
+          <CardComment cardId={cardId} commentItem={commentItem} parentCommentId={commentItem.id} editingCommentId={replyingComment.selfCommentId??0} handleMoveScrollClick={handleMoveScrollClick} setReplyingComment={setReplyingComment} setCommentList={setCommentList}></CardComment>
           {commentItem.replies?.map((replyItem, replyIndex)=>{
             return <Box key={replyIndex} sx={{ mr:"0em",ml:"3em",}}>
-              <CardComment cardId={cardId} commentItem={replyItem} handleMoveScrollClick={handleMoveScrollClick} setReplyingComment={setReplyingComment}></CardComment>
+              <CardComment cardId={cardId} commentItem={replyItem} parentCommentId={commentItem.id} editingCommentId={replyingComment.selfCommentId??0} handleMoveScrollClick={handleMoveScrollClick} setReplyingComment={setReplyingComment} setCommentList={setCommentList}></CardComment>
             </Box>
           })}
         </Box>
