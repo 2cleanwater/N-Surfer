@@ -50,7 +50,7 @@ const CommentsStore = (): CommentsStoreForm=>{
           'Content-Type': 'application/json'
         }})
         .then((res)=>{
-          setValue(res.data as Array<CommentForm>);
+          setValue(res.data.comments as Array<CommentForm>);
 //          this.setIsOceanLoading(false);
         })
         .catch((err)=>{

@@ -77,7 +77,7 @@ const CardComment = ({cardId, commentItem, handleMoveScrollClick, setReplyingCom
       return
     }
   }
-
+  console.log(typeof(commentItem.createdAt))
   return (
     <Box sx={{display:"flex", justifyContent:"center", borderRadius:"1em",  py:"1em","&:hover":{backgroundColor:"#e0e0d3"}}}>
       <Box sx={{flexShrink: 0, width:"6em", display:"flex", justifyContent:"center"}}>
@@ -91,7 +91,7 @@ const CardComment = ({cardId, commentItem, handleMoveScrollClick, setReplyingCom
           {commentItem.contents}
         </Box>
         <Box sx={{display:"flex", flexDirection:"row", alignItems:"center",alignContent:"center", justifyItems:"center"}}>
-          <Box sx={{fontSize:"0.8em",color:"gray", mr:"1em",alignItems:"center"}}>{dateConverter({date:commentItem.createdAt, tag:"."})}</Box>
+          <Box sx={{fontSize:"0.8em",color:"gray", mr:"1em",alignItems:"center"}}>{dateConverter({date:new Date(commentItem.createdAt!), tag:"."})}</Box>
           <Box sx={{"&:hover":{scale:"1.1"},cursor:"pointer", mr:"0.5em"}} 
           onClick={()=>{
             handleMoveScrollClick(); 
