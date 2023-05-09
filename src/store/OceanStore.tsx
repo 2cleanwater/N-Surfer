@@ -1,5 +1,4 @@
 import instance from "@service/axiosInterceptor";
-import ModalStore from "@store/ModalStore";
 
 interface user{
   username:string,
@@ -58,6 +57,9 @@ export interface OceanData{
   views: number;
   labels: Array<label>;
   images: Array<imageForm>;
+  isLiked?: boolean;
+  isBookmarked: boolean;
+  replies?: number;
 }
 
 export interface OceanParams{
@@ -79,6 +81,8 @@ export interface OceanStoreForm{
   patchOcean: (cardId:string, formData:FormData)=>void;
   deleteOcean: (cardId:string)=>void;
   getOceanList: (OceanParams:OceanParams)=>void;
+  isLikedComments: (cardId:string)=>void;
+  isNotLikedComments: (cardId:string)=>void;
 }
 
 const OceanStore = (): OceanStoreForm => {
@@ -194,6 +198,38 @@ const OceanStore = (): OceanStoreForm => {
       .catch((err)=>{
         console.log(err);
         this.setIsOceanListLoading(false);
+      })
+    },
+    isLikedComments: async function(cardId:string){
+      //this.setIsOceanLoading(true);
+      const oceanListUrl = `/card/${cardId}/like`;
+      await instance({
+        method: "POST",
+        url: oceanListUrl,
+        headers:{
+          'Content-Type': 'application/json'
+        }})
+        .then((res)=>{
+//          this.setIsOceanLoading(false);
+        })
+        .catch((err)=>{
+//          this.setIsOceanLoading(false);
+      })
+    },
+    isNotLikedComments: async function(cardId:string){
+      //this.setIsOceanLoading(true);
+      const oceanListUrl = `/card/${cardId}/like`;
+      await instance({
+        method: "DELETE",
+        url: oceanListUrl,
+        headers:{
+          'Content-Type': 'application/json'
+        }})
+        .then((res)=>{
+//          this.setIsOceanLoading(false);
+        })
+        .catch((err)=>{
+//          this.setIsOceanLoading(false);
       })
     }
   }

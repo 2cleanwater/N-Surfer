@@ -7,6 +7,7 @@ import { OceanData } from '@store/OceanStore';
 import instance from '@service/axiosInterceptor';
 import CardMini from '@components/cardList/CardMini';
 import Loading from '@components/utils/Loading';
+import UserBadgeMini from '@components/badge/UserBadgeMini';
 
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -17,6 +18,7 @@ import ListIcon from '@mui/icons-material/List';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ReplyIcon from '@mui/icons-material/Reply';
+
 
 
 const Profile = () => {
@@ -71,30 +73,33 @@ const Profile = () => {
   }
 
   // userData 받아오기 ==================================================
-  const getUserData= async function(getByNickName:string){
-    const profileUrl = `/user/profile?nickname=${getByNickName}`;
-    await instance({
-      method: "GET",
-      url: profileUrl,
-      headers:{
-        'Content-Type': 'application/json; charset=UTF-8',
-      }})
-      .then((res)=>{
-        setUserData(res.data as UserDataForm)
-        setIsUserHere(true);
-      })
-      .catch((err)=>{
-        console.log(err);
-        setIsUserHere(false);
-      })
-  }
+  // const getUserData= async function(getByNickName:string){
+  //   const profileUrl = `/user/profile?nickname=${getByNickName}`;
+  //   await instance({
+  //     method: "GET",
+  //     url: profileUrl,
+  //     headers:{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     }})
+  //     .then((res)=>{
+  //       setUserData(res.data as UserDataForm)
+  //       setIsUserHere(true);
+  //     })
+  //     .catch((err)=>{
+  //       console.log(err);
+  //       setIsUserHere(false);
+  //     })
+  // }
 
   // sever data =============================================
   // useEffect(()=>{
   //   getUserData(nickname);
   // },[searchParams, isEditing]);
+
+
   useEffect(()=>{
-    getUserData(nickname);
+    // getUserData(nickname);
+    value.userStore.getUserData(nickname, setUserData, setIsUserHere);
   },[searchParams]);
 
 
@@ -106,6 +111,7 @@ const Profile = () => {
     <Box sx={{display:"flex", justifyContent:"center"}}>
     {isUserHere?
     <Box sx={{display:"flex", flexDirection:"column", justifyItems:"center", alignItems:"center"}}>
+      <UserBadgeMini/>
       {userData.nickname?
       <Box sx={{position:"relative", justifyItems:"center", alignItems:"center", display:"flex", flexDirection:"column",}}>
         {nickname===value.profileStore.userData.nickname&&
@@ -115,7 +121,9 @@ const Profile = () => {
           </IconButton>
         </Tooltip>}
         {isEditing?
-        (<EditProfile userData={userData} setIsEditing={setIsEditing} getUserData={getUserData}/>):
+        (<EditProfile userData={userData} setIsEditing={setIsEditing}
+          //  getUserData={getUserData}
+          />):
         (<UserProfile userData={userData}/>)}
       </Box>:
       <Box sx={{ width: "60em", height: "30em", m:"1em" ,boxShadow: 3, borderRadius:"2em", alignItems:"center", justifyItems:"center",display:"flex", flexDirection:"row", bgcolor:"#F5F5F7"}}>

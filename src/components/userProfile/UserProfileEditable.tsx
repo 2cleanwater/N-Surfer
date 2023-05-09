@@ -17,10 +17,12 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 type myProfileEditProps = {
   userData: UserDataForm;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
-  getUserData: (getByNickName:string)=>void;
+  // getUserData: (getByNickName:string)=>void;
 }
 
-const EditProfile = ({ userData, setIsEditing, getUserData }:myProfileEditProps) => {
+const EditProfile = ({ userData, setIsEditing, 
+  // getUserData 
+}:myProfileEditProps) => {
   const value = useRootStore()!;
   const navigate = useNavigate();
   const baseImg:string= process.env.REACT_APP_PROFILE_BASE_IMG!;
@@ -55,9 +57,10 @@ const EditProfile = ({ userData, setIsEditing, getUserData }:myProfileEditProps)
     try {
       //patch후 navigate. param로 nickname을 받아온 후 getUserData가 완료될때까지 대기
       value?.modalStore.openModal();
+      console.log(formData)
       await value.profileStore.patchMyUserData(formData);
       navigate(`/user/profile?nickname=${data.inputName}`)
-      await getUserData(data.inputName);
+      // await getUserData(data.inputName);
       setIsEditing(false);
     } catch (err) {
       console.log(err);
