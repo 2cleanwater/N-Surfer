@@ -86,9 +86,7 @@ const CardReplyUseForm = ({cardId, commentForm, setReplyingComment, setCommentLi
     watch("inputContent")==commentForm.comment){
       window.confirm('변경된 내용이 없습니다.');
     }else{
-      if (window.confirm('저장하시겠습니까?')){
-        handleSubmit(onSubmit)();
-      }else {return}
+      handleSubmit(onSubmit)();
     }  
   }
 
