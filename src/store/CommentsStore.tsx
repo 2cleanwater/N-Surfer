@@ -33,7 +33,7 @@ export interface CommentsStoreForm{
   getComments: (cardId:string, setValue:(comments:Array<CommentForm>)=>void)=>void;
   postComments: (cardId:string, axiosCommentForm:axiosCommentForm, setValue:(comments:Array<CommentForm>)=>void)=>void;
   patchComments: (cardId:string, cardCommentId:number, axiosCommentForm:axiosCommentForm, setValue:(comments:Array<CommentForm>)=>void)=>void;
-  deleteComments: (cardId:string, cardCommentId:number)=>void,
+  deleteComments: (cardId:string, cardCommentId:number, setValue:(comments:Array<CommentForm>)=>void)=>void,
   isLikedComments: (cardId:string, cardCommentId:number)=>void,
   isNotLikedComments: (cardId:string, cardCommentId:number)=>void,
 }
@@ -92,7 +92,7 @@ const CommentsStore = (): CommentsStoreForm=>{
 //          this.setIsOceanLoading(false);
       })
     }, 
-    deleteComments: async function(cardId:string, cardCommentId:number){
+    deleteComments: async function(cardId:string, cardCommentId:number, setValue:(comments:Array<CommentForm>)=>void){
       //this.setIsOceanLoading(true);
       const commentsUrl = `/card/${cardId}/comment/${cardCommentId}`;
       await instance({
@@ -102,6 +102,7 @@ const CommentsStore = (): CommentsStoreForm=>{
           'Content-Type': 'application/json'
         }})
         .then((res)=>{
+          this.getComments(cardId, setValue);
 //          this.setIsOceanLoading(false);
         })
         .catch((err)=>{
