@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import SendIcon from '@mui/icons-material/Send';
 import ClearIcon from '@mui/icons-material/Clear';
-import { CommentForm } from '@store/CommentsStore';
+import { CommentForm, axiosCommentForm } from '@store/CommentsStore';
 import _ from 'lodash';
 
 const CommentUserImg= styled("img")({
@@ -64,16 +64,13 @@ const CardReplyUseForm = ({cardId, commentForm, setReplyingComment, setCommentLi
 
   // submit 버튼 클릭 시 ===================================================
   const onSubmit = async(data:any)=>{
-    const formData:FormData = new FormData();
-    const commentData:object= {"parentCardCommentId":commentForm.parentCardCommentId,"contents":data.inputContent}
-    const blob = new Blob([JSON.stringify(commentData)], {type:"application/json"});
-    formData.append("dto",blob);
+    const commentData:axiosCommentForm= {"parentCardCommentId":commentForm.parentCardCommentId?commentForm.parentCardCommentId:0,"contents":data.inputContent}
     try {
       if(commentForm.comment===""&&commentForm.selfCommentId===0){
-        value?.commentStore.postComments(cardId, formData, setCommentList)
+        value?.commentStore.postComments(cardId, commentData, setCommentList)
       }
       else if(commentForm.selfCommentId){
-        value?.commentStore.patchComments(cardId, commentForm.selfCommentId ,formData, setCommentList)
+        value?.commentStore.patchComments(cardId, commentForm.selfCommentId ,commentData, setCommentList)
       }
     } catch(err) {
       console.log(err);

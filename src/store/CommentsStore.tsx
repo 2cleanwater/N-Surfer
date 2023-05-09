@@ -24,10 +24,15 @@ export interface CommentForm{
   isLiked?: boolean,
 }
 
+export interface axiosCommentForm{
+  parentCardCommentId:number,
+  contents:string
+}
+
 export interface CommentsStoreForm{
   getComments: (cardId:string, setValue:(comments:Array<CommentForm>)=>void)=>void;
-  postComments: (cardId:string, formData:FormData, setValue:(comments:Array<CommentForm>)=>void)=>void;
-  patchComments: (cardId:string, cardCommentId:number, formData:FormData, setValue:(comments:Array<CommentForm>)=>void)=>void;
+  postComments: (cardId:string, axiosCommentForm:axiosCommentForm, setValue:(comments:Array<CommentForm>)=>void)=>void;
+  patchComments: (cardId:string, cardCommentId:number, axiosCommentForm:axiosCommentForm, setValue:(comments:Array<CommentForm>)=>void)=>void;
   deleteComments: (cardId:string, cardCommentId:number)=>void,
   isLikedComments: (cardId:string, cardCommentId:number)=>void,
   isNotLikedComments: (cardId:string, cardCommentId:number)=>void,
@@ -53,13 +58,13 @@ const CommentsStore = (): CommentsStoreForm=>{
 //          this.setIsOceanLoading(false);
       })
     }, 
-    postComments: async function(cardId:string, formData:FormData, setValue:(comments:Array<CommentForm>)=>void){
+    postComments: async function(cardId:string, axiosCommentForm:axiosCommentForm, setValue:(comments:Array<CommentForm>)=>void){
       //this.setIsOceanLoading(true);
       const commentsUrl = `/card/${cardId}/comment`;
       await instance({
         method: "POST",
         url: commentsUrl,
-        data: formData,
+        data: axiosCommentForm,
         headers:{
           'Content-Type': 'application/json'
         }})
@@ -70,13 +75,13 @@ const CommentsStore = (): CommentsStoreForm=>{
 //          this.setIsOceanLoading(false);
       })
     }, 
-    patchComments: async function(cardId:string, cardCommentId:number, formData:FormData, setValue:(comments:Array<CommentForm>)=>void){
+    patchComments: async function(cardId:string, cardCommentId:number, axiosCommentForm:axiosCommentForm, setValue:(comments:Array<CommentForm>)=>void){
       //this.setIsOceanLoading(true);
       const commentsUrl = `/card/${cardId}/comment/${cardCommentId}`;
       await instance({
         method: "PATCH",
         url: commentsUrl,
-        data: formData,
+        data: axiosCommentForm,
         headers:{
           'Content-Type': 'application/json'
         }})
