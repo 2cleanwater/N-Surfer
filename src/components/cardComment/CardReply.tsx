@@ -87,7 +87,7 @@ const CardReply = ({cardId}:{cardId:string}) => {
 
   useEffect(()=>{
     commentStore?.getComments(cardId, setCommentList);
-  },[]);
+  },[commentList]);
 
   if(commentList.length<=0) return <></>
   return (
