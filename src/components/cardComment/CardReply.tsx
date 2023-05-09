@@ -89,7 +89,6 @@ const CardReply = ({cardId}:{cardId:string}) => {
     commentStore?.getComments(cardId, setCommentList);
   },[]);
 
-  if(commentList.length<=0) return <></>
   return (
     <CardReplyCss>
       {commentList.length&&commentList.map((commentItem,commentIndex)=>{
