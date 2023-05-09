@@ -19,8 +19,8 @@ const CommentUserImg= styled("img")({
 interface commentDataForm{
   method: string,
   comment?: string,
-  selfCommentId?: string,
-  parentCardCommentId?: string,
+  selfCommentId?: number,
+  parentCardCommentId?: number,
   parentCardCommentNickname?: string
 }
 
@@ -95,14 +95,14 @@ const CardComment = ({cardId, commentItem, handleMoveScrollClick, setReplyingCom
           <Box sx={{"&:hover":{scale:"1.1"},cursor:"pointer", mr:"0.5em"}} 
           onClick={()=>{
             handleMoveScrollClick(); 
-            setReplyingComment({method:"POST", comment:"", selfCommentId:undefined, parentCardCommentId:commentItem.id, parentCardCommentNickname:commentItem.user.nickname})
+            setReplyingComment({method:"POST", comment:"", selfCommentId:0, parentCardCommentId:commentItem.id, parentCardCommentNickname:commentItem.user.nickname})
             }}>답글달기</Box>
           {value?.profileStore.userData.nickname===commentItem.user.nickname&&
             <>
             <Box sx={{"&:hover":{scale:"1.1"},cursor:"pointer", mr:"0.5em"}} 
             onClick={()=>{
               handleMoveScrollClick(); 
-              setReplyingComment({method:"PATCH", comment:commentItem.contents, selfCommentId:commentItem.id, parentCardCommentId:undefined, parentCardCommentNickname:undefined})
+              setReplyingComment({method:"PATCH", comment:commentItem.contents, selfCommentId:commentItem.id, parentCardCommentId:0, parentCardCommentNickname:""})
               }}>수정</Box>
             <Box sx={{"&:hover":{scale:"1.1"},cursor:"pointer"}} 
             onClick={checkDelete}>삭제</Box>

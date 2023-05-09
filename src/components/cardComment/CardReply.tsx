@@ -63,8 +63,8 @@ const HeartCSS= styled(Checkbox)({
 // 코멘트 작성 데이터 폼
 interface commentDataForm{
   comment?: string,
-  selfCommentId?: string,
-  parentCardCommentId?: string,
+  selfCommentId?: number,
+  parentCardCommentId?: number,
   parentCardCommentNickname?: string
 }
 
@@ -83,18 +83,10 @@ const CardReply = ({cardId}:{cardId:string}) => {
 
   const [commentList, setCommentList]= useState<Array<CommentForm>>([]);
 
-  const [replyingComment, setReplyingComment]= useState<commentDataForm>({comment:"", selfCommentId:undefined, parentCardCommentId:undefined, parentCardCommentNickname:undefined});
+  const [replyingComment, setReplyingComment]= useState<commentDataForm>({comment:"", selfCommentId:0, parentCardCommentId:0, parentCardCommentNickname:""});
 
   useEffect(()=>{
-    const dummyCommentList:Array<CommentForm>= [
-      {id:"1234",contents:"테스트입니다1.",likes:5,user:{id:"12345", nickname:"thisishey5", thumbnailImageUrl:""}, replies:[]},
-      {id:"1234",contents:"테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.테스트입니다2.",likes:5,user:{id:"12346", nickname:"e9f9435c829db7b", thumbnailImageUrl:""}, replies:[
-        {id:"1234",contents:"대댓글테스트1.",likes:4,user:{id:"2312345", nickname:"thisishey5", thumbnailImageUrl:""}},
-        {id:"1234",contents:"대댓글테스트2.",likes:2,user:{id:"2312346", nickname:"e9f9435c829db7b", thumbnailImageUrl:""}}
-      ]},
-      {id:"1234",contents:"테스트입니다3.",likes:1,user:{id:"12347", nickname:"thisishey7", thumbnailImageUrl:""}, replies:[]}] 
-    // commentStore?.getComments(cardId, setCommentList);
-    setCommentList(dummyCommentList)
+    commentStore?.getComments(cardId, setCommentList);
   },[]);
 
   if(commentList.length<=0) return <></>
@@ -112,7 +104,7 @@ const CardReply = ({cardId}:{cardId:string}) => {
       })}
       
       <Box sx={{width:"100%",}} ref={scrollDiv}>
-        <CardReplyUseForm cardId={cardId} commentForm={replyingComment} setReplyingComment={setReplyingComment}/>
+        <CardReplyUseForm cardId={cardId} commentForm={replyingComment} setReplyingComment={setReplyingComment} setCommentList={setCommentList}/>
       </Box>
     </CardReplyCss>
   )

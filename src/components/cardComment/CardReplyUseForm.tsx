@@ -17,8 +17,8 @@ const CommentUserImg= styled("img")({
 
 interface commentDataForm{
   comment?: string,
-  selfCommentId?: string,
-  parentCardCommentId?: string,
+  selfCommentId?: number,
+  parentCardCommentId?: number,
   parentCardCommentNickname?: string
 }
 
@@ -41,7 +41,7 @@ const debounce = (func:Function) => {
     }, 1000);
 }
 
-const CardReplyUseForm = ({cardId, commentForm, setReplyingComment}:{cardId:string, commentForm:commentDataForm, setReplyingComment:(commentData:commentDataForm)=>void}) => {
+const CardReplyUseForm = ({cardId, commentForm, setReplyingComment, setCommentList}:{cardId:string, commentForm:commentDataForm, setReplyingComment:(commentData:commentDataForm)=>void, setCommentList:(commentArray:Array<CommentForm>)=>void}) => {
   const value= useRootStore();
   const profileBaseImg:string= process.env.REACT_APP_PROFILE_BASE_IMG!;
 
@@ -65,12 +65,16 @@ const CardReplyUseForm = ({cardId, commentForm, setReplyingComment}:{cardId:stri
   // submit 버튼 클릭 시 ===================================================
   const onSubmit = async(data:any)=>{
     const formData:FormData = new FormData();
-    const commentData:object= {"parentCardCommentId":undefined,"contents":data.inputContent}
+    const commentData:object= {"parentCardCommentId":commentForm.parentCardCommentId,"contents":data.inputContent}
     const blob = new Blob([JSON.stringify(commentData)], {type:"application/json"});
     formData.append("dto",blob);
     try {
-      value?.commentStore.postComments(cardId, formData)
-      console.log("돌아보아요")
+      if(commentForm.comment===""&&commentForm.selfCommentId===0){
+        value?.commentStore.postComments(cardId, formData, setCommentList)
+      }
+      else if(commentForm.selfCommentId){
+        value?.commentStore.patchComments(cardId, commentForm.selfCommentId ,formData, setCommentList)
+      }
     } catch(err) {
       console.log(err);
     }
@@ -143,7 +147,7 @@ const CardReplyUseForm = ({cardId, commentForm, setReplyingComment}:{cardId:stri
             cursor : "pointer"
           }}} 
           onClick={(e)=>{preventEvent(e);
-            setReplyingComment({comment:"", selfCommentId:undefined, parentCardCommentId:undefined, parentCardCommentNickname:undefined});
+            setReplyingComment({comment:"", selfCommentId:0, parentCardCommentId:0, parentCardCommentNickname:""});
           }}>
             <ClearIcon fontSize="small" />
           </IconButton>

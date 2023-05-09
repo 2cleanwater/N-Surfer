@@ -1,5 +1,4 @@
 import instance from "@service/axiosInterceptor";
-import ModalStore from "@store/ModalStore";
 
 interface user{
   username:string,
