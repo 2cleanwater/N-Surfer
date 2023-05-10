@@ -14,6 +14,16 @@ import ListItemText from '@mui/material/ListItemText';
 import SearchIcon from '@mui/icons-material/Search';
 import Aos from 'aos'
 
+import AlbumIcon from '@mui/icons-material/Album';
+
+import DensitySmallIcon from '@mui/icons-material/DensitySmall';
+import ComputerIcon from '@mui/icons-material/Computer';
+import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
+import ErrorIcon from '@mui/icons-material/Error';
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import ExploreIcon from '@mui/icons-material/Explore';
+
+
 const CardList =() => {
   useEffect(()=>{
     Aos.init();
@@ -132,44 +142,44 @@ const CardList =() => {
       </Box>
 
       <Box id="body" sx={{display:"flex"}}>
-        <Box id="tags" sx={{listStyle:"none", p:"1em",m:"1em" ,width:"8em", borderRadius:"1em", bgcolor:"waveBackground"}}>
+        <Box id="tags" sx={{listStyle:"none", p:"0.5em",m:"1em" ,width:"8em", borderRadius:"1em", bgcolor:"background.paper"}}>
           <Box sx={{ width: '8em', maxWidth: "10em", bgcolor: 'background.paper'}}>
             <List component="nav" aria-label="secondary mailbox folder">
               <ListItemButton
                 selected={selectedLabelIndex === -1}
                 onClick={(e) => handleListItemClick(e)}
-              >
-                <ListItemText primary="모두"/>
+              > 
+                <DensitySmallIcon fontSize="small" sx={{mr:"1em"}}/>전체
               </ListItemButton>
               <ListItemButton
                 selected={selectedLabelIndex === 0}
                 onClick={(e) => handleListItemClick(e)}
               >
-                <ListItemText primary="프론트엔드" />
+                <ComputerIcon fontSize="small" sx={{mr:"1em", color:"#E03E3E"}}/>개발
               </ListItemButton>
               <ListItemButton
                 selected={selectedLabelIndex === 1}
                 onClick={(e) => handleListItemClick(e)}
               >
-                <ListItemText primary="백엔드" />
+                <CircleNotificationsIcon fontSize="small" sx={{mr:"1em", color:"#D9730D"}}/>뉴스
               </ListItemButton>
               <ListItemButton
                 selected={selectedLabelIndex === 2}
                 onClick={(e) => handleListItemClick(e)}
               >
-                <ListItemText primary="상식" />
+                <ErrorIcon fontSize="small" sx={{mr:"1em", color:"#0B6E99"}}/>정보
               </ListItemButton>
               <ListItemButton
                 selected={selectedLabelIndex === 3}
                 onClick={(e) => handleListItemClick(e)}
               >
-                <ListItemText primary="자료구조" />
+                <ChatBubbleIcon fontSize="small" sx={{mr:"1em", color:"#0F7B6C"}}/>잡담
               </ListItemButton>
               <ListItemButton
                 selected={selectedLabelIndex === 4}
                 onClick={(e) => handleListItemClick(e)}
               >
-                <ListItemText primary="알고리즘" />
+                <ExploreIcon fontSize="small" sx={{mr:"1em", color:"#64473A"}}/> 노하우
               </ListItemButton>
             </List>
           </Box>

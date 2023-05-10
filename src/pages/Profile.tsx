@@ -7,7 +7,7 @@ import { OceanData } from '@store/OceanStore';
 import instance from '@service/axiosInterceptor';
 import CardMini from '@components/cardList/CardMini';
 import Loading from '@components/utils/Loading';
-import UserBadgeMini from '@components/badge/UserBadgeMini';
+import UserBadge from '@components/badge/UserBadge';
 
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -111,7 +111,7 @@ const Profile = () => {
     <Box sx={{display:"flex", justifyContent:"center"}}>
     {isUserHere?
     <Box sx={{display:"flex", flexDirection:"column", justifyItems:"center", alignItems:"center"}}>
-      <UserBadgeMini/>
+      {userData.nickname&&<UserBadge nickname={userData.nickname}/>}
       {userData.nickname?
       <Box sx={{position:"relative", justifyItems:"center", alignItems:"center", display:"flex", flexDirection:"column",}}>
         {nickname===value.profileStore.userData.nickname&&
