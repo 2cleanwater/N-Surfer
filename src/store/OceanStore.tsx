@@ -14,11 +14,11 @@ export interface label{
   color:string;
 }
 export const wholeLabelList = [
-  {name: "프론트엔드", color:"red"},
-  {name: "백엔드", color:"blue"},
-  {name: "상식", color:"orange"},
-  {name: "자료구조", color:"green"},
-  {name: "알고리즘", color:"brown"}
+  {name: "개발", color:"red"},
+  {name: "뉴스", color:"orange"},
+  {name: "정보", color:"blue"},
+  {name: "잡담", color:"green"},
+  {name: "노하우", color:"brown"}
 ]
 
 export const labelColor = (color:string) => {
