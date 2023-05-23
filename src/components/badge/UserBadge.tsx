@@ -15,13 +15,15 @@ const UserBadge = ({nickname}:{nickname:string}) => {
 
   const bestBadge= (badgeData:BadgeDataForm)=>{
     let bestBadge:Array<Badges>=[];
-    for(let i=0;i< badgeData.categories.length;i++){
-      for(let j=badgeData.categories[i].badges.length-1;j>0;j--){
-        if(bestBadge.length>=3) break;
-        if(badgeData.categories[i].badges[j].isAcquired){
-          bestBadge.push(badgeData.categories[i].badges[j]);
-          break;
-        } 
+    if(badgeData.categories.length>0){
+      for(let i=0;i< badgeData.categories.length;i++){
+        for(let j=badgeData.categories[i].badges.length-1;j>0;j--){
+          if(bestBadge.length>=3) break;
+          if(badgeData.categories[i].badges[j].isAcquired){
+            bestBadge.push(badgeData.categories[i].badges[j]);
+            break;
+          } 
+        }
       }
     }
     return bestBadge

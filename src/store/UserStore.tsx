@@ -63,7 +63,7 @@ const UserStore = (): UserStoreForm => {
         })
     },
     getBadgeData: async function(nickname:string, setBadgeData:(badgeData:BadgeDataForm)=>void){
-      const badgeUrl = `/user/badge?username=${nickname}`
+      const badgeUrl = `/user/badge?nickname=${nickname}`
       await instance({
         method:"GET",
         url: badgeUrl,

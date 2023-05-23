@@ -105,7 +105,7 @@ const CardList =() => {
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-      if((event.target as HTMLDivElement).textContent==="모두"){
+      if((event.target as HTMLDivElement).textContent==="전체"){
         nicknameParams?navigate(`/card?nickname=${nicknameParams}`):navigate(`/card`);
       }
       else{
