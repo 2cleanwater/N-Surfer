@@ -17,7 +17,7 @@ const UserBadge = ({nickname}:{nickname:string}) => {
     let bestBadge:Array<Badges>=[];
     if(badgeData.categories.length>0){
       for(let i=0;i< badgeData.categories.length;i++){
-        for(let j=badgeData.categories[i].badges.length-1;j>0;j--){
+        for(let j=badgeData.categories[i].badges.length-1;j>=0;j--){
           if(bestBadge.length>=3) break;
           if(badgeData.categories[i].badges[j].isAcquired){
             bestBadge.push(badgeData.categories[i].badges[j]);
@@ -69,7 +69,7 @@ const UserBadge = ({nickname}:{nickname:string}) => {
                     </Tooltip>
                     <Box sx={{width:"100%",bgcolor:"lightgray", height:"1em", borderRadius:"1em", position:"relative" }}>
                       <Box position="absolute" sx={{fontSize:"0.5em", color:"black", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>{badges.presentValue} / {badges.goalValue}</Box>
-                      <Box sx={{width:`${badges.presentValue/badges.goalValue*100}%`, bgcolor:"#2E88C7", height:"1em", borderRadius:"1em" }}></Box>
+                      <Box sx={{width:`${badges.presentValue/badges.goalValue*100>=badges.goalValue?badges.goalValue:badges.presentValue/badges.goalValue*100}%`, bgcolor:"#2E88C7", height:"1em", borderRadius:"1em" }}></Box>
                     </Box>
                     <Box sx={{height:"10%", fontWeight:"bold", fontSize:"1.1em"}}>{badges.name}</Box>
                   </Box>
