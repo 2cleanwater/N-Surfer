@@ -42,7 +42,7 @@ const UserBadge = ({nickname}:{nickname:string}) => {
               {bestBadge(badgeData).length>0?bestBadge(badgeData).map((badges, badgeIndex)=>(
                 <Box key={badgeIndex} sx={{mx:"1em", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", textAlign:"center"}} >
                   <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>{badges.description}</div>}>
-                    <Box component="img" src={badges.badgeImageUrl} alt='UserImage' 
+                    <Box component="img" src={badges.imgUrl} alt='UserImage' 
                     sx={{ objectFit: "cover", objectPosition:"center" ,borderRadius:"50%", width:"8em", height:"8em", overflow: "hidden", m:"1em",
                     filter: "grayscale(0%)",
                     }}  />
@@ -62,7 +62,7 @@ const UserBadge = ({nickname}:{nickname:string}) => {
                 {category.badges.map((badges, badgeIndex)=>(
                   <Box key={badgeIndex} sx={{mx:"1em", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", textAlign:"center"}} >
                     <Tooltip placement="top" title={<div style={{fontSize:"15px"}}>{badges.description}</div>}>
-                      <Box component="img" src={badges.badgeImageUrl} alt='UserImage' 
+                      <Box component="img" src={badges.imgUrl} alt='UserImage' 
                       sx={{ objectFit: "cover", objectPosition:"center" ,borderRadius:"50%", width:"8em", height:"8em", overflow: "hidden", m:"1em",
                       filter: badges.isAcquired?badgeIndex===category.badges.length-1?"grayscale(0%) drop-shadow(0 0 1rem rgb(255, 217, 0))":"grayscale(0%)":"grayscale(100%)",
                       }}  />

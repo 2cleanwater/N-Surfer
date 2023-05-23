@@ -18,7 +18,7 @@ export interface Badges{
   presentValue: number,
   goalValue: number,
   isAcquired: boolean,
-  badgeImageUrl?:string
+  imgUrl?:string
 }
 
 export interface categories{
