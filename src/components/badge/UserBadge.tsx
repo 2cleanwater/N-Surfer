@@ -69,7 +69,7 @@ const UserBadge = ({nickname}:{nickname:string}) => {
                     </Tooltip>
                     <Box sx={{width:"100%",bgcolor:"lightgray", height:"1em", borderRadius:"1em", position:"relative" }}>
                       <Box position="absolute" sx={{fontSize:"0.5em", color:"black", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>{badges.presentValue} / {badges.goalValue}</Box>
-                      <Box sx={{width:`${badges.presentValue/badges.goalValue*100>=badges.goalValue?badges.goalValue:badges.presentValue/badges.goalValue*100}%`, bgcolor:"#2E88C7", height:"1em", borderRadius:"1em" }}></Box>
+                      <Box sx={{width:`${badges.presentValue/badges.goalValue*100>=100?badges.goalValue:badges.presentValue/badges.goalValue*100}%`, bgcolor:"#2E88C7", height:"1em", borderRadius:"1em" }}></Box>
                     </Box>
                     <Box sx={{height:"10%", fontWeight:"bold", fontSize:"1.1em"}}>{badges.name}</Box>
                   </Box>
