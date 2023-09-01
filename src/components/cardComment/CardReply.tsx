@@ -79,6 +79,7 @@ const CardReply = ({cardId}:{cardId:string}) => {
   };
 
   const value= useRootStore();
+  const isLogin = value?.authStore.isLogin;
   const commentStore = value?.commentStore;
 
   const [commentList, setCommentList]= useState<Array<CommentForm>>([]);
@@ -101,10 +102,11 @@ const CardReply = ({cardId}:{cardId:string}) => {
           })}
         </Box>
       })}
-      
+      {isLogin?      
       <Box sx={{width:"100%",}} ref={scrollDiv}>
         <CardReplyUseForm cardId={cardId} commentForm={replyingComment} setReplyingComment={setReplyingComment} setCommentList={setCommentList}/>
-      </Box>
+      </Box>:
+      <></>}
     </CardReplyCss>
   )
 }

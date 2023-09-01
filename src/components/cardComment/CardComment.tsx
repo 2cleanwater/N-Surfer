@@ -55,19 +55,26 @@ const profileBaseImg:string= process.env.REACT_APP_PROFILE_BASE_IMG!;
 const CardComment = (
   {cardId, commentItem, editingCommentId, parentCommentId, handleMoveScrollClick, setReplyingComment, setCommentList}:
   {cardId:string, commentItem:CommentForm, editingCommentId:number, parentCommentId:number, handleMoveScrollClick:()=>void, setReplyingComment:(commentData:commentDataForm)=>void, setCommentList:(commentArray:Array<CommentForm>)=>void }) => {
-  const value= useRootStore();
+  const value = useRootStore();
+  const isLogin = value?.authStore.isLogin;
   const [isLiked, setIsLiked]= useState<boolean>(commentItem.isLiked?commentItem.isLiked:false);
   const [likedNumber, setLikedNumber]= useState<number>(commentItem.likes); 
 
   const handleLike= ()=>{
-    if (isLiked) {
-      value?.commentStore.isNotLikedComments(cardId, commentItem.id);
-      setLikedNumber(likedNumber-1);
-      setIsLiked(false);
-    } else {
-      value?.commentStore.isLikedComments(cardId, commentItem.id);
-      setLikedNumber(likedNumber+1);
-      setIsLiked(true);
+    if(isLogin){
+      if (isLiked) {
+        value?.commentStore.isNotLikedComments(cardId, commentItem.id);
+        setLikedNumber(likedNumber-1);
+        setIsLiked(false);
+      } else {
+        value?.commentStore.isLikedComments(cardId, commentItem.id);
+        setLikedNumber(likedNumber+1);
+        setIsLiked(true);
+      }
+    }
+    else{
+      value?.authStore.setIsLoginLoading(true); 
+      value?.modalStore.openModal()
     }
   }
 
@@ -96,8 +103,14 @@ const CardComment = (
           <Box sx={{fontSize:"0.8em",color:"gray", mr:"1em",alignItems:"center"}}>{dateConverter({date:new Date(commentItem.createdAt!), tag:"."})}</Box>
           <Box sx={{"&:hover":{scale:"1.1"},cursor:"pointer", mr:"0.5em"}} 
           onClick={()=>{
-            handleMoveScrollClick(); 
-            setReplyingComment({method:"POST", comment:"", selfCommentId:0, parentCardCommentId:parentCommentId, parentCardCommentNickname:commentItem.user.nickname})
+            if(isLogin){
+              handleMoveScrollClick();
+              setReplyingComment({method:"POST", comment:"", selfCommentId:0, parentCardCommentId:parentCommentId, parentCardCommentNickname:commentItem.user.nickname}) 
+            }
+            else{
+              value?.authStore.setIsLoginLoading(true); 
+              value?.modalStore.openModal()
+            }
             }}>답글달기</Box>
           {value?.profileStore.userData.nickname===commentItem.user.nickname&&
             <>
