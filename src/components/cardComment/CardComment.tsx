@@ -6,6 +6,7 @@ import { CommentForm } from '@store/CommentsStore';
 
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
+import { useNavigate } from 'react-router-dom';
 
 const CommentUserImg= styled("img")({
   width:"3em",
@@ -56,6 +57,7 @@ const CardComment = (
   {cardId, commentItem, editingCommentId, parentCommentId, handleMoveScrollClick, setReplyingComment, setCommentList}:
   {cardId:string, commentItem:CommentForm, editingCommentId:number, parentCommentId:number, handleMoveScrollClick:()=>void, setReplyingComment:(commentData:commentDataForm)=>void, setCommentList:(commentArray:Array<CommentForm>)=>void }) => {
   const value = useRootStore();
+  const navigate = useNavigate();
   const isLogin = value?.authStore.isLogin;
   const [isLiked, setIsLiked]= useState<boolean>(commentItem.isLiked?commentItem.isLiked:false);
   const [likedNumber, setLikedNumber]= useState<number>(commentItem.likes); 
@@ -89,8 +91,9 @@ const CardComment = (
   
   return (
     <Box sx={{display:"flex", justifyContent:"center", borderRadius:"1em",  py:"1em","&:hover":{backgroundColor:"#e0e0d3"}, bgcolor:(editingCommentId===commentItem.id)?"#e0e0d3":""}}>
-      <Box sx={{flexShrink: 0, width:"6em", display:"flex", justifyContent:"center"}}>
+      <Box sx={{flexShrink: 0, width:"6em", display:"flex", justifyContent:"center", "&:hover":{cursor:"pointer", scale:"1.05"}}}>
         <CommentUserImg alt="profile"
+        onClick={()=>{commentItem?.user.nickname&&navigate(`/user/profile?nickname=${commentItem.user.nickname}`)}}
         src={commentItem.user.thumbnailImageUrl?commentItem.user.thumbnailImageUrl:profileBaseImg} />
       </Box>
 
