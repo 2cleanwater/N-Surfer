@@ -31,12 +31,19 @@ export interface BadgeDataForm{
   categories: Array<categories>
 }
 
+export interface HoverDataForm{
+  nickname?: string,
+  totalWave?: number,
+  imgUrl?: string
+}
+
 export interface UserStoreForm{
   userData: UserDataForm;
   isUserDataLoading: boolean;
   setIsUserDataLoading: (loading: boolean) => void;
   getUserData:(nickname:string, setUserData:(userData:UserDataForm)=>void, setIsUserHere:(is:boolean)=>void)=>void;
   getBadgeData: (nickname:string, setBadgeData:(badgeData:BadgeDataForm)=>void)=>void;
+  getHoverData: (nickname:string, setHoverData:(hoverData:HoverDataForm)=>void)=>void
 }
 const UserStore = (): UserStoreForm => {
   return {
@@ -72,6 +79,19 @@ const UserStore = (): UserStoreForm => {
         }})
       .then((res)=>{
         setBadgeData(res.data as BadgeDataForm)
+      })
+      .catch((err)=>{})
+    },
+    getHoverData: async function(nickname:string, setHoverData: (hoverData: HoverDataForm)=>void){
+      const hoverUrl = `/user/hover-profile?nickname=${nickname}`
+      await instance({
+        method:"GET",
+        url: hoverUrl,
+        headers:{
+          'Content-Type': 'application/json; charset=UTF-8',
+        }})
+      .then((res)=>{
+        setHoverData(res.data as HoverDataForm)
       })
       .catch((err)=>{})
     }
