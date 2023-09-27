@@ -43,7 +43,7 @@ const Testpage = () => {
       <div>남은횟수는 {leftOp}</div>
 
       <div onMouseOver={()=>{value?.userStore.getHoverData("투클린워터",setHoverData); setIsHover(true)}} onMouseOut={()=>{setIsHover(false)}} >호버해보기</div>
-      {isHover?<div></div>:<div></div>}
+      {isHover?<div>{hoverData?.nickname}</div>:<div></div>}
     </div>
   )
 }
