@@ -11,7 +11,7 @@ const UserBadge = ({nickname}:{nickname:string}) => {
   const [badgeData, setBadgeData]= useState<BadgeDataForm>({categories:[]});
   useEffect(()=>{
     value?.userStore.getBadgeData(nickname, setBadgeData);
-  },[])
+  },[nickname])
 
   const bestBadge= (badgeData:BadgeDataForm)=>{
     let bestBadge:Array<Badges>=[];
