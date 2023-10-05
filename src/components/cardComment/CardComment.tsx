@@ -1,12 +1,14 @@
 import { dateConverter } from '@service/dateConverter';
-import { Box, Checkbox, Tooltip, styled } from '@mui/material';
+import { Box, Checkbox, Popover, Tooltip, styled } from '@mui/material';
 import React, { useState } from 'react'
 import { useRootStore } from '@provider/rootContext';
 import { CommentForm } from '@store/CommentsStore';
+import { HoverDataForm } from '@store/UserStore';
 
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 import { useNavigate } from 'react-router-dom';
+
 
 const CommentUserImg= styled("img")({
   width:"3em",
@@ -62,6 +64,22 @@ const CardComment = (
   const [isLiked, setIsLiked]= useState<boolean>(commentItem.isLiked?commentItem.isLiked:false);
   const [likedNumber, setLikedNumber]= useState<number>(commentItem.likes); 
 
+  // 프로필 팝업 관련
+  const [hoverData, setHoverData]= useState<HoverDataForm>();
+
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
+    value?.userStore.getHoverData(commentItem.user.nickname,setHoverData)
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  // ============
   const handleLike= ()=>{
     if(isLogin){
       if (isLiked) {
@@ -93,6 +111,10 @@ const CardComment = (
     <Box sx={{display:"flex", justifyContent:"center", borderRadius:"1em",  py:"1em","&:hover":{backgroundColor:"#e0e0d3"}, bgcolor:(editingCommentId===commentItem.id)?"#e0e0d3":""}}>
       <Box sx={{flexShrink: 0, width:"6em", display:"flex", justifyContent:"center", "&:hover":{cursor:"pointer", scale:"1.05"}}}>
         <CommentUserImg alt="profile"
+        aria-owns={open ? 'mouse-over-popover' : undefined}
+        aria-haspopup="true"
+        onMouseEnter={handlePopoverOpen}
+        onMouseLeave={handlePopoverClose}
         onClick={()=>{commentItem?.user.nickname&&navigate(`/user/profile?nickname=${commentItem.user.nickname}`)}}
         src={commentItem.user.thumbnailImageUrl?commentItem.user.thumbnailImageUrl:profileBaseImg} />
       </Box>
@@ -139,6 +161,37 @@ const CardComment = (
         </Tooltip>
         <Box sx={{color:"black"}}>{likedNumber}</Box>
       </Box>
+
+      <Popover
+        id="mouse-over-popover"
+        sx={{
+          pointerEvents: 'none',
+        }}
+        open={open}
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        onClose={handlePopoverClose}
+        disableRestoreFocus
+      >
+        <Box sx={{display:"flex", alignItems:"center", px:"1em", py:"0.5em"}}>
+          <Box component="img" sx={{width: "4em", height: "4em", objectFit:"cover",objectPosition:"center" ,borderRadius: "50%"}} src={hoverData?.imgUrl||profileBaseImg} alt="profile"/>
+          <Box sx={{display:"flex", flexDirection:"column", pl:"1em"}}>
+            <Box sx={{textAlign:"center", fontSize: "1.2em",fontWeight: "bold"}}>{hoverData?.nickname||"이용자"}</Box>
+            <Box sx={{width:"100%", height:"2px", bgcolor:"#333", margin:"0.5em 0"}}></Box>
+            <Box sx={{display:"flex", flexDirection:"row", alignItems:"center"}}>
+              <Box sx={{textAlign:"center", width:"3em",pr:"1em"}}>전체<br/>파도수</Box>
+              <Box sx={{fontSize:"2em", fontWeight:"bold", color:"#0099cc"}}>{hoverData?.totalWave||0}</Box>
+            </Box>
+          </Box>
+        </Box>
+      </Popover>
     </Box>)
 }
 
