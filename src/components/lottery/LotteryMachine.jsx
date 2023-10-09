@@ -89,7 +89,7 @@ const LotteryMachine = () => {
     document.querySelector(".switch").addEventListener("click", function () {
       if(isLogin){
         getLottery();
-        if(leftOp>=0){
+        if(leftOp<=0){
           handleOpen();
         }
         else{
