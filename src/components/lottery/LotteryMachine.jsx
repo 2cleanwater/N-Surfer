@@ -26,6 +26,7 @@ const LotteryMachine = () => {
   const value = useRootStore();
 
   const [leftOp, setLeftOp]= useState(1);
+  const [eggOut, setEggOut] = useState(false);
   const [prize, setPrize]= useState({
       "productName": "fail",
       "productUrl": "https://res.cloudinary.com/nsurfer/image/upload/v1696500786/fail_mtwduc.jpg"
@@ -62,14 +63,25 @@ const LotteryMachine = () => {
         setPrize(res.data.product)
       })
     }
-
-  useEffect(()=>{
-    getLottery();
-  },[prize])
-
-  useEffect(()=>{
+  
+    
     const isLogin = value?.authStore.isLogin;
 
+    const clickSwitch = ()=>{
+      if(isLogin&&eggOut===false){
+        getLottery();
+        console.log("테스트"+leftOp)
+        setEggOut(true);
+      }
+    }
+    const clickEgg = ()=>{
+      patchLottery();
+      setEggOut(false);
+    }
+
+
+
+  useEffect(()=>{
     const egg = document.querySelector(".egg");
     const eggColor = document.querySelector(".egg-color");
     const openEggColor = document.querySelector(".open-egg-color");
@@ -78,7 +90,6 @@ const LotteryMachine = () => {
     let currentColor = "#E5A0B9";
     
     egg&&egg.addEventListener("click", function (e) {
-      patchLottery();
       const date = new Date;
       if(prize.productName==="fail"){
         document.querySelector(".winnerTitle").innerHTML = "🧨 꽝입니당ㅎㅎ 🧨"
@@ -94,18 +105,18 @@ const LotteryMachine = () => {
     
     document.querySelector(".switch").addEventListener("click", function () {
       if(isLogin){
-        getLottery();
-        console.log("테스트값은"+leftOp)
         if(leftOp<=0){
           handleOpen();
         }
         else{
-          currentColor = colors[Math.floor(Math.random() * colors.length)];
-          eggColor.style.fill = currentColor;
-          openEggColor.style.fill = currentColor;
-          this.classList.toggle("active");
-          setTimeout(() => this.classList.remove("active"), 700);
-          egg.classList.toggle("active");
+          if(eggOut===false){
+            currentColor = colors[Math.floor(Math.random() * colors.length)];
+            eggColor.style.fill = currentColor;
+            openEggColor.style.fill = currentColor;
+            this.classList.toggle("active");
+            setTimeout(() => this.classList.remove("active"), 700);
+            egg.classList.toggle("active");
+          }
         }
       }
       else{
@@ -113,6 +124,8 @@ const LotteryMachine = () => {
         value.modalStore.openModal();
       }
     });
+
+
     
     egg&&egg.addEventListener("click", function () {
       this.classList.remove("active");
@@ -131,6 +144,7 @@ const LotteryMachine = () => {
 
   return (
     <div>
+      <button onClick={()=>{setLeftOp(leftOp+1); console.log(leftOp)}}>이봐</button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -170,7 +184,7 @@ const LotteryMachine = () => {
         </div>
 
         <div className="gachapon">
-          <svg className="switch" viewBox="0 0 154 155" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="switch" viewBox="0 0 154 155" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={()=>{clickSwitch();}}>
             <circle cx="76.5828" cy="77.7004" r="43.5" transform="rotate(-45 76.5828 77.7004)" fill="#C6D2D5" stroke="#57162F" strokeWidth="10" />
             <path d="M32.7422 110.934C30.399 108.591 30.399 104.792 32.7422 102.449L101.732 33.4592C104.075 31.1161 107.874 31.1161 110.217 33.4592L120.117 43.3587C122.46 45.7018 122.46 49.5008 120.117 51.844L51.127 120.834C48.7838 123.177 44.9848 123.177 42.6417 120.834L32.7422 110.934Z" fill="#C6D2D5" stroke="#57162F" strokeWidth="10" />
           </svg>
@@ -183,7 +197,7 @@ const LotteryMachine = () => {
             <path d="M517.219 611C345.719 677.5 173.552 639.5 101.219 611C88.219 623.5 102.552 645 111.219 647.5C354.219 724.5 490.719 656.5 517.219 639C538.419 625 526.052 614.5 517.219 611Z" fill="#DF736C" stroke="#57162F" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
             <path d="M524.709 850.027C329.109 940.027 159.542 887.527 99.2088 850.027C71.2088 859.227 79.8755 895.194 87.7088 912.027C291.309 1022.43 476.875 958.027 544.209 912.027C549.009 860.827 533.209 849.36 524.709 850.027Z" fill="#DF736C" stroke="#57162F" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
             <path d="M364.5 892.246C320.5 833.846 278.5 867.912 263 892.246V952.746C263 961.246 276.5 972.246 314 973.246C344 974.046 360.167 959.912 364.5 952.746V892.246Z" fill="#C7D2D5" stroke="#57162F" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
-            <g className="egg">
+            <g className="egg" onClick={()=>{clickEgg();}}>
               <circle className="egg-color" cx="313.5" cy="885.5" r="40.5" fill="#F3D478" stroke="#57172F" strokeWidth="10" />
               <path d="M323.599 925.513C291.223 932.027 279.261 908.229 274.125 897.882C326.587 906.466 345.102 886.898 352.345 874.125C357.085 887.153 357.344 918.724 323.599 925.513Z" fill="white" stroke="#531028" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
             </g>
