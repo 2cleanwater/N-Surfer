@@ -47,6 +47,8 @@ const LotteryMachine = () => {
       }})
       .then((res)=>{
         setLeftOp(res.data.opportunities);
+        console.log("오는 값은"+res.data.opportunities);
+        console.log("세팅값은"+ leftOp)
       })
     }
   const patchLottery = async ()=>{
@@ -89,6 +91,7 @@ const LotteryMachine = () => {
     document.querySelector(".switch").addEventListener("click", function () {
       if(isLogin){
         getLottery();
+        console.log("테스트값은"+leftOp)
         if(leftOp<=0){
           handleOpen();
         }
