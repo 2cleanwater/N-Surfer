@@ -64,6 +64,10 @@ const LotteryMachine = () => {
     }
 
   useEffect(()=>{
+    getLottery();
+  },[prize])
+
+  useEffect(()=>{
     const isLogin = value?.authStore.isLogin;
 
     const egg = document.querySelector(".egg");
