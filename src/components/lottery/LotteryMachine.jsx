@@ -25,6 +25,7 @@ const LotteryMachine = () => {
   Aos.init(); 
   const value = useRootStore();
 
+  const [isLogin, setIsLogin]= useState(false)
   const [leftOp, setLeftOp]= useState(1);
   const [eggOut, setEggOut] = useState(false);
   const [prize, setPrize]= useState({
@@ -63,25 +64,10 @@ const LotteryMachine = () => {
         setPrize(res.data.product)
       })
     }
-  
-    
-    const isLogin = value?.authStore.isLogin;
-
-    const clickSwitch = ()=>{
-      if(isLogin&&eggOut===false){
-        getLottery();
-        console.log("테스트"+leftOp)
-        setEggOut(true);
-      }
-    }
-    const clickEgg = ()=>{
-      patchLottery();
-      setEggOut(false);
-    }
-
-
 
   useEffect(()=>{
+    setIsLogin(value?.authStore.isLogin);
+    getLottery();
     const egg = document.querySelector(".egg");
     const eggColor = document.querySelector(".egg-color");
     const openEggColor = document.querySelector(".open-egg-color");
@@ -125,8 +111,6 @@ const LotteryMachine = () => {
       }
     });
 
-
-    
     egg&&egg.addEventListener("click", function () {
       this.classList.remove("active");
       document.querySelector(".mask").classList.toggle("active");
@@ -140,11 +124,22 @@ const LotteryMachine = () => {
       }
       this.classList.toggle("active");
     })
-  },[])
+  },[]);
+
+  const clickSwitch = ()=>{
+    if(isLogin&&eggOut===false){
+      getLottery();
+      console.log("테스트"+leftOp)
+      setEggOut(true);
+    }
+  }
+  const clickEgg = ()=>{
+    patchLottery();
+    setEggOut(false);
+  }
 
   return (
     <div>
-      <button onClick={()=>{setLeftOp(leftOp+1); console.log(leftOp)}}>이봐</button>
       <Modal
         open={open}
         onClose={handleClose}
