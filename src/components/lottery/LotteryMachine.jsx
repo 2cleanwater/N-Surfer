@@ -5,8 +5,7 @@ import { Box, Modal, Typography } from '@mui/material';
 import instance from '@service/axiosInterceptor'
 import { dateConverter } from '@service/dateConverter';
 import { useRootStore } from '@provider/rootContext';
-
-
+import Aos from 'aos';
 
 const modalStyle = {
   position: 'absolute',
@@ -22,8 +21,9 @@ const modalStyle = {
 };
 
 const LotteryMachine = () => {
+  // 초기화 안해주면 문구가 안뜸
+  Aos.init(); 
   const value = useRootStore();
-  const isLogin = value?.authStore.isLogin;
 
   const [leftOp, setLeftOp]= useState(1);
   const [prize, setPrize]= useState({
@@ -62,6 +62,7 @@ const LotteryMachine = () => {
     }
 
   useEffect(()=>{
+    const isLogin = value?.authStore.isLogin;
 
     const egg = document.querySelector(".egg");
     const eggColor = document.querySelector(".egg-color");
@@ -117,6 +118,7 @@ const LotteryMachine = () => {
           this.classList.toggle("active");
         }
       }
+      this.classList.toggle("active");
     })
   },[])
 
