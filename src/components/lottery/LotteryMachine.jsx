@@ -24,8 +24,8 @@ const LotteryMachine = () => {
   // 초기화 안해주면 문구가 안뜸
   Aos.init(); 
   const value = useRootStore();
-
-  const [isLogin, setIsLogin]= useState(false)
+  const isLogin = value?.authStore.isLogin;
+  // const isLogin = true;
   const [leftOp, setLeftOp]= useState(1);
   const [eggOut, setEggOut] = useState(false);
   const [prize, setPrize]= useState({
@@ -49,8 +49,6 @@ const LotteryMachine = () => {
       }})
       .then((res)=>{
         setLeftOp(res.data.opportunities);
-        console.log("오는 값은"+res.data.opportunities);
-        console.log("세팅값은"+ leftOp)
       })
     }
   const patchLottery = async ()=>{
@@ -66,16 +64,19 @@ const LotteryMachine = () => {
     }
 
   useEffect(()=>{
-    setIsLogin(value?.authStore.isLogin);
     getLottery();
-    const egg = document.querySelector(".egg");
-    const eggColor = document.querySelector(".egg-color");
-    const openEggColor = document.querySelector(".open-egg-color");
+  },[prize]);
+
+  // useEffect(()=>{
+  //   const egg = document.querySelector(".egg");
+  //   const eggColor = document.querySelector(".egg-color");
+  //   const openEggColor = document.querySelector(".open-egg-color");
   
     const colors = ["#E5A0B9", "#F3D478", "#9DCFE0", "#B9AED4"];
     let currentColor = "#E5A0B9";
-    
-    egg&&egg.addEventListener("click", function (e) {
+
+    const clickEgg= ()=>{
+      patchLottery();
       const date = new Date;
       if(prize.productName==="fail"){
         document.querySelector(".winnerTitle").innerHTML = "🧨 꽝입니당ㅎㅎ 🧨"
@@ -87,21 +88,27 @@ const LotteryMachine = () => {
         document.querySelector(".winnerTag").innerHTML = dateConverter({date:date,tag:"."}) + " - " + value.profileStore.userData.nickname
         document.querySelector(".winnerText").innerHTML = "캡쳐해서 운영자 이메일로 전송해주세요!"
       }
-    });
-    
-    document.querySelector(".switch").addEventListener("click", function () {
+      document.querySelector(".egg").remove("active");
+      document.querySelector(".mask").classList.toggle("active");
+      setEggOut(false);
+    }
+
+    const clickSwitch= ()=>{
       if(isLogin){
+        getLottery();
         if(leftOp<=0){
           handleOpen();
         }
         else{
           if(eggOut===false){
             currentColor = colors[Math.floor(Math.random() * colors.length)];
-            eggColor.style.fill = currentColor;
-            openEggColor.style.fill = currentColor;
-            this.classList.toggle("active");
-            setTimeout(() => this.classList.remove("active"), 700);
-            egg.classList.toggle("active");
+            document.querySelector(".egg-color").style.fill = currentColor;
+            document.querySelector(".open-egg-color").style.fill = currentColor;
+            document.querySelector(".switch").classList.toggle("active");
+            setTimeout(() => document.querySelector(".switch").classList.remove("active"), 700);
+            document.querySelector(".egg").classList.toggle("active");
+
+            setEggOut(true);
           }
         }
       }
@@ -109,34 +116,79 @@ const LotteryMachine = () => {
         value.authStore.setIsLoginLoading(true); 
         value.modalStore.openModal();
       }
-    });
+    }
 
-    egg&&egg.addEventListener("click", function () {
-      this.classList.remove("active");
-      document.querySelector(".mask").classList.toggle("active");
-    });
-    
-    document.querySelector(".mask").addEventListener("click", function () {
+    const clickMask= ()=>{
       if(prize.productName!="fail"){
         if (window.confirm('상품 캡쳐를 하셨나요? 이미지가 사라집니다!')){
-          this.classList.toggle("active");
+          document.querySelector(".mask").classList.toggle("active");
         }
       }
-      this.classList.toggle("active");
-    })
-  },[]);
-
-  const clickSwitch = ()=>{
-    if(isLogin&&eggOut===false){
-      getLottery();
-      console.log("테스트"+leftOp)
-      setEggOut(true);
+      document.querySelector(".mask").classList.toggle("active");
     }
-  }
-  const clickEgg = ()=>{
-    patchLottery();
-    setEggOut(false);
-  }
+    
+    // egg&&egg.addEventListener("click", function (e) {
+    //   const date = new Date;
+    //   if(prize.productName==="fail"){
+    //     document.querySelector(".winnerTitle").innerHTML = "🧨 꽝입니당ㅎㅎ 🧨"
+    //     document.querySelector(".winnerTag").innerHTML = dateConverter({date:date,tag:"."}) + " - " + value.profileStore.userData.nickname
+    //     document.querySelector(".winnerText").innerHTML = "내일 다시 도전해보세요!"
+    //   }
+    //   else{
+    //     document.querySelector(".winnerTitle").innerHTML = "🎉 "+prize.productName +" "+ "당첨!!! 🎉"
+    //     document.querySelector(".winnerTag").innerHTML = dateConverter({date:date,tag:"."}) + " - " + value.profileStore.userData.nickname
+    //     document.querySelector(".winnerText").innerHTML = "캡쳐해서 운영자 이메일로 전송해주세요!"
+    //   }
+    // });
+    
+    // document.querySelector(".switch").addEventListener("click", function () {
+    //   if(isLogin){
+    //     if(leftOp<=0){
+    //       handleOpen();
+    //     }
+    //     else{
+    //       if(eggOut===false){
+    //         currentColor = colors[Math.floor(Math.random() * colors.length)];
+    //         eggColor.style.fill = currentColor;
+    //         openEggColor.style.fill = currentColor;
+    //         this.classList.toggle("active");
+    //         setTimeout(() => this.classList.remove("active"), 700);
+    //         egg.classList.toggle("active");
+    //       }
+    //     }
+    //   }
+    //   else{
+    //     value.authStore.setIsLoginLoading(true); 
+    //     value.modalStore.openModal();
+    //   }
+    // });
+
+    // egg&&egg.addEventListener("click", function () {
+    //   this.classList.remove("active");
+    //   document.querySelector(".mask").classList.toggle("active");
+    // });
+    
+  //   document.querySelector(".mask").addEventListener("click", function () {
+  //     if(prize.productName!="fail"){
+  //       if (window.confirm('상품 캡쳐를 하셨나요? 이미지가 사라집니다!')){
+  //         this.classList.toggle("active");
+  //       }
+  //     }
+  //     this.classList.toggle("active");
+  //   })
+  // },[]);
+
+  // const clickSwitch = ()=>{
+  //   if(isLogin&&eggOut===false){
+  //     getLottery();
+  //     console.log("테스트"+leftOp)
+  //     setEggOut(true);
+  //   }
+  // }
+  // const clickEgg = ()=>{
+  //   patchLottery();
+  //   setEggOut(false);
+  // }
 
   return (
     <div>
@@ -163,7 +215,7 @@ const LotteryMachine = () => {
       sx={{textAlign:"center", fontWeight:"bold", fontSize:"4em",mt:"0.3em"}}>
         🍨 운영자의 상품 뽑아 먹기 🍔 </Box>
       <div className="container">
-        <div className="mask">
+        <div className="mask" onClick={()=>{clickMask();}}>
           <div className="winner">
             <div className="winnerTitle"></div>
             <div className="winnerTag"></div>
