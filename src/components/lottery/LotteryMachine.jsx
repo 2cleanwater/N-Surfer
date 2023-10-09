@@ -111,6 +111,8 @@ const LotteryMachine = () => {
             setEggOut(true);
           }
         }
+        value.authStore.setIsLoginLoading(false); 
+        value.modalStore.closeModal();
       }
       else{
         value.authStore.setIsLoginLoading(true); 
