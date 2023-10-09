@@ -75,8 +75,8 @@ const LotteryMachine = () => {
     const colors = ["#E5A0B9", "#F3D478", "#9DCFE0", "#B9AED4"];
     let currentColor = "#E5A0B9";
 
-    const clickEgg= ()=>{
-      patchLottery();
+    async function clickEgg() {
+      await patchLottery();
       const date = new Date;
       if(prize.productName==="fail"){
         document.querySelector(".winnerTitle").innerHTML = "🧨 꽝입니당ㅎㅎ 🧨"
@@ -93,7 +93,9 @@ const LotteryMachine = () => {
       setEggOut(false);
     }
 
-    const clickSwitch= ()=>{
+    async function clickSwitch() {
+      console.log("상태"+isLogin);
+      console.log("여기선"+value.authStore.isLogin);
       if(isLogin){
         getLottery();
         if(leftOp<=0){
