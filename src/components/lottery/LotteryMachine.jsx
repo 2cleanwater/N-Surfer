@@ -42,7 +42,8 @@ const LotteryMachine = () => {
   // 초기화 안해주면 문구가 안뜸
   Aos.init(); 
   const value = useRootStore();
-  const isLogin = value?.authStore.isLogin;
+  const [isLogin, setIsLogin]= useState(value?.authStore.isLogin);
+  // const isLogin = value?.authStore.isLogin;
   // const isLogin = true;
   const date = new Date;
   const [leftOp, setLeftOp]= useState(1);
@@ -84,6 +85,10 @@ const LotteryMachine = () => {
   useEffect(()=>{
     getLottery();
   },[prize]);
+
+  useEffect(()=>{
+    setIsLogin(value.authStore.isLogin)
+  },[value.authStore.isLogin])
 
     const colors = ["#E5A0B9", "#F3D478", "#9DCFE0", "#B9AED4"];
     let currentColor = "#E5A0B9";
@@ -151,7 +156,7 @@ const LotteryMachine = () => {
         매일 당신의 행운을 테스트해보세요 </Box>
       <Box data-aos="fade-zoom-in" data-aos-delay="800" data-aos-duration="1200" data-aos-easing="easy-in-out" data-aos-once="true"
       sx={{textAlign:"center", fontWeight:"bold", fontSize:"4em",mt:"0.3em"}}>
-        🍨 운영자의 상품 뽑아 먹기 🍔 </Box>
+        🍨 운영자의 상품 뺏어 먹기 🍔 </Box>
       <div className="container">
         <div className="mask" onClick={()=>{clickMask();}}>
           <div className="winner">
