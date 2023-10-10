@@ -121,7 +121,7 @@ const CardComment = (
 
       <Box sx={{flex: 1, display: "flex", flexDirection: "column", alignItems: "flex-start", wordBreak: "break-all", whiteSpace:"pre-line"}}>
         <Box sx={{fontSize:"1em"}}>{commentItem.user.nickname}</Box>
-        <Box sx={{fontSize:"1.1em",my:"0.5em", whiteSpace: "pre-wrap", wordWrap: "break-word", textAlign:"left"}}>
+        <Box sx={{fontSize:"1.1em",my:"0.5em", whiteSpace: "pre-wrap", wordWrap: "break-word", textAlign:"left", "&::-webkit-user-select":"text", "-moz-user-select":"text", userSelect:"text", "-ms-user-select":"text"}}>
           {commentItem.contents}
         </Box>
         <Box sx={{display:"flex", flexDirection:"row", alignItems:"center",alignContent:"center", justifyItems:"center"}}>
