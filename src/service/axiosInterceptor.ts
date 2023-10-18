@@ -2,12 +2,7 @@ import axios from "axios";
 
 // axios에 baseURL 설정 =====================================================
 const instance = axios.create({
-  // 백엔드 테스트 서버
-  // baseURL : process.env.REACT_APP_BACKEND_SERVER
-  // 백엔드 서버
-  // baseURL: process.env.REACT_APP_BACKEND_INSTANCE_SERVER
-  // 로컬 서버
-  baseURL : process.env.REACT_APP_LOCALHOST_BACKEND_SERVER
+  baseURL : process.env.REACT_APP_BACKEND_SERVER
 });
 
 let isRefreshing = false;

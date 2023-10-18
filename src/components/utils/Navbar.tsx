@@ -19,6 +19,9 @@ const Navbar = ()=>{
   const githubFavicon:string= process.env.REACT_APP_GITHUBFAVICON!;
   const notionFavicon:string= process.env.REACT_APP_NOTIONFAVICON!;
 
+  // 서버시간 
+  const [serverOn, setServerOn]= useState<Boolean>(false);
+
   // 앱 동작시 accessToken 여부 확인 후 로그인
   useEffect(()=>{
     if(localStorage.getItem('accessToken')){
@@ -53,18 +56,46 @@ const Navbar = ()=>{
         navigate("/");
     }else return}
 
+  // 서버시간 체크
+  useEffect(()=>{
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+    if (currentHour >= 10 && currentHour <= 24) {
+      setServerOn(true);
+    }
+
+    const intervalId = setInterval(()=>{
+      const newTime = new Date();
+      const newHour = newTime.getHours();
+      if (newHour >= 10 && newHour <= 24) {
+        setServerOn(true);
+      }
+      else{
+        setServerOn(false);
+      }
+    }, 60000);
+    return ()=>{
+      clearInterval(intervalId);
+    }
+  },[]);
+
   return (
     <Box 
     sx={{width: "100%", height: "230px", textAlign: "center", position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-      
-      <Box component={Link} to='/'
+      <Box sx={{position:"absolute", textAlign:"left", p:"0.5em", fontSize:"0.9em"}}>
+        <div>
+          {serverOn?"🟢Online":"🔴Offline"}
+        </div>
+        <div>(서버시간 10:00 ~ 24:00)</div>
+      </Box>
+      <Box
       sx={{ display: "flex", flexDirection: "row", alignItems: "center", textDecoration: "none" }}>
         <Box component="img"
         sx={{width:"5em",height:"5em",ml:"3em"}}
         src={nSurferIcon} alt="logo"></Box>
-        <Box component="h1"
+        <Box component="h1" onClick={()=>navigate("/")}
         sx={{m: "20px", fontSize:"3em", color: "#0067a3", textShadow:"2px 2px 2px gray", 
-        // "&:hover": {transform: "scale(1.1)"}
+        "&:hover": {transform: "scale(1.03)",cursor:"pointer"}
         }}>
           N-Surfer</Box>
       </Box>
@@ -90,6 +121,11 @@ const Navbar = ()=>{
             } }}>
               파도추가</Button>
           )}
+          {/* <Button component={Link} to='/lottery/daily' 
+            sx={{fontSize:"1.3em", fontWeight:"bolder", color:"#b81414", "&:hover": {
+              transform: "scale(1.1)"
+            } }}>
+              행운뽑기</Button> */}
           {isLogin? 
             (<Button onClick={()=>{logout();}}
             sx={{fontSize:"1.3em", fontWeight:"bolder", color:"#097581", "&:hover": {

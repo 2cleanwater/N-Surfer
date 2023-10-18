@@ -49,6 +49,7 @@ const HeartCSS= styled(Checkbox)({
 
 const CardDetail = ({oceanData}:{oceanData:OceanData}) => {
   const value = useRootStore();
+  const isLogin = value?.authStore.isLogin;
   const navigate = useNavigate();
 
   const handleClickShare = () => {
@@ -70,24 +71,36 @@ const CardDetail = ({oceanData}:{oceanData:OceanData}) => {
   const [likeChangeCount, setLikeChangeCount]= useState<number>(0);
   
   const handleLike= ()=>{
-    if (isLiked) {
-      value?.oceanStore.isNotLikedComments(oceanData.cardId);
-      setLikedNumber(likedNumber-1);
-      setIsLiked(false);
-    } else {
-      value?.oceanStore.isLikedComments(oceanData.cardId);
-      setLikedNumber(likedNumber+1);
-      setIsLiked(true);
+    if(isLogin){
+      if (isLiked) {
+        value?.oceanStore.isNotLikedComments(oceanData.cardId);
+        setLikedNumber(likedNumber-1);
+        setIsLiked(false);
+      } else {
+        value?.oceanStore.isLikedComments(oceanData.cardId);
+        setLikedNumber(likedNumber+1);
+        setIsLiked(true);
+      }
+    }
+    else{
+      value?.authStore.setIsLoginLoading(true); 
+      value?.modalStore.openModal()
     }
   }
 
   const handleBookmark= ()=>{
-    if (isLiked) {
-      // value?.oceanStore.isNotLikedComments(oceanData.cardId);
-      setIsBookMarked(false);
-    } else {
-      // value?.oceanStore.isLikedComments(oceanData.cardId);
-      setIsBookMarked(true);
+    if(isLogin){
+      if (isLiked) {
+        // value?.oceanStore.isNotLikedComments(oceanData.cardId);
+        setIsBookMarked(false);
+      } else {
+        // value?.oceanStore.isLikedComments(oceanData.cardId);
+        setIsBookMarked(true);
+      }
+    }
+    else {
+      value?.authStore.setIsLoginLoading(true); 
+      value?.modalStore.openModal()
     }
   }
 
