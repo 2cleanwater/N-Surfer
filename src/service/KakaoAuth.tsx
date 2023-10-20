@@ -21,6 +21,7 @@ const KakaoAuth= function() {
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
       alert('성공적으로 로그인 했습니다');
+      //로그인 모달창 추가 예정
       navigate("/");
     }
     catch(err){
