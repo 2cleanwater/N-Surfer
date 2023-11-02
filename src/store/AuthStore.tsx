@@ -35,13 +35,13 @@ const AuthStore = (): AuthStoreForm => {
       window.location.href = KAKAO_AUTH_URL;
       },
     googleLogin: function(){
-      alert("아직 구현 안 된 기능입니다.");
+      alert("아직 구현 되지 않은 기능입니다. 카카오 로그인을 이용해주세요");
       },
     githubLogin: function(){
-      alert("아직 구현 안 된 기능입니다.");
+      alert("아직 구현 되지 않은 기능입니다. 카카오 로그인을 이용해주세요");
       },
     naverLogin: function(){
-      alert("아직 구현 안 된 기능입니다.");
+      alert("아직 구현 되지 않은 기능입니다. 카카오 로그인을 이용해주세요");
       },
     logout: function(){
         alert("안전 로그아웃 했습니다.");
