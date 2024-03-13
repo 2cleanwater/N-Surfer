@@ -3,102 +3,67 @@ import { HoverDataForm } from '@store/UserStore';
 import { styled } from '@mui/system';
 import instance from '@service/axiosInterceptor'
 import React, { useEffect, useState } from 'react'
-import { Box, Popover } from '@mui/material';
+// import { Box, Popover, Drawer, List, ListItem, ListItemButton, ListItemIcon  } from '@mui/material';
+
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import Button from '@mui/material/Button';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+
 import Swal from 'sweetalert2'
 
 const Testpage = () => {
-  const value = useRootStore();
-  const [leftOp, setLeftOp]= useState<number>(1);
-  const lotteryUrl :string = "/lottery/daily"
+  const [open, setOpen] = React.useState(false);
 
-  const [isHover, setIsHover]= useState<Boolean>(false);
-
-  const [hoverData, setHoverData]= useState<HoverDataForm>();
-
-  /** 팝업박스 */
-  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpen(newOpen);
   };
 
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
-  };
+  const DrawerList = (
+    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+      <List>
+        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
 
-  const open = Boolean(anchorEl);
-
-  //==================
-
-
-  const getLottery = async ()=>{
-    await instance({
-      method:"GET",
-      url: lotteryUrl,
-      headers:{
-        'Content-Type': 'application/json'
-      }})
-      .then((res)=>{
-        setLeftOp(res.data.opportunities);
-      })
-    }
-    const patchLottery = async ()=>{
-      await instance({
-        method:"PATCH",
-        url: lotteryUrl,
-        headers:{
-          'Content-Type': 'application/json'
-        }})
-        .then((res)=>{
-          console.log(res.data)
-        })
-      }
-
-
-  // 서버시간 
-  const [serverOn, setServerOn]= useState<Boolean>(false);
-
-  useEffect(()=>{
-    const currentTime = new Date();
-    const currentHour = currentTime.getHours();
-    if (currentHour >= 10 && currentHour <= 24) {
-      setServerOn(true);
-    }
-
-    const intervalId = setInterval(()=>{
-      const newTime = new Date();
-      const newHour = newTime.getHours();
-      if (newHour >= 10 && newHour <= 24) {
-        setServerOn(true);
-      }
-      else{
-        setServerOn(false);
-      }
-    }, 60000);
-    return ()=>{
-      clearInterval(intervalId);
-    }
-  },[]);
   return (
     <div>
-      <button onClick={()=>{Swal.fire({
-  title: '로그아웃하시겠어요?',
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes, Please'
-}).then((result) => {
-  if (result.isConfirmed) {
-    Swal.fire(
-      '로그아웃!',
-      '안전 로그아웃 했습니다.',
-      'success'
-    )
-  }
-})}}>요!</button>
+      <Button onClick={toggleDrawer(true)}>Open drawer</Button>
+      <Drawer open={open} onClose={toggleDrawer(false)}>
+        {DrawerList}
+      </Drawer>
     </div>
-  )
+  );
 }
 
 export default Testpage
