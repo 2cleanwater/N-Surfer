@@ -142,11 +142,11 @@ const Navbar = ()=>{
             } }}>
               파도추가</Button>
           )}
-          {/* <Button component={Link} to='/lottery/daily' 
+          <Button component={Link} to='/lottery/daily' 
             sx={{fontSize:"1.3em", fontWeight:"bolder", color:"#b81414", "&:hover": {
               transform: "scale(1.1)"
             } }}>
-              행운뽑기</Button> */}
+              행운뽑기</Button>
           {isLogin? 
             (<Button onClick={()=>{logout();}}
             sx={{fontSize:"1.3em", fontWeight:"bolder", color:"#097581", "&:hover": {
