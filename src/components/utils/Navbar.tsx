@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import { useEffect, useState } from 'react';
 
 import { Box, Button } from '@mui/material';
+import Swal from 'sweetalert2';
 
 const Navbar = ()=>{
   // store 및 service 선언
@@ -50,11 +51,31 @@ const Navbar = ()=>{
   }
 
   // 로그아웃 체크 ===================================================
+  // const logout = ()=>{
+  //   if (window.confirm('로그아웃 하시겠습니까?')){
+  //       value.authStore.logout(); 
+  //       navigate("/");
+  //   }else return}
+
   const logout = ()=>{
-    if (window.confirm('로그아웃 하시겠습니까?')){
+    Swal.fire({
+      title: '로그아웃하시겠어요?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Please'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          '로그아웃!',
+          '안전 로그아웃 했습니다.',
+          'success'
+        );
         value.authStore.logout(); 
         navigate("/");
-    }else return}
+      }
+    })}
 
   // 서버시간 체크
   useEffect(()=>{
@@ -121,11 +142,11 @@ const Navbar = ()=>{
             } }}>
               파도추가</Button>
           )}
-          {/* <Button component={Link} to='/lottery/daily' 
+          <Button component={Link} to='/lottery/daily' 
             sx={{fontSize:"1.3em", fontWeight:"bolder", color:"#b81414", "&:hover": {
               transform: "scale(1.1)"
             } }}>
-              행운뽑기</Button> */}
+              행운뽑기</Button>
           {isLogin? 
             (<Button onClick={()=>{logout();}}
             sx={{fontSize:"1.3em", fontWeight:"bolder", color:"#097581", "&:hover": {

@@ -60,6 +60,7 @@ export interface OceanData{
   isLiked?: boolean;
   isBookmarked: boolean;
   replies?: number;
+  likedByCurrentUser?: boolean;
 }
 
 export interface OceanParams{

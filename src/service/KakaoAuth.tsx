@@ -4,6 +4,7 @@ import instance from '@service/axiosInterceptor';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { useEffect } from 'react';
+import Swal from 'sweetalert2'
 
 const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
 const TOKEN_URL = "/auth/login/kakao";
@@ -20,7 +21,12 @@ const KakaoAuth= function() {
       const { data: { accessToken, refreshToken} } = await instance.get<{ accessToken: string; refreshToken: string }>(`${TOKEN_URL}?redirectUrl=${REDIRECT_URI}&code=${code}`);
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
-      alert('성공적으로 로그인 했습니다');
+      Swal.fire(
+        '환영합니다!',
+        'N-Sufer를 즐길 준비 되셨나요?',
+        'success'
+      )
+      //로그인 모달창 추가 예정
       navigate("/");
     }
     catch(err){
