@@ -92,7 +92,10 @@ const CardMini = ({OceanData}:{OceanData:OceanData}) => {
           <Box sx={{fontSize:"2.5em"}}>{OceanData?.views.toLocaleString('ko-KR') ?? "Unknown"}</Box>
         </Box>
         <Box sx={{justifySelf:"center",display:"flex",alignItems:"center"}}>
-          <Favorite sx={{mr:"0.3em", fontSize:"3em", color:"#FB3958"}}/>
+          {OceanData.likedByCurrentUser?
+          <Favorite sx={{mr:"0.3em", fontSize:"3em", color:"#FB3958"}}/>:
+          <FavoriteBorder sx={{mr:"0.3em", fontSize:"3em"}}/>  
+          }
           <Box sx={{fontSize:"2.5em"}}>{OceanData?.likes.toLocaleString('ko-KR') ?? "Unknown"}</Box>
         </Box>
         <Box sx={{justifySelf:"right",display:"flex",alignItems:"center"}}>
