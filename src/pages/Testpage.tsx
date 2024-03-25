@@ -20,25 +20,37 @@ import MailIcon from '@mui/icons-material/Mail';
 import Swal from 'sweetalert2'
 
 const Testpage = () => {
+
+  //* 서랍 on/off 관련 state
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
 
+  //* 서랍 내용물
+
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
-        {['파도목록', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary="파도 목록" />
+          </ListItemButton>    
+        </ListItem>
+
+          <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary="헤이" />
             </ListItemButton>
           </ListItem>
-        ))}
+
       </List>
       <Divider />
       <List>
