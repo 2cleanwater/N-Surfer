@@ -33,7 +33,12 @@ const KakaoAuth= function() {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       console.log(err);
-      window.alert("로그인실패");
+      Swal.fire({
+        icon: "error",
+        title: "서버 통신 실패...",
+        text: "신호가 바닷속으로 가라앉았습니다!! 꼬르륵 🙃",
+        // footer: '<a href="#">Why do I have this issue?</a>'
+      });
       navigate("/");
     }
   };

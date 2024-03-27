@@ -67,11 +67,14 @@ const Navbar = ()=>{
       confirmButtonText: 'Yes, Please'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          '로그아웃!',
-          '안전 로그아웃 했습니다.',
-          'success'
-        );
+        Swal.fire({
+          title: "잘가요! 다음에 또 만나요!",
+          // text: "다음에 또 만나요! 안녕!",
+          imageUrl: "https://res.cloudinary.com/nsurfer/image/upload/v1711561309/byecat_ff44et.png",
+          imageWidth: 300,
+          imageHeight: 300,
+          imageAlt: "Custom image"
+        });
         value.authStore.logout(); 
         navigate("/");
       }

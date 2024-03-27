@@ -8,6 +8,7 @@ import { HoverDataForm } from '@store/UserStore';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 
 const CommentUserImg= styled("img")({
@@ -100,11 +101,22 @@ const CardComment = (
 
   // 삭제 체크 ===================================================
   const checkDelete = ()=>{
-    if (window.confirm('댓글을 삭제하시겠습니까?')){
+    // if (window.confirm('댓글을 삭제하시겠습니까?')){
+    //     value?.commentStore.deleteComments(cardId, commentItem.id, setCommentList);
+    // }else {
+    //   return
+    // }
+    Swal.fire({
+      title: '댓글을 삭제하시겠어요?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Please'
+    }).then((result) => {
+      if (result.isConfirmed) {
         value?.commentStore.deleteComments(cardId, commentItem.id, setCommentList);
-    }else {
-      return
-    }
+      }})
   }
   
   return (

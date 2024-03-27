@@ -74,6 +74,16 @@ const Testpage = () => {
       <Drawer open={open} onClose={toggleDrawer(false)}>
         {DrawerList}
       </Drawer>
+      <button onClick={()=>{
+        Swal.fire({
+          title: "잘가요! 다음에 또 만나요!",
+          // text: "다음에 또 만나요! 안녕!",
+          imageUrl: "https://res.cloudinary.com/nsurfer/image/upload/v1711561309/byecat_ff44et.png",
+          imageWidth: 300,
+          imageHeight: 300,
+          imageAlt: "Custom image"
+        });
+      }}>gg</button>
     </div>
   );
 }
