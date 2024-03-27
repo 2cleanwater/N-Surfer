@@ -16,7 +16,7 @@ const UserProfile = ({userData}:{userData:UserDataForm}) => {
   // 이미지 url이 없으면 기본 이미지 =====================================
   useEffect(()=>{
     userData.imgUrl?setUserImgSrc(userData.imgUrl):setUserImgSrc(baseImg);
-  },[userData])
+  },[userData.imgUrl])
 
   // 로딩이 끝나면 모달 닫기
   useEffect(()=>{

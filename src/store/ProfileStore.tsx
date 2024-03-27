@@ -63,8 +63,8 @@ const ProfileStore = (): ProfileStoreForm => {
         }
       })
       .then(((res)=>{
-        this.getMyUserData();
         window.alert("성공적으로 변경되었습니다.")
+        this.getMyUserData();
       }))
       .catch((err)=>{
         console.log(err);
