@@ -72,40 +72,15 @@ const Profile = () => {
     zIndex:"12"
   }
 
-  // userData 받아오기 ==================================================
-  // const getUserData= async function(getByNickName:string){
-  //   const profileUrl = `/user/profile?nickname=${getByNickName}`;
-  //   await instance({
-  //     method: "GET",
-  //     url: profileUrl,
-  //     headers:{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     }})
-  //     .then((res)=>{
-  //       setUserData(res.data as UserDataForm)
-  //       setIsUserHere(true);
-  //     })
-  //     .catch((err)=>{
-  //       console.log(err);
-  //       setIsUserHere(false);
-  //     })
-  // }
-
-  // sever data =============================================
-  // useEffect(()=>{
-  //   getUserData(nickname);
-  // },[searchParams, isEditing]);
-
-
   useEffect(()=>{
     // getUserData(nickname);
     value.userStore.getUserData(nickname, setUserData, setIsUserHere);
-  },[searchParams]);
+  },[searchParams, value.profileStore.userData]);
 
 
   useEffect(()=>{
     value.oceanStore.getOceanList({numOfCards:3,nickname:nickname, setValue:setUserOceanList});
-  },[searchParams])
+  },[searchParams]);
 
   return (
     <Box sx={{display:"flex", justifyContent:"center"}}>
