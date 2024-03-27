@@ -80,15 +80,17 @@ const Navbar = ()=>{
   // 서버시간 체크
   useEffect(()=>{
     const currentTime = new Date();
+    const currentDay = currentTime.getDay();
     const currentHour = currentTime.getHours();
-    if (currentHour >= 10 && currentHour <= 24) {
+    if (currentHour >= 10 && currentHour <= 18 && currentDay>=1 && currentDay<=5) {
       setServerOn(true);
     }
 
     const intervalId = setInterval(()=>{
       const newTime = new Date();
+      const newDay = newTime.getDay();
       const newHour = newTime.getHours();
-      if (newHour >= 10 && newHour <= 24) {
+      if (newHour >= 10 && newHour <= 18 && newDay>=1 && newDay<=5) {
         setServerOn(true);
       }
       else{
@@ -105,9 +107,9 @@ const Navbar = ()=>{
     sx={{width: "100%", height: "230px", textAlign: "center", position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
       <Box sx={{position:"absolute", textAlign:"left", p:"0.5em", fontSize:"0.9em"}}>
         <div>
-          {serverOn?"🟢Online":"🔴Offline"}
+          {serverOn?"🟢 Online":"🔴 Offline"}
         </div>
-        <div>(서버시간 10:00 ~ 24:00)</div>
+        <div>(서버시간 평일 10:00 ~ 18:00)</div>
       </Box>
       <Box
       sx={{ display: "flex", flexDirection: "row", alignItems: "center", textDecoration: "none" }}>
