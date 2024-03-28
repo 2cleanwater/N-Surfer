@@ -12,8 +12,8 @@ import Swal from 'sweetalert2';
 
 
 const CommentUserImg= styled("img")({
-  width:"3em",
-  height:"3em",
+  width:"3.5em",
+  height:"3.5em",
   objectFit:"cover",
   objectPosition:"center",
   borderRadius: "50%"
@@ -121,7 +121,7 @@ const CardComment = (
   
   return (
     <Box sx={{display:"flex", justifyContent:"center", borderRadius:"1em",  py:"1em","&:hover":{backgroundColor:"#e0e0d3"}, bgcolor:(editingCommentId===commentItem.id)?"#e0e0d3":""}}>
-      <Box sx={{flexShrink: 0, width:"6em", display:"flex", justifyContent:"center", "&:hover":{cursor:"pointer", scale:"1.05"}}}>
+      <Box sx={{flexShrink: 0, width:"5.5em", display:"flex", justifyContent:"center", alignItems:"center", "&:hover":{cursor:"pointer", scale:"1.05"}}}>
         <CommentUserImg alt="profile"
         aria-owns={open ? 'mouse-over-popover' : undefined}
         aria-haspopup="true"
@@ -131,14 +131,15 @@ const CardComment = (
         src={commentItem.user.thumbnailImageUrl?commentItem.user.thumbnailImageUrl:profileBaseImg} />
       </Box>
 
-      <Box sx={{flex: 1, display: "flex", flexDirection: "column", alignItems: "flex-start", wordBreak: "break-all", whiteSpace:"pre-line"}}>
-        <Box sx={{fontSize:"1em"}}>{commentItem.user.nickname}</Box>
-        <Box sx={{fontSize:"1.1em",my:"0.5em", whiteSpace: "pre-wrap", wordWrap: "break-word", textAlign:"left", "&::-webkit-user-select":"text", "-moz-user-select":"text", userSelect:"text", "-ms-user-select":"text"}}>
+      <Box sx={{flex: 1, display: "flex", flexDirection: "column", alignItems: "flex-start", wordBreak: "break-all", whiteSpace:"pre-line", ml:"1em"}}>
+        <Box sx={{fontSize:"1.2em", fontWeight:"bold"}}>{commentItem.user.nickname}</Box>
+        <Box sx={{fontSize:"1.1em",my:"0.35em", whiteSpace: "pre-wrap", wordWrap: "break-word", textAlign:"left", "&::-webkit-user-select":"text", "-moz-user-select":"text", userSelect:"text", "-ms-user-select":"text"}}>
+          {commentItem.modified&&<Box sx={{my:"0.1em", fontSize:"0.75em"}}>* 수정됨</Box>}
           {commentItem.contents}
         </Box>
         <Box sx={{display:"flex", flexDirection:"row", alignItems:"center",alignContent:"center", justifyItems:"center"}}>
           <Box sx={{fontSize:"0.8em",color:"gray", mr:"1em",alignItems:"center"}}>{dateConverter({date:new Date(commentItem.createdAt!), tag:"."})}</Box>
-          <Box sx={{"&:hover":{scale:"1.1"},cursor:"pointer", mr:"0.5em"}} 
+          <Box sx={{"&:hover":{scale:"1.1"},cursor:"pointer", mr:"0.5em", fontSize:"0.8em"}} 
           onClick={()=>{
             if(isLogin){
               handleMoveScrollClick();
@@ -151,12 +152,12 @@ const CardComment = (
             }}>답글달기</Box>
           {value?.profileStore.userData.nickname===commentItem.user.nickname&&
             <>
-            <Box sx={{"&:hover":{scale:"1.1"},cursor:"pointer", mr:"0.5em"}} 
+            <Box sx={{"&:hover":{scale:"1.1"},cursor:"pointer", mr:"0.5em", fontSize:"0.8em"}} 
             onClick={()=>{
               handleMoveScrollClick(); 
               setReplyingComment({method:"PATCH", comment:commentItem.contents, selfCommentId:commentItem.id, parentCardCommentId:0, parentCardCommentNickname:""})
               }}>수정</Box>
-            <Box sx={{"&:hover":{scale:"1.1"},cursor:"pointer"}} 
+            <Box sx={{"&:hover":{scale:"1.1"},cursor:"pointer", fontSize:"0.8em"}} 
             onClick={checkDelete}>삭제</Box>
             </>
           }
