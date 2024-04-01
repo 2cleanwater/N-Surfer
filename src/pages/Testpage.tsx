@@ -4,6 +4,7 @@ import { styled } from '@mui/system';
 import instance from '@service/axiosInterceptor'
 import React, { useEffect, useState } from 'react'
 // import { Box, Popover, Drawer, List, ListItem, ListItemButton, ListItemIcon  } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -18,6 +19,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
 import Swal from 'sweetalert2'
+import { IconButton } from '@mui/material';
 
 const Testpage = () => {
 
@@ -33,43 +35,37 @@ const Testpage = () => {
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary="파도 목록" />
+        <ListItem disablePadding >
+          <ListItemButton sx={{textAlign:"left", pl:"2em",}}>
+            <ListItemText primary="🌊 파도 목록" />
           </ListItemButton>    
         </ListItem>
 
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary="헤이" />
-            </ListItemButton>
-          </ListItem>
-
+        <ListItem disablePadding >
+          <ListItemButton sx={{textAlign:"left", pl:"2em",}}>
+            <ListItemText primary="🌊 파도 목록" />
+          </ListItemButton>    
+        </ListItem>
       </List>
       <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
     </Box>
   );
 
   return (
     <div>
+      <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            // onClick={handleDrawerOpen}
+            onClick={toggleDrawer(true)}
+            edge="start"
+            sx={{
+              marginRight: 5,
+              // ...(open && { display: 'none' }),
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
       <Button onClick={toggleDrawer(true)}>Open drawer</Button>
       <Drawer open={open} onClose={toggleDrawer(false)}>
         {DrawerList}
