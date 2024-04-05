@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import p5 from 'p5';
 import { Box } from '@mui/material';
 
-const InteractiveWave = ({width,height,color,percent}) => {
+const InteractiveWave = ({width,height,color,percent,radius}) => {
   class Spring {
     constructor(_p5, p, v, a) {
       this._5p = _p5;
@@ -162,7 +162,7 @@ const InteractiveWave = ({width,height,color,percent}) => {
     _p5.setup = function() {
       _p5.createCanvas(width, height, _p5.P2D, true);
       _p5.background(color);
-      _p5.canvas.style.borderRadius = '1em';
+      _p5.canvas.style.borderRadius = radius;
 
       // generate wave
       wave = new Wave(_p5);
@@ -202,7 +202,7 @@ const InteractiveWave = ({width,height,color,percent}) => {
   }, []);
 
   return (
-    <Box sx={{borderRadius:"1em"}} ref={p5ContainerRef}/>
+    <Box sx={{borderRadius:radius}} ref={p5ContainerRef}/>
   )
 }
 
