@@ -87,7 +87,7 @@ const Navbar = ()=>{
     const currentTime = new Date();
     const currentDay = currentTime.getDay();
     const currentHour = currentTime.getHours();
-    if (currentHour >= 10 && currentHour <= 18 && currentDay>=1 && currentDay<=5) {
+    if (currentHour >= 10 && currentHour < 18 && currentDay>=1 && currentDay<=5) {
       setServerOn(true);
     }
 
@@ -193,7 +193,7 @@ const Navbar = ()=>{
         </IconButton>
 
         <Box
-          sx={{ display: "flex", flexDirection: "row", alignItems: "center", textDecoration: "none" , ml:"2em",
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center", textDecoration: "none" , ml:"4.5em",
           "&:hover": {transform: "scale(1.03)",cursor:"pointer"}
           }}>
           <Box component="img"
