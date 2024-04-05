@@ -3,11 +3,11 @@ import { OceanData, wholeLabelList } from '@store/OceanStore'
 import Loading from '@components/utils/Loading'
 import { useRootStore } from '@provider/rootContext'
 
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { observer } from 'mobx-react'
 
-import { Box, IconButton, TextField } from '@mui/material'
+import { Box, IconButton, Stack, Tab, Tabs, TextField } from '@mui/material'
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
@@ -29,7 +29,6 @@ const CardList =() => {
     Aos.init();
   })
 
-
   const value = useRootStore()!;
   const navigate = useNavigate();
 
@@ -41,6 +40,13 @@ const CardList =() => {
   const nicknameParams:string= searchParams.get("nickname")||"";
   const selectedLabelIndex:number = labelParams?labelList.indexOf(labelParams):-1
 
+  const flexContainer = {
+    display: 'flex',
+    flexDirection: 'row',
+    padding: 0,
+  };
+
+  
   // 무한스크롤 파트
   const [target, setTarget] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -133,78 +139,78 @@ const CardList =() => {
   }
 
   return (
-    <Box sx={{display:"flex", flexDirection:"column"}}>
-      <Box id="title" sx={{ textAlign:"right" }}>
-        <TextField variant="outlined" label="회원이름 검색" value={inputNickname} onChange={handleNicknameSearch} onKeyDown={activeEnter} inputProps={{style: {backgroundColor:"white", borderRadius:"5px"}}}/>
-        <IconButton size="large" onClick={searchOnClick} >
-          <SearchIcon fontSize="large" />
-        </IconButton>
-      </Box>
+    <Box sx={{display:"flex", flexDirection:"column", alignItems:"center"}}>
 
-      <Box id="body" sx={{display:"flex"}}>
-        <Box id="tags" sx={{listStyle:"none", p:"0.5em",m:"1em" ,width:"8em", borderRadius:"1em", bgcolor:"background.paper"}}>
-          <Box sx={{ width: '8em', maxWidth: "10em", bgcolor: 'background.paper'}}>
-            <List component="nav" aria-label="secondary mailbox folder">
-              <ListItemButton
-                selected={selectedLabelIndex === -1}
-                onClick={(e) => handleListItemClick(e)}
-              > 
-                <DensitySmallIcon fontSize="small" sx={{mr:"1em"}}/>전체
-              </ListItemButton>
-              <ListItemButton
-                selected={selectedLabelIndex === 0}
-                onClick={(e) => handleListItemClick(e)}
-              >
-                <ComputerIcon fontSize="small" sx={{mr:"1em", color:"#E03E3E"}}/>개발
-              </ListItemButton>
-              <ListItemButton
-                selected={selectedLabelIndex === 1}
-                onClick={(e) => handleListItemClick(e)}
-              >
-                <CircleNotificationsIcon fontSize="small" sx={{mr:"1em", color:"#D9730D"}}/>뉴스
-              </ListItemButton>
-              <ListItemButton
-                selected={selectedLabelIndex === 2}
-                onClick={(e) => handleListItemClick(e)}
-              >
-                <ErrorIcon fontSize="small" sx={{mr:"1em", color:"#0B6E99"}}/>정보
-              </ListItemButton>
-              <ListItemButton
-                selected={selectedLabelIndex === 3}
-                onClick={(e) => handleListItemClick(e)}
-              >
-                <ChatBubbleIcon fontSize="small" sx={{mr:"1em", color:"#0F7B6C"}}/>잡담
-              </ListItemButton>
-              <ListItemButton
-                selected={selectedLabelIndex === 4}
-                onClick={(e) => handleListItemClick(e)}
-              >
-                <ExploreIcon fontSize="small" sx={{mr:"1em", color:"#64473A"}}/> 노하우
-              </ListItemButton>
-            </List>
-          </Box>
+      <Box id="tags" sx={{listStyle:"none", width:"90%", borderRadius:"1em", bgcolor:"background.paper", display:"flex", justifyContent:"space-between", m:"1em", py:"0.5em", px:"1em", boxShadow: 1}}>
+        <Box sx={{ width: '40em', bgcolor: 'background.paper'}}>
+          <List component={Stack} direction="row" aria-label="secondary mailbox folder" >
+            <ListItemButton
+              selected={selectedLabelIndex === -1}
+              onClick={(e) => handleListItemClick(e)}
+            > 
+              <DensitySmallIcon fontSize="small" sx={{mr:"1em"}}/>전체
+            </ListItemButton>
+            <ListItemButton
+              selected={selectedLabelIndex === 0}
+              onClick={(e) => handleListItemClick(e)}
+            >
+              <ComputerIcon fontSize="small" sx={{mr:"1em", color:"#E03E3E"}}/>개발
+            </ListItemButton>
+            <ListItemButton
+              selected={selectedLabelIndex === 1}
+              onClick={(e) => handleListItemClick(e)}
+            >
+              <CircleNotificationsIcon fontSize="small" sx={{mr:"1em", color:"#D9730D"}}/>뉴스
+            </ListItemButton>
+            <ListItemButton
+              selected={selectedLabelIndex === 2}
+              onClick={(e) => handleListItemClick(e)}
+            >
+              <ErrorIcon fontSize="small" sx={{mr:"1em", color:"#0B6E99"}}/>정보
+            </ListItemButton>
+            <ListItemButton
+              selected={selectedLabelIndex === 3}
+              onClick={(e) => handleListItemClick(e)}
+            >
+              <ChatBubbleIcon fontSize="small" sx={{mr:"1em", color:"#0F7B6C"}}/>잡담
+            </ListItemButton>
+            <ListItemButton
+              selected={selectedLabelIndex === 4}
+              onClick={(e) => handleListItemClick(e)}
+            >
+              <ExploreIcon fontSize="small" sx={{mr:"1em", color:"#64473A"}}/>노하우
+            </ListItemButton>
+          </List>
         </Box>
+        <Box id="title" sx={{ textAlign:"right" }}>
+          <TextField variant="outlined" label="회원이름 검색" value={inputNickname} onChange={handleNicknameSearch} onKeyDown={activeEnter} inputProps={{style: {backgroundColor:"white", borderRadius:"5px"}}}/>
+          <IconButton size="large" onClick={searchOnClick} >
+            <SearchIcon fontSize="large" />
+          </IconButton>
+        </Box>  
+      </Box>
+      <Box sx={{width:"95%"}}>
         {oceanList.length>0?
-        (<Box sx={{display: "flex", flexDirection:"column",  pr:"1em"}}>
+        (<Box sx={{display: "flex", flexDirection:"column", justifyItems: "center"}}>
           {[...Array(3*oceanIndex)].map((_, rowIndex) => (
-            <div key={rowIndex} style={{ display: "flex",flexDirection:"row"}}>
+            <Box key={rowIndex} sx={{display: "flex",flexDirection:"row", width:"100%", }}>
               {[...Array(3)].map((_, colIndex) => {
                 const index = rowIndex*3 + colIndex;
                 return (
-                <Box data-aos="fade-up" data-aos-delay={((index % 9) + 1)*100} data-aos-duration="1000" data-aos-easing="easy-in-out" data-aos-once="true" key={`${colIndex}-${rowIndex}`} sx={{ width: "100%", height: index<oceanList.length?"100%":"0%", mt:index<oceanList.length?"80px":"0%"}}>
+                <Box data-aos="fade-up" data-aos-delay={rowIndex*50+colIndex*50} data-aos-duration="1000" data-aos-easing="easy-in-out" data-aos-once="true" key={`${colIndex}-${rowIndex}`} sx={{ height: index<oceanList.length?"100%":"0%", mt:index<oceanList.length?"6em":"0%", px:"1.5em"}}>
                   {index<oceanList.length?<CardMini OceanData={oceanList[index]}/>:<></>}
                 </Box>
                 );
               })}
-            </div>
+            </Box>
           ))}
           {nextCursor==="noMore"?
-          <Box sx={{width:"18.5em",bgcolor:"#2158A8", borderRadius:"1em", textAlign:"center", m:"1em", p:"1em",fontSize:"40px", fontWeight:"bold",color:"white"}}>마지막 글입니다.</Box>:
+          <Box sx={{width:"23em",bgcolor:"#2158A8", borderRadius:"1em", textAlign:"center", m:"1em", p:"1em",fontSize:"40px", fontWeight:"bold",color:"white"}}>마지막 글입니다.</Box>:
           <Box sx={{width:"100%"}} ref={setTarget}>{isLoaded && <Loading/>}</Box>}
         </Box>):
         (<Box sx={{width:"100%"}}>{value.oceanStore.isOceanListLoading?<Loading/>:
         <Box sx={{width:"25em",bgcolor:"#2158A8", borderRadius:"1em", textAlign:"center", m:"1em", p:"1em",fontSize:"30px", fontWeight:"bold",color:"white"}}>
-          작성된 글이 없습니다.<br></br> <br></br>첫 파도를 일으켜보세요!</Box>}</Box>)
+          데이터가 없습니다!!<br></br> <br></br>서버 시간을 확인해주세요 🙀</Box>}</Box>)
         }
       </Box>
     </Box>
