@@ -208,8 +208,9 @@ const CardList =() => {
           <Box sx={{width:"23em",bgcolor:"#2158A8", borderRadius:"1em", textAlign:"center", m:"1em", p:"1em",fontSize:"40px", fontWeight:"bold",color:"white"}}>마지막 글입니다.</Box>:
           <Box sx={{width:"100%"}} ref={setTarget}>{isLoaded && <Loading/>}</Box>}
         </Box>):
-        (<Box sx={{width:"100%"}}>{value.oceanStore.isOceanListLoading?<Loading/>:
-        <Box sx={{width:"25em",bgcolor:"#2158A8", borderRadius:"1em", textAlign:"center", m:"1em", p:"1em",fontSize:"30px", fontWeight:"bold",color:"white"}}>
+        (<Box sx={{display: "flex", flexDirection:"column", justifyItems: "center"}}>
+          {value.oceanStore.isOceanListLoading?<Loading/>:
+          <Box sx={{width:"90%",bgcolor:"#2158A8", borderRadius:"1em", textAlign:"center", m:"1em", p:"1em",fontSize:"30px", fontWeight:"bold",color:"white"}}>
           데이터가 없습니다!!<br></br> <br></br>서버 시간을 확인해주세요 🙀</Box>}</Box>)
         }
       </Box>
