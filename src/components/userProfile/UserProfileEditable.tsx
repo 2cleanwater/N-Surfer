@@ -295,22 +295,22 @@ const EditProfile = ({ userData, setIsEditing,
           </Box>
 
         <Box sx={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"center", }}>
-          <Box sx={{textAlign:"center",width:"13.6em", height:"8.1em", mr:"3em", boxShadow: 3, borderRadius:"1em", backgroundColor:"#FFFCBF", position:"relative", justifyItems:"center", alignItems:"center"}}>
+          <Box sx={{textAlign:"center",width:"180px", height:"180px", mr:"3em", boxShadow: 3, borderRadius:"50%", bgcolor:"#FFFCBF", position:"relative", justifyItems:"center", alignItems:"center"}}>
             <Box sx={{}}>
-              <InteractiveWave width={220} height={130} color="#FFFCBF" percent={2.5} radius={"1em"}/>
+              <InteractiveWave width={180} height={180} color="#FFFCBF" percent={2.5} radius={"50%"}/>
             </Box>
             <Box sx={{position:"absolute", display:"flex",flexDirection:"column",top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
-              <Box sx={{fontSize:"20px", fontWeight:"bold",color:"#F88C65", textShadow:"1px 1px orange"}}>오늘의 파도</Box>
-              <Box sx={{fontSize:"40px", fontWeight:"bolder",color:"White", textShadow:" 1px 1px 1px blue" }}>{todayWave}</Box>
+              <Box sx={{fontSize:"1.1em", fontWeight:"bold",color:"#F88C65", textShadow:"1px 1px orange", pb:"1em"}}>오늘의 파도</Box>
+              <Box sx={{fontSize:"40px", fontWeight:"bolder",color:"White", textShadow:" 1px 1px 1px blue"}}>{userData?.todayWave}</Box>
             </Box>
           </Box>
-          <Box sx={{textAlign:"center",width:"13.6em", height:"8.1em", boxShadow: 3, borderRadius:"1em", backgroundColor:"#FFFCBF", position:"relative", justifyItems:"center", alignItems:"center"}}>
+          <Box sx={{textAlign:"center",width:"180px", height:"180px", boxShadow: 3, borderRadius:"50%", bgcolor:"#FFFCBF", position:"relative", justifyItems:"center", alignItems:"center"}}>
             <Box sx={{}}>
-              <InteractiveWave width={220} height={130} color="#FFFCBF" percent={2.5} radius={"1em"}/>
+              <InteractiveWave width={180} height={180} color="#FFFCBF" percent={2.5} radius={"50%"}/>
             </Box>
             <Box sx={{position:"absolute", display:"flex",flexDirection:"column",top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
-              <Box sx={{fontSize:"20px", fontWeight:"bold",color:"green",textShadow:"1px 1px gray"}}>모든 파도</Box>
-              <Box sx={{fontSize:"40px", fontWeight:"bolder",color:"White", textShadow:" 1px 1px 1px blue" }}>{totalWave}</Box>
+              <Box sx={{fontSize:"20px", fontWeight:"bold",color:"green",textShadow:"1px 1px green", pb:"1em"}}>모든 파도</Box>
+              <Box sx={{fontSize:"40px", fontWeight:"bolder",color:"White", textShadow:" 1px 1px 1px blue"}}>{userData?.totalWave}</Box>
             </Box>
           </Box>
         </Box>
