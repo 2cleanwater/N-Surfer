@@ -23,63 +23,29 @@ import { IconButton } from '@mui/material';
 
 const Testpage = () => {
 
-  //* 서랍 on/off 관련 state
-  const [open, setOpen] = React.useState(false);
+  const value = useRootStore()!;
+  const [testData, setTestData]= useState<string>("지금은 비엇따");
 
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen);
-  };
-
-  //* 서랍 내용물
-
-  const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
-      <List>
-        <ListItem disablePadding >
-          <ListItemButton sx={{textAlign:"left", pl:"2em",}}>
-            <ListItemText primary="🌊 파도 목록" />
-          </ListItemButton>    
-        </ListItem>
-
-        <ListItem disablePadding >
-          <ListItemButton sx={{textAlign:"left", pl:"2em",}}>
-            <ListItemText primary="🌊 파도 목록" />
-          </ListItemButton>    
-        </ListItem>
-      </List>
-      <Divider />
-    </Box>
-  );
+  
+    useEffect(() => {
+      //로그인했을 때 동작
+      if(value.profileStore.userData.useId){
+        const eventSource = new EventSource('/alarm/subscription');
+  
+        eventSource.onmessage = (event) => {
+          console.log(event.data)
+          setTestData(event.data)
+        };
+        return () => {
+          eventSource.close();
+        };
+      }
+    }, []);
 
   return (
     <div>
-      <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            // onClick={handleDrawerOpen}
-            onClick={toggleDrawer(true)}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              // ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-      <Button onClick={toggleDrawer(true)}>Open drawer</Button>
-      <Drawer open={open} onClose={toggleDrawer(false)}>
-        {DrawerList}
-      </Drawer>
-      <button onClick={()=>{
-        Swal.fire({
-          title: "잘가요! 다음에 또 만나요!",
-          // text: "다음에 또 만나요! 안녕!",
-          imageUrl: "https://res.cloudinary.com/nsurfer/image/upload/v1711561309/byecat_ff44et.png",
-          imageWidth: 300,
-          imageHeight: 300,
-          imageAlt: "Custom image"
-        });
-      }}>gg</button>
+      로그인이 됐을 때만 구독이 됨
+      <Box sx={{fontSize:"2em"}}>{testData}</Box>
     </div>
   );
 }
