@@ -6,9 +6,9 @@
 - 🟦 Frontend : [이정수](https://github.com/2cleanwater)
 
 # 🔗 페이지 링크 및 상세 페이지
-### 1. 페이지링크 (서버 운영 시간 : 10:00~24:00) ([링크](http://nsurfer.s3-website.ap-northeast-2.amazonaws.com/))
+### 1. 페이지링크 (서버 운영 시간 : 10:00~24:00) ([링크](http://nsurfer.com/))
 ```bash
-http://nsurfer.s3-website.ap-northeast-2.amazonaws.com/
+http://nsurfer.com/
 ```
 
 ### 2. 프로젝트 상세 노션 페이지 ([링크](https://2cleanwater.notion.site/N-Surfer-0d2ae67e463b46dc96126f0044208100))
