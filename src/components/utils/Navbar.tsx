@@ -1,13 +1,15 @@
 import { useRootStore } from '@provider/rootContext';
+import Alarm from '@components/alarm/Alarm';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Avatar, Badge, Box, Button, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText, Tooltip, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Swal from 'sweetalert2';
+
 
 const Navbar = ()=>{
   // store 및 service 선언
@@ -114,10 +116,11 @@ const Navbar = ()=>{
     setOpen(newOpen);
   };
 
-  //* 서랍 내용물
+  const windowHeight = window.innerHeight;
 
+  //* 서랍 내용물
   const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+    <Box sx={{ width: 250, height:windowHeight }} role="presentation" onClick={toggleDrawer(false)}>
       <Box sx={{px:"0.5em",py:"0.1em", display:"flex",textAlign:"right", fontSize:"0.9em", justifyContent: "space-between", bgcolor:"#E2E2E2"}}>
         <div>
           {serverOn?"🟢 Online":"🔴 Offline"}
@@ -172,9 +175,47 @@ const Navbar = ()=>{
     </Box>
   );
 
+  //* 알림 On Off
+  const [alarmToggle, setAlarmToggle] = useState<boolean>(false);
+  const alarmRef = useRef<HTMLDivElement | null>(null);
+  const alarmButtonRef = useRef<HTMLButtonElement>(null);
+
+  const offAlarm =()=>{setAlarmToggle(false)};
+  const onAlarm =()=>{setAlarmToggle(true)};
+
+  useEffect(()=>{
+    const handleClickOutside = (event:MouseEvent) =>{
+      if((alarmRef.current && !alarmRef.current.contains(event.target as Node))&&(alarmButtonRef.current && !alarmButtonRef.current.contains(event.target as Node)) ){
+        offAlarm();
+        }
+      };
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+  },[]);
+
+  //* 알림 구독
+
+  const [eventSource, setEventSource] = useState<EventSource | null>(null);
+  useEffect(() => {
+    //로그인했을 때 동작
+    if(value.profileStore.userData.useId){
+      const source = new EventSource('/alarm/subscription');
+      setEventSource(source);
+    }
+    else{
+      // 로그인아웃 됐을때 구독 취소
+      if (eventSource) {
+        eventSource.close();
+        setEventSource(null);
+      }
+    }
+  },[value.profileStore.userData.useId]);
+
   return (
     <Box 
-    sx={{width: "100%", height: "230px", textAlign: "center", position: "relative", justifyContent: "space-between"}}>
+    sx={{width: "100%", height: "230px", position: "relative", justifyContent: "space-between"}}>
       <Drawer open={open} onClose={toggleDrawer(false)}>
         {DrawerList}
       </Drawer>
@@ -193,33 +234,32 @@ const Navbar = ()=>{
         </IconButton>
 
         <Box
-          sx={{ display: "flex", flexDirection: "row", alignItems: "center", textDecoration: "none" , ml:"4.5em",
-          "&:hover": {transform: "scale(1.03)",cursor:"pointer"}
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center", textDecoration: "none" , ml:"5em",
+          "&:hover": {cursor:"pointer"}
           }}>
           <Box component="img"
           sx={{width:"5em",height:"5em"}}
           src={nSurferIcon} alt="logo"></Box>
           <Box component="h1" onClick={()=>navigate("/")}
-          sx={{m: "20px", fontSize:"3em", color: "#0067a3", textShadow:"2px 2px 2px gray", 
-          
-          }}>
-            N-Surfer</Box>
+          sx={{m: "20px", fontSize:"2.7em", color: "#0067a3", textShadow:" 2px 2px 4px rgba(0, 0, 0, 0.5)" }}>
+            N-SURFER</Box>
         </Box>
 
         <Box sx={{display: "flex"}}>
-          <Tooltip title="개발 중">
-            <IconButton sx={{my:"0.5em", mx:"1em", alignSelf: "flex-start"}}>
-              <Badge color="primary" badgeContent="2" >
-                <NotificationsIcon fontSize='large' sx={{ color: "#b28704" }}/>
-              </Badge>
-            </IconButton>
-          </Tooltip>
+          <IconButton sx={{my:"0.5em", mx:"1em", alignSelf: "flex-start", boxShadow:1 }} onClick={()=>{alarmToggle?offAlarm():onAlarm();}}  ref={alarmButtonRef} >
+            <Badge color="primary" badgeContent="2">
+              <NotificationsIcon fontSize='large' sx={{ color: "#BC8F8F" }}/>
+            </Badge>
+          </IconButton>
           {isLogin?
           (<Box component="img" onClick={()=>{navigate(`/user/profile?nickname=${value.profileStore.userData.nickname}`)}} 
-          sx={{"&:hover":{cursor:"pointer"}, width: "3em", height: "3em", objectFit:"cover",objectPosition:"center" ,borderRadius: "50%",my:"0.5em"}} src={userImgSrc} alt="profile"/>):
-          (<Box component="img" sx={{width: "3em", height: "3em", objectFit:"cover",objectPosition:"center" ,borderRadius: "50%", my:"0.5em", "&:hover":{cursor:"pointer"},}} src={userImgSrc} 
+          sx={{"&:hover":{cursor:"pointer"}, width: "3.2em", height: "3.2em", objectFit:"cover",objectPosition:"center" ,borderRadius: "50%",my:"0.7em", boxShadow:1}} src={userImgSrc} alt="profile"/>):
+          (<Box component="img" sx={{width: "3.2em", height: "3.2em", objectFit:"cover",objectPosition:"center" ,borderRadius: "50%", my:"0.7em", "&:hover":{cursor:"pointer"},boxShadow:1}} src={userImgSrc} 
           onClick={()=>{value.authStore.setIsLoginLoading(true); value.modalStore.openModal()}}
           alt="profile"/>)}
+          {alarmToggle&&<Box sx={{position:"absolute",  top: "22rem", right: "calc(50% - 48rem)", transform: "translate(-50%, -50%)",zIndex:"1000"}} ref={alarmRef}>
+            {/* <Alarm offAlarm={offAlarm} eventSource={eventSource!}/> */}
+          </Box>}
           </Box>
       </Box>
     </Box>
