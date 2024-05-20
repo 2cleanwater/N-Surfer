@@ -162,7 +162,7 @@ const LotteryMachine = () => {
           <div className="winner">
             <WinnerTitle>{prize.productName==="fail"?"🧨 꽝입니당ㅎㅎ 🧨":"🎉 "+prize.productName +" "+ "당첨!!! 🎉"}</WinnerTitle>
             <WinnerTag>{dateConverter({date:date,tag:"."}) + " - " + value.profileStore.userData.nickname}</WinnerTag>
-            <Box sx={{width:"250px", height:"300px",  borderRadius:"10%", m:"30px", objectFit:"cover"}}
+            <Box sx={{ height:"300px",  borderRadius:"10%", m:"30px", objectFit:"cover"}}
             component="img" src={prize.productName=="fail"?"https://res.cloudinary.com/nsurfer/image/upload/v1696500786/fail_mtwduc.jpg":prize.productUrl}></Box>
             <WinnerText>{prize.productName==="fail"?"내일 다시 도전해보세요!":"캡쳐해서 운영자 이메일로 전송해주세요!"}</WinnerText>
           </div>
