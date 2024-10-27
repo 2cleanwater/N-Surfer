@@ -1,4 +1,5 @@
 import instance from "@service/axiosInterceptor";
+import Swal from 'sweetalert2'
 
 interface user{
   username:string,
@@ -126,13 +127,24 @@ const OceanStore = (): OceanStoreForm => {
         }})
         .then((res)=>{
           const ocean = res.data as OceanData;
-          window.alert("성공적으로 저장되었습니다.");
+          // window.alert("성공적으로 저장되었습니다.");
+          Swal.fire(
+            '저장 완료!',
+            '파도가 추가되었습니다 🌊',
+            'success'
+          )
           navigate(`/card/${ocean.cardId}`)
           this.setIsOceanLoading(false);
         })
         .catch((err)=>{
           console.log(err);
-          window.alert("저장에 실패했습니다.")
+          // window.alert("저장에 실패했습니다.")
+          Swal.fire({
+            icon: "error",
+            title: "저장 실패...",
+            text: "신호가 바닷속으로 가라앉았습니다!! 꼬르륵 🙃",
+            // footer: '<a href="#">Why do I have this issue?</a>'
+          });
           this.setIsOceanLoading(false);
       })
     },
@@ -147,12 +159,23 @@ const OceanStore = (): OceanStoreForm => {
           'Content-Type': 'multipart/form-data'
         }})
         .then((res)=>{
-          window.alert("성공적으로 수정되었습니다.")
+          // window.alert("성공적으로 수정되었습니다.")
+          Swal.fire(
+            '수정 완료!',
+            '파도가 수정되었습니다 🌊',
+            'success'
+          )
           this.setIsOceanLoading(false);
         })
         .catch((err)=>{
           console.log(err);
-          window.alert("수정에 실패했습니다.")
+          // window.alert("수정에 실패했습니다.")
+          Swal.fire({
+            icon: "error",
+            title: "수정 실패...",
+            text: "신호가 바닷속으로 가라앉았습니다!! 꼬르륵 🙃",
+            // footer: '<a href="#">Why do I have this issue?</a>'
+          });
           this.setIsOceanLoading(false);
       })
     },
@@ -166,12 +189,23 @@ const OceanStore = (): OceanStoreForm => {
           'Content-Type': 'application/json'
         }})
         .then(()=>{
-          window.alert("성공적으로 삭제되었습니다.")
+          // window.alert("성공적으로 삭제되었습니다.")
+          Swal.fire(
+            '삭제 완료!',
+            '파도가 잠잠해졌습니다.. 🌅',
+            'success'
+          )
           this.setIsOceanLoading(false);
         })
         .catch((err)=>{
           console.log(err);
-          window.alert("삭제에 실패했습니다.")
+          // window.alert("삭제에 실패했습니다.")
+          Swal.fire({
+            icon: "error",
+            title: "삭제 실패...",
+            text: "신호가 바닷속으로 가라앉았습니다!! 꼬르륵 🙃",
+            // footer: '<a href="#">Why do I have this issue?</a>'
+          });
           this.setIsOceanLoading(false);
       })
     },

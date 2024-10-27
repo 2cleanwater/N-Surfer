@@ -86,7 +86,7 @@ const Profile = () => {
     <Box sx={{display:"flex", justifyContent:"center"}}>
     {isUserHere?
     <Box sx={{display:"flex", flexDirection:"column", justifyItems:"center", alignItems:"center"}}>
-      {userData.nickname&&<UserBadge nickname={userData.nickname}/>}
+      
       {userData.nickname?
       <Box sx={{position:"relative", justifyItems:"center", alignItems:"center", display:"flex", flexDirection:"column",}}>
         {nickname===value.profileStore.userData.nickname&&
@@ -105,6 +105,8 @@ const Profile = () => {
         <Loading/>
       </Box>
       }
+
+      {userData.nickname&&<UserBadge nickname={userData.nickname}/>}
 
       <Wave nickname={nickname}/>
 

@@ -176,14 +176,17 @@ const WaveDummy = () => {
           ))}
           </Box>}
       </Box>
-      <Box sx={{display:"flex", justifyContent: "flex-end", alignItems: "center", textAlign:"center", mr:"2em", mt:"1.5em",mb:"0.5em"}}>
-        Less
-        <Box sx={{width:"1em",height:"1em",m:"0.1em", bgcolor:"#F4FAFB"}}></Box>
-        <Box sx={{width:"1em",height:"1em",m:"0.1em",  bgcolor:"#C3E3F6"}}></Box>
-        <Box sx={{width:"1em",height:"1em",m:"0.1em",  bgcolor:"#9CCCE8"}}></Box>
-        <Box sx={{width:"1em",height:"1em",m:"0.1em",  bgcolor:"#2E88C7"}}></Box>
-        <Box sx={{width:"1em",height:"1em",m:"0.1em",  bgcolor:"#01234C"}}></Box>
-        More
+      <Box sx={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
+        <Box sx={{alignItems: "center", textAlign:"center", ml:"2em", mt:"1em",mb:"1em"}}>✅ 글을 작성하거나 수정하면 파도 횟수가 증가합니다</Box>
+        <Box sx={{display:"flex", justifyContent: "flex-end", alignItems: "center", textAlign:"center", mr:"2em", mt:"1em",mb:"1em"}}>
+          Less
+          <Box sx={{width:"1em",height:"1em",m:"0.1em", bgcolor:"#F4FAFB"}}></Box>
+          <Box sx={{width:"1em",height:"1em",m:"0.1em",  bgcolor:"#C3E3F6"}}></Box>
+          <Box sx={{width:"1em",height:"1em",m:"0.1em",  bgcolor:"#9CCCE8"}}></Box>
+          <Box sx={{width:"1em",height:"1em",m:"0.1em",  bgcolor:"#2E88C7"}}></Box>
+          <Box sx={{width:"1em",height:"1em",m:"0.1em",  bgcolor:"#01234C"}}></Box>
+          More
+        </Box>
       </Box>
     </Box>
   )

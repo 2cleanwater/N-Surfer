@@ -6,6 +6,7 @@ import SendIcon from '@mui/icons-material/Send';
 import ClearIcon from '@mui/icons-material/Clear';
 import { CommentForm, axiosCommentForm } from '@store/CommentsStore';
 import _ from 'lodash';
+import Swal from 'sweetalert2';
 
 const CommentUserImg= styled("img")({
   width:"3em",
@@ -83,7 +84,11 @@ const CardReplyUseForm = ({cardId, commentForm, setReplyingComment, setCommentLi
     if(
     //컨텐츠가 바꼈는지
     watch("inputContent")==commentForm.comment){
-      window.confirm('변경된 내용이 없습니다.');
+      // window.confirm('변경된 내용이 없습니다.');
+      Swal.fire({
+        title: "변경된 내용이 없습니다",
+        icon: "warning",
+      });
     }else{
       handleSubmit(onSubmit)();
     }  

@@ -120,7 +120,7 @@ input{
   display: flex;
   align-items: center;
   position: relative;
-  margin-top: 10%;
+  margin-top: 5%;
 }
 
 @keyframes switch-rotate {

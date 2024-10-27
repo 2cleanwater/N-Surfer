@@ -41,7 +41,7 @@ const CardMini = ({OceanData}:{OceanData:OceanData}) => {
     <Box sx={mainBox} onClick={()=>{navigate(`/card/${OceanData.cardId}`)}}>
       <Box component="img" src={bottle} sx={{zIndex:"-100", position:"absolute", width:"17em", top:"37%", left:"50%", transform:"translate(-50%,-50%)", filter: "drop-shadow(-10px 15px 5px gray)"}}/>
       <Box sx={{position:"absolute", zIndex:"-1"}}> 
-        <InteractiveWave width={240} height={300} color="#F9F5F5" percent={1.8}/>
+        <InteractiveWave width={240} height={300} color="#F9F5F5" percent={1.8} radius={"1em"}/>
       </Box>
 
       <Box className="date" sx={{width:"92%", alignContent:"right"}}>
@@ -62,7 +62,7 @@ const CardMini = ({OceanData}:{OceanData:OceanData}) => {
           sx={{fontSize:"1.5em", }}
           icon={<BookmarkBorderIcon />}
           checkedIcon={<BookmarkIcon sx={{color:"#008000"}}/>}
-          onClick={(e)=>{e.stopPropagation();window.alert("준비 중인 기능입니다!")}}
+          onClick={(e)=>{e.stopPropagation(); window.alert("준비 중인 기능입니다!")}}
         />
       </Box>
 

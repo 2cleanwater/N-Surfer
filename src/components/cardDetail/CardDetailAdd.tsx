@@ -11,6 +11,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import Swal from 'sweetalert2';
 
 const CardDetailAdd = () => {
   const value = useRootStore();
@@ -89,11 +90,26 @@ const CardDetailAdd = () => {
 
   // 삭제 체크 ===================================================
   const checkCancel = ()=>{
-    if (window.confirm('글 작성을 취소하시겠습니까? 글 내용이 사라집니다.')){
-      if(window.confirm('확인을 누르면 글 작성이 취소됩니다.')){
-        navigate("/");} 
-    }else {
-      return}
+    // if (window.confirm('글 작성을 취소하시겠습니까? 글 내용이 사라집니다.')){
+    //   if(window.confirm('확인을 누르면 글 작성이 취소됩니다.')){
+    //     navigate("/");} 
+    // }else {
+    //   return}
+    Swal.fire({
+      title: "글 작성을 취소하나요?",
+      text: "글 내용이 모두 사라집니다!",
+      icon: "warning",
+      showCancelButton: true,
+      showCloseButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "예",
+      cancelButtonText: "아니요",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/");
+      }
+    });
     }
 
   // 저장 체크 ===================================================
@@ -103,13 +119,28 @@ const CardDetailAdd = () => {
       &&watch("inputContent").length<=0
       &&userImgSrc.every((value) => value === ""))
     {
-      window.confirm('작성된 내용이 없습니다.');
+      // window.confirm('작성된 내용이 없습니다.');
+      Swal.fire({
+        title: "작성된 내용이 없습니다",
+        icon: "warning",
+      });
     }
     else{
-      if (window.confirm('저장하시겠습니까?')){
-        handleSubmit(onSubmit)();
-      }else {
-        return}
+      // if (window.confirm('저장하시겠습니까?')){
+      //   handleSubmit(onSubmit)();
+      // }else {
+      //   return}
+      Swal.fire({
+        title: "저장하시겠습니까?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "btn btn-success",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "저장"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          handleSubmit(onSubmit)();
+        }});
     }
   }
 

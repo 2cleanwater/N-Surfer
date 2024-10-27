@@ -12,6 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import ReplayIcon from '@mui/icons-material/Replay';
+import Swal from 'sweetalert2';
 
 
 type cardEditProps = {
@@ -165,12 +166,24 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
 
   // 삭제 체크 ===================================================
   const checkDelete = ()=>{
-    if (window.confirm('글을 삭제하시겠습니까?')){
-      if(window.confirm('확인을 누르면 글이 삭제됩니다.')){
+    // if (window.confirm('글을 삭제하시겠습니까?')){
+    //   if(window.confirm('확인을 누르면 글이 삭제됩니다.')){
+    //     value?.oceanStore.deleteOcean(oceanData.cardId); 
+    //     navigate(`/card`);} 
+    // }else {
+    //   return}
+    Swal.fire({
+      title: '파도를 삭제하시겠어요?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Please'
+    }).then((result) => {
+      if (result.isConfirmed) {
         value?.oceanStore.deleteOcean(oceanData.cardId); 
-        navigate(`/card`);} 
-    }else {
-      return}
+        navigate(`/card`);
+      }})
     }
 
   // 저장 체크 ===================================================
@@ -186,11 +199,26 @@ const CardDetailEditable = ({ oceanData, setIsEditing }:cardEditProps) => {
     &&JSON.stringify(oceanImgUrlList)==JSON.stringify(userImgSrc)
     //삭제리스트 비어있는지
     &&deleteImgSrc.every((value) => value === "")){
-      window.confirm('변경된 내용이 없습니다.');
+      // window.confirm('변경된 내용이 없습니다.');
+      Swal.fire({
+        title: "변경된 내용이 없습니다",
+        icon: "warning",
+      });
     }else{
-      if (window.confirm('저장하시겠습니까?')){
-        handleSubmit(onSubmit)();
-      }else {return}
+      // if (window.confirm('저장하시겠습니까?')){
+      //   handleSubmit(onSubmit)();
+      // }else {return}
+      Swal.fire({
+        title: "저장하시겠습니까?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "btn btn-success",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "저장"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          handleSubmit(onSubmit)();
+        }});
     }  
   }
 

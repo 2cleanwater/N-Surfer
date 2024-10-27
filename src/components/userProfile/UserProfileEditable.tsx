@@ -13,6 +13,8 @@ import PersonRemoveAlt1Icon from '@mui/icons-material/PersonRemoveAlt1';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import Swal from 'sweetalert2';
+
 
 type myProfileEditProps = {
   userData: UserDataForm;
@@ -72,12 +74,25 @@ const EditProfile = ({ userData, setIsEditing,
 
   // 삭제 체크 ===================================================
   const checkDeleteUser = ()=>{
-    if (window.confirm('탈퇴하시겠습니까?')){
-      if(window.confirm('확인을 누르면 탈퇴됩니다.')){
+    // if (window.confirm('탈퇴하시겠습니까?')){
+    //   if(window.confirm('확인을 누르면 탈퇴됩니다.')){
+    //     value.profileStore.deleteMyUserData();
+    //     navigate("/");} 
+    // }else {
+    //   return}
+    Swal.fire({
+      title: '탈퇴하시겠어요?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Please'
+    }).then((result) => {
+      if (result.isConfirmed) {
         value.profileStore.deleteMyUserData();
-        navigate("/");} 
-    }else {
-      return}
+        navigate("/")
+      }
+    })
     }
       
   // 저장 체크 ===================================================
@@ -88,12 +103,27 @@ const EditProfile = ({ userData, setIsEditing,
     watch("inputImg").length==0)&&
     userData.imgUrl===imgSrc
     ){
-      window.confirm('변경된 내용이 없습니다.');
+      // window.confirm('변경된 내용이 없습니다.');
+      Swal.fire({
+        title: "변경된 내용이 없습니다",
+        icon: "warning",
+      });
     }else{
-      if (window.confirm('저장하시겠습니까?')){
-        handleSubmit(onSubmit)();
-      }else {
-        return}
+      // if (window.confirm('저장하시겠습니까?')){
+      //   handleSubmit(onSubmit)();
+      // }else {
+      //   return}
+      Swal.fire({
+        title: "저장하시겠습니까?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "btn btn-success",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "저장"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          handleSubmit(onSubmit)();
+        }});
     }  
   }
 
@@ -101,7 +131,11 @@ const EditProfile = ({ userData, setIsEditing,
   const handleBaseImg= ()=>{
     // if(isBasicImg==="true"){
     if(imgSrc===baseImg){
-      console.log("이미 기본 이미지입니다.")
+      // console.log("이미 기본 이미지입니다.")
+      Swal.fire({
+        title: "이미 기본 이미지입니다",
+        icon: "warning",
+      });
     }
     else{
       //표현 이미지 기본으로 변경
@@ -261,22 +295,22 @@ const EditProfile = ({ userData, setIsEditing,
           </Box>
 
         <Box sx={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"center", }}>
-          <Box sx={{textAlign:"center",width:"13.6em", height:"8.1em", mr:"3em", boxShadow: 3, borderRadius:"1em", backgroundColor:"#FFFCBF", position:"relative", justifyItems:"center", alignItems:"center"}}>
+          <Box sx={{textAlign:"center",width:"180px", height:"180px", mr:"3em", boxShadow: 3, borderRadius:"50%", bgcolor:"#FFFCBF", position:"relative", justifyItems:"center", alignItems:"center"}}>
             <Box sx={{}}>
-              <InteractiveWave width={220} height={130} color="#FFFCBF" percent={2.5}/>
+              <InteractiveWave width={180} height={180} color="#FFFCBF" percent={2.5} radius={"50%"}/>
             </Box>
             <Box sx={{position:"absolute", display:"flex",flexDirection:"column",top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
-              <Box sx={{fontSize:"20px", fontWeight:"bold",color:"#F88C65", textShadow:"1px 1px orange"}}>오늘의 파도</Box>
-              <Box sx={{fontSize:"40px", fontWeight:"bolder",color:"White", textShadow:" 1px 1px 1px blue" }}>{todayWave}</Box>
+              <Box sx={{fontSize:"1.1em", fontWeight:"bold",color:"#F88C65", textShadow:"1px 1px orange", pb:"1em"}}>오늘의 파도</Box>
+              <Box sx={{fontSize:"40px", fontWeight:"bolder",color:"White", textShadow:" 1px 1px 1px blue"}}>{userData?.todayWave}</Box>
             </Box>
           </Box>
-          <Box sx={{textAlign:"center",width:"13.6em", height:"8.1em", boxShadow: 3, borderRadius:"1em", backgroundColor:"#FFFCBF", position:"relative", justifyItems:"center", alignItems:"center"}}>
+          <Box sx={{textAlign:"center",width:"180px", height:"180px", boxShadow: 3, borderRadius:"50%", bgcolor:"#FFFCBF", position:"relative", justifyItems:"center", alignItems:"center"}}>
             <Box sx={{}}>
-              <InteractiveWave width={220} height={130} color="#FFFCBF" percent={2.5}/>
+              <InteractiveWave width={180} height={180} color="#FFFCBF" percent={2.5} radius={"50%"}/>
             </Box>
             <Box sx={{position:"absolute", display:"flex",flexDirection:"column",top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
-              <Box sx={{fontSize:"20px", fontWeight:"bold",color:"green",textShadow:"1px 1px gray"}}>모든 파도</Box>
-              <Box sx={{fontSize:"40px", fontWeight:"bolder",color:"White", textShadow:" 1px 1px 1px blue" }}>{totalWave}</Box>
+              <Box sx={{fontSize:"20px", fontWeight:"bold",color:"green",textShadow:"1px 1px green", pb:"1em"}}>모든 파도</Box>
+              <Box sx={{fontSize:"40px", fontWeight:"bolder",color:"White", textShadow:" 1px 1px 1px blue"}}>{userData?.totalWave}</Box>
             </Box>
           </Box>
         </Box>

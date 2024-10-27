@@ -1,11 +1,15 @@
 import { useRootStore } from '@provider/rootContext';
+import Alarm from '@components/alarm/Alarm';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import { Box, Button } from '@mui/material';
+import { Avatar, Badge, Box, Button, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText, Tooltip, Typography } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import Swal from 'sweetalert2';
+
 
 const Navbar = ()=>{
   // store 및 service 선언
@@ -67,11 +71,14 @@ const Navbar = ()=>{
       confirmButtonText: 'Yes, Please'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          '로그아웃!',
-          '안전 로그아웃 했습니다.',
-          'success'
-        );
+        Swal.fire({
+          title: "잘가요! 다음에 또 만나요!",
+          // text: "다음에 또 만나요! 안녕!",
+          imageUrl: "https://res.cloudinary.com/nsurfer/image/upload/v1711561309/byecat_ff44et.png",
+          imageWidth: 300,
+          imageHeight: 300,
+          imageAlt: "Custom image"
+        });
         value.authStore.logout(); 
         navigate("/");
       }
@@ -82,7 +89,7 @@ const Navbar = ()=>{
     const currentTime = new Date();
     const currentDay = currentTime.getDay();
     const currentHour = currentTime.getHours();
-    if (currentHour >= 10 && currentHour <= 18 && currentDay>=1 && currentDay<=5) {
+    if (currentHour >= 10 && currentHour < 18 && currentDay>=1 && currentDay<=5) {
       setServerOn(true);
     }
 
@@ -102,79 +109,158 @@ const Navbar = ()=>{
     }
   },[]);
 
-  return (
-    <Box 
-    sx={{width: "100%", height: "230px", textAlign: "center", position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-      <Box sx={{position:"absolute", textAlign:"left", p:"0.5em", fontSize:"0.9em"}}>
+  //* 서랍 on/off 관련 state
+  const [open, setOpen] = React.useState(false);
+
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpen(newOpen);
+  };
+
+  const windowHeight = window.innerHeight;
+
+  //* 서랍 내용물
+  const DrawerList = (
+    <Box sx={{ width: 250, height:windowHeight }} role="presentation" onClick={toggleDrawer(false)}>
+      <Box sx={{px:"0.5em",py:"0.1em", display:"flex",textAlign:"right", fontSize:"0.9em", justifyContent: "space-between", bgcolor:"#E2E2E2"}}>
         <div>
           {serverOn?"🟢 Online":"🔴 Offline"}
         </div>
-        <div>(서버시간 평일 10:00 ~ 18:00)</div>
+        <div>(평일 10:00 ~ 18:00)</div>
       </Box>
-      <Box
-      sx={{ display: "flex", flexDirection: "row", alignItems: "center", textDecoration: "none" }}>
-        <Box component="img"
-        sx={{width:"5em",height:"5em",ml:"3em"}}
-        src={nSurferIcon} alt="logo"></Box>
-        <Box component="h1" onClick={()=>navigate("/")}
-        sx={{m: "20px", fontSize:"3em", color: "#0067a3", textShadow:"2px 2px 2px gray", 
-        "&:hover": {transform: "scale(1.03)",cursor:"pointer"}
-        }}>
-          N-Surfer</Box>
-      </Box>
+      <Divider />
+      <List>
+        <ListItem disablePadding >
+          <ListItemButton sx={{textAlign:"left", pl:"1.5em",}} component={Link} to='/card' >
+            <ListItemText primaryTypographyProps={{fontSize: '1.2em'}}  primary="🌊 &nbsp; 파도 목록" />
+          </ListItemButton>    
+        </ListItem>
 
-      <Box sx={{display: 'flex', alignItems: "center", justifyItems: "center", p: "2em"}}>
-        <Box sx={{
-          flexDirection: "row", 
-          alignItems: "center",
-          justifyItems: "center",
-          color:"#097581", 
-          textDecoration: "none",
-          p:"1em"
-          }}>
-          <Button component={Link} to='/card' 
-          sx={{fontSize:"1.3em", fontWeight:"bolder", color:"#097581","&:hover": {
-            transform: "scale(1.1)"
-          } }}>
-            파도목록</Button>
-          {isLogin&&(
-            <Button component={Link} to='/cardForm' 
-            sx={{fontSize:"1.3em", fontWeight:"bolder", color:"#097581", "&:hover": {
-              transform: "scale(1.1)"
-            } }}>
-              파도추가</Button>
-          )}
-          <Button component={Link} to='/lottery/daily' 
-            sx={{fontSize:"1.3em", fontWeight:"bolder", color:"#b81414", "&:hover": {
-              transform: "scale(1.1)"
-            } }}>
-              행운뽑기</Button>
+        {isLogin&&(
+          <ListItem disablePadding >
+            <ListItemButton sx={{textAlign:"left", pl:"1.5em",}} component={Link} to='/cardForm' >
+              <ListItemText primaryTypographyProps={{fontSize: '1.2em'}}  primary="➕ &nbsp; 파도추가" />
+            </ListItemButton>    
+          </ListItem>
+        )}
+
+        <ListItem disablePadding >
+          <ListItemButton sx={{textAlign:"left", pl:"1.5em",}} component={Link} to='/lottery/daily' >
+            <ListItemText primaryTypographyProps={{fontSize: '1.2em', color:"#b81414"}}  primary="🌟 &nbsp; 행운 뽑기" />
+          </ListItemButton>    
+        </ListItem>
+        <Box sx={{position: "fixed",bottom: 0, display:"flex",flexDirection:"column"}}>
+          <Divider />
+          <Box sx={{px:"1em"}}>
+            <Box component="img" src={githubFavicon} onClick={(e)=>{handleLinksOpen(e)}} 
+            sx={{width:"1.5em", height:"1.5em", m:"0.7em", "&:hover": {transform: "scale(1.1)",cursor:"pointer"}}}/>
+            <Box component="img" src={notionFavicon}
+            onClick={()=>{window.open('https://2cleanwater.notion.site/N-Surfer-0d2ae67e463b46dc96126f0044208100')}}
+            sx={{width:"1.5em", height:"1.5em", m:"0.7em", "&:hover": {transform: "scale(1.1)",cursor:"pointer"}}}/>
+          </Box>
+          <Divider />
           {isLogin? 
-            (<Button onClick={()=>{logout();}}
-            sx={{fontSize:"1.3em", fontWeight:"bolder", color:"#097581", "&:hover": {
-              transform: "scale(1.1)"
-            } }} >
-              Logout</Button>) : 
-            (<Button onClick={()=>{value.authStore.setIsLoginLoading(true); value.modalStore.openModal()}}
-            sx={{fontSize:"1.3em", fontWeight:"bolder", color:"#097581", "&:hover": {
-              transform: "scale(1.1)"
-            } }} >
-              Login</Button>)
-          }
+              (<Button onClick={()=>{logout();}} variant="contained" color="error"
+              sx={{fontSize:"1.3em", m:"1em", alignSelf:"center", fontWeight:"bolder", width:"10em","&:hover": {
+                transform: "scale(1.1)"
+              } }} >
+                Logout</Button>) : 
+              (<Button onClick={()=>{value.authStore.setIsLoginLoading(true); value.modalStore.openModal()}} variant="contained" color="success"
+              sx={{fontSize:"1.3em", m:"1em", alignSelf:"center", fontWeight:"bolder", width:"10em","&:hover": {
+                transform: "scale(1.1)"
+              } }} >
+                Login</Button>)
+            }
         </Box>
-        
-        {isLogin?
-          (<Box component="img" onClick={()=>{navigate(`/user/profile?nickname=${value.profileStore.userData.nickname}`)}} 
-          sx={{"&:hover":{transform:"scale(1.1)", cursor:"pointer"},width: "3em", height: "3em", objectFit:"cover",objectPosition:"center" ,borderRadius: "50%"}} src={userImgSrc} alt="profile"/>):
-          (<Box component="img" sx={{width: "3em", height: "3em", objectFit:"cover",objectPosition:"center" ,borderRadius: "50%"}} src={userImgSrc} alt="profile"/>)
+      </List>
+    </Box>
+  );
+
+  //* 알림 On Off
+  const [alarmToggle, setAlarmToggle] = useState<boolean>(false);
+  const alarmRef = useRef<HTMLDivElement | null>(null);
+  const alarmButtonRef = useRef<HTMLButtonElement>(null);
+
+  const offAlarm =()=>{setAlarmToggle(false)};
+  const onAlarm =()=>{setAlarmToggle(true)};
+
+  useEffect(()=>{
+    const handleClickOutside = (event:MouseEvent) =>{
+      if((alarmRef.current && !alarmRef.current.contains(event.target as Node))&&(alarmButtonRef.current && !alarmButtonRef.current.contains(event.target as Node)) ){
+        offAlarm();
         }
-        <Box sx={{position:'absolute', top:0,right:0, display:"flex", flexDirection:"row"}}>
-          <Box component="img" src={githubFavicon} onClick={(e)=>{handleLinksOpen(e)}} 
-          sx={{width:"20px", height:"20px", m:"10px", "&:hover": {transform: "scale(1.1)",cursor:"pointer"}}}/>
-          <Box component="img" src={notionFavicon}
-          onClick={()=>{window.open('https://2cleanwater.notion.site/N-Surfer-0d2ae67e463b46dc96126f0044208100')}}
-          sx={{width:"20px", height:"20px", m:"10px", "&:hover": {transform: "scale(1.1)",cursor:"pointer"}}}/>
+      };
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+  },[]);
+
+  //* 알림 구독
+
+  const [eventSource, setEventSource] = useState<EventSource | null>(null);
+  useEffect(() => {
+    //로그인했을 때 동작
+    if(value.profileStore.userData.useId){
+      const source = new EventSource('/alarm/subscription');
+      setEventSource(source);
+    }
+    else{
+      // 로그인아웃 됐을때 구독 취소
+      if (eventSource) {
+        eventSource.close();
+        setEventSource(null);
+      }
+    }
+  },[value.profileStore.userData.useId]);
+
+  return (
+    <Box 
+    sx={{width: "100%", height: "230px", position: "relative", justifyContent: "space-between"}}>
+      <Drawer open={open} onClose={toggleDrawer(false)}>
+        {DrawerList}
+      </Drawer>
+      
+      <Box className='menu' sx={{display:"flex", justifyContent: "space-between", m:"1.5em"}}>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          onClick={toggleDrawer(true)}
+          edge="start"
+          sx={{
+            alignSelf: "flex-start"
+          }}
+        >
+          <MenuIcon sx={{ fontSize: 45 }}/>
+        </IconButton>
+
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center", textDecoration: "none" , ml:"5em",
+          "&:hover": {cursor:"pointer"}
+          }}>
+          <Box component="img"
+          sx={{width:"5em",height:"5em"}}
+          src={nSurferIcon} alt="logo"></Box>
+          <Box component="h1" onClick={()=>navigate("/")}
+          sx={{m: "20px", fontSize:"2.7em", color: "#0067a3", textShadow:" 2px 2px 4px rgba(0, 0, 0, 0.5)" }}>
+            N-SURFER</Box>
         </Box>
+
+        <Box sx={{display: "flex"}}>
+          <IconButton sx={{my:"0.5em", mx:"1em", alignSelf: "flex-start", boxShadow:1 }} onClick={()=>{alarmToggle?offAlarm():onAlarm();}}  ref={alarmButtonRef} >
+            <Badge color="primary" badgeContent="2">
+              <NotificationsIcon fontSize='large' sx={{ color: "#BC8F8F" }}/>
+            </Badge>
+          </IconButton>
+          {isLogin?
+          (<Box component="img" onClick={()=>{navigate(`/user/profile?nickname=${value.profileStore.userData.nickname}`)}} 
+          sx={{"&:hover":{cursor:"pointer"}, width: "3.2em", height: "3.2em", objectFit:"cover",objectPosition:"center" ,borderRadius: "50%",my:"0.7em", boxShadow:1}} src={userImgSrc} alt="profile"/>):
+          (<Box component="img" sx={{width: "3.2em", height: "3.2em", objectFit:"cover",objectPosition:"center" ,borderRadius: "50%", my:"0.7em", "&:hover":{cursor:"pointer"},boxShadow:1}} src={userImgSrc} 
+          onClick={()=>{value.authStore.setIsLoginLoading(true); value.modalStore.openModal()}}
+          alt="profile"/>)}
+          {alarmToggle&&<Box sx={{position:"absolute",  top: "22rem", right: "calc(50% - 48rem)", transform: "translate(-50%, -50%)",zIndex:"1000"}} ref={alarmRef}>
+            {/* <Alarm offAlarm={offAlarm} eventSource={eventSource!}/> */}
+          </Box>}
+          </Box>
       </Box>
     </Box>
   );

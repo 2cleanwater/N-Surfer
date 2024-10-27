@@ -1,5 +1,6 @@
 import instance from '@service/axiosInterceptor';
 import AuthStore from '@store/AuthStore';
+import Swal from 'sweetalert2'
 
 export interface UserDataForm{
   useId?: number;
@@ -63,12 +64,23 @@ const ProfileStore = (): ProfileStoreForm => {
         }
       })
       .then(((res)=>{
-        window.alert("성공적으로 변경되었습니다.")
+        // window.alert("성공적으로 변경되었습니다.")
+        Swal.fire(
+          '변경 완료!',
+          '보여줄게 완전히 달라진 나 🙋‍♀️',
+          'success'
+        )
         this.getMyUserData();
       }))
       .catch((err)=>{
         console.log(err);
-        window.alert("변경에 실패했습니다.")
+        // window.alert("변경에 실패했습니다.")
+        Swal.fire({
+          icon: "error",
+          title: "변경 실패...",
+          text: "신호가 바닷속으로 가라앉았습니다!! 꼬르륵 🙃",
+          // footer: '<a href="#">Why do I have this issue?</a>'
+        });
         this.setIsUserDataLoading(false)
       })
     },
@@ -82,7 +94,12 @@ const ProfileStore = (): ProfileStoreForm => {
         }
       })
       .then((()=>{
-        window.alert("성공적으로 탈퇴되었습니다.")
+        // window.alert("성공적으로 탈퇴되었습니다.")
+        Swal.fire(
+          '탈퇴 완료ㅠㅠ',
+          '언젠간 다시 돌아오세요! 🖐',
+          'success'
+        )
         this.setMyUserData({});
         AuthStore().setIsLogout();
         localStorage.clear();
@@ -90,7 +107,13 @@ const ProfileStore = (): ProfileStoreForm => {
       }))
       .catch((err)=>{
         console.log(err);
-        window.alert("탈퇴에 실패했습니다.");
+        // window.alert("탈퇴에 실패했습니다.");
+        Swal.fire({
+          icon: "error",
+          title: "탈퇴 실패...",
+          text: "신호가 바닷속으로 가라앉았습니다!! 꼬르륵 🙃",
+          // footer: '<a href="#">Why do I have this issue?</a>'
+        });
         this.setIsUserDataLoading(false)
       })
     }

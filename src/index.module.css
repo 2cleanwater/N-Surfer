@@ -13,6 +13,7 @@ body {
   background-attachment: fixed ;
   background-size: 70em,70em;
   width: 70em;
+  /* background-size: 100%,100%; */
   -webkit-user-select:none;
   -moz-user-select:none;
   -ms-user-select:none;

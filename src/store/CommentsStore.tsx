@@ -11,7 +11,8 @@ interface reply{
   contents:string,
   likes:number,
   user:user,
-  createdAt?:Date
+  createdAt?:Date,
+  modified?: boolean
 }
 
 export interface CommentForm{
@@ -22,6 +23,7 @@ export interface CommentForm{
   replies?:Array<reply>,
   createdAt?:Date,
   isLiked?: boolean,
+  modified?: boolean
 }
 
 export interface axiosCommentForm{
